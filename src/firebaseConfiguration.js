@@ -1,5 +1,5 @@
 import firebase from "firebase/app";
-import "firebase/analytics";
+import "firebase/auth";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -13,5 +13,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-const defaultAnalytics = firebase.analytics(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
+
+export const authService = firebase.auth();
