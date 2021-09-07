@@ -1,17 +1,26 @@
-import { useState } from "react";
-import Router from "components/Router";
+import { useEffect, useState } from "react";
 import { authService } from "firebaseConfiguration";
+import Router from "components/Router";
 
 const App = () => {
-  console.log("authService.currentUser", authService.currentUser);
+  const [initializeFirebase, setInitializeFirebase] = useState(false); // 파이어베이스 초기화 체크
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(authService.currentUser);
+  useEffect(() => {
+    authService.onAuthStateChanged((user) => {
+      console.log("onAuthStateChanged User", user);
 
-  return (
-    <div>
-      <Router isLoggedIn={isLoggedIn}></Router>
-    </div>
-  );
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+      setInitializeFirebase(true);
+    });
+  }, []);
+
+  // console.log("authService.currentUser", authService.currentUser);
+  return <div>{initializeFirebase ? <Router isLoggedIn={isLoggedIn}></Router> : "Loading..."}</div>;
 };
 
 export default App;
