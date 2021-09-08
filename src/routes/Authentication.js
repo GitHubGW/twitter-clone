@@ -7,7 +7,7 @@ const Authentication = () => {
   const [isAccount, setIsAccount] = useState(false); // 계정 존재 여부 체크 (true: 계정있음, false: 계정없음)
   const [error, setError] = useState(null);
 
-  const onClickLogin = async (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     console.log("xxx", authService.currentUser);
 
@@ -20,7 +20,7 @@ const Authentication = () => {
     }
   };
 
-  const onChangeInput = (event) => {
+  const onChange = (event) => {
     const {
       target: { name, value },
     } = event;
@@ -70,10 +70,10 @@ const Authentication = () => {
 
   return (
     <div>
-      <form onSubmit={onClickLogin}>
-        <input name="emailInput" type="text" placeholder="이메일" onChange={onChangeInput} value={email} required></input>
-        <input name="passwordInput" type="password" placeholder="비밀번호" onChange={onChangeInput} value={password} required></input>
-        <input type="submit" onClick={onClickLogin} value="로그인"></input>
+      <form onSubmit={onSubmit}>
+        <input name="emailInput" type="text" placeholder="이메일" onChange={onChange} value={email} required></input>
+        <input name="passwordInput" type="password" placeholder="비밀번호" onChange={onChange} value={password} required></input>
+        <input type="submit" onClick={onSubmit} value="로그인"></input>
       </form>
       <div>
         <button onClick={onClickRegister}>회원가입</button>
