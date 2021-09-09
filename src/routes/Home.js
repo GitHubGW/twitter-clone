@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { firestoreService } from "firebaseConfiguration";
+import Tweet from "components/Tweet";
 
 const Home = ({ userObject }) => {
-  // console.log("Home userObject", userObject);
+  console.log("Home userObject", userObject.uid);
 
   const FIRESTORE_COLLECTION = "tweets";
   const [tweet, setTweet] = useState("");
@@ -13,13 +14,13 @@ const Home = ({ userObject }) => {
     event.preventDefault();
 
     await firestoreService.collection(FIRESTORE_COLLECTION).add({
-      userUid: userObject.uid,
-      userDisplayName: userObject.displayName,
-      userEmail: userObject.email,
-      userEmailVerified: userObject.emailVerified,
-      userPhotoUrl: userObject.photoURL,
-      userCreationTime: userObject.metadata.a,
-      userLastSignInTime: userObject.metadata.b,
+      uid: userObject.uid,
+      displayName: userObject.displayName,
+      email: userObject.email,
+      emailVerified: userObject.emailVerified,
+      photoUrl: userObject.photoURL,
+      creationTime: userObject.metadata.a,
+      lastSignInTime: userObject.metadata.b,
       content: tweet,
       createdAtTime: Date.now(),
       createdAtDate: new Date().toLocaleDateString(),
@@ -64,22 +65,22 @@ const Home = ({ userObject }) => {
         setAllTweetsLength(querySnapshotSize);
 
         /*
-      // 전체 트윗 가져오기 (forEach사용)
-      querySnapshot.forEach((queryDocumentSnapshot) => {
-        const queryDocumentSnapshotObject = {
-          id: queryDocumentSnapshot.id,
-          ...queryDocumentSnapshot.data(),
-        };
+        // 전체 트윗 가져오기 (forEach사용)
+        querySnapshot.forEach((queryDocumentSnapshot) => {
+          const queryDocumentSnapshotObject = {
+            id: queryDocumentSnapshot.id,
+            ...queryDocumentSnapshot.data(),
+          };
 
-        setAllTweets((allTweets) => {
-          return [queryDocumentSnapshotObject, ...allTweets];
+          setAllTweets((allTweets) => {
+            return [queryDocumentSnapshotObject, ...allTweets];
+          });
         });
-      });
-      */
+        */
 
         // 전체 트윗 가져오기 (map사용)
         const queryDocumentSnapshotObjectArray = querySnapshot.docs.map((queryDocumentSnapshot) => ({
-          id: queryDocumentSnapshot.id,
+          documentId: queryDocumentSnapshot.id,
           ...queryDocumentSnapshot.data(),
         }));
 
@@ -97,13 +98,9 @@ const Home = ({ userObject }) => {
       <h1>전체 트윗 갯수: {allTweetsLength}</h1>
       <div>
         {allTweets &&
-          allTweets.map((tweet) => {
-            return (
-              <div key={tweet.id}>
-                <h3>{tweet.content}</h3>
-                <h4>{tweet.createdAtDate}</h4>
-              </div>
-            );
+          allTweets.map((tweetObject) => {
+            console.log("tweetObject", tweetObject);
+            return <Tweet key={tweetObject.id} tweetObject={tweetObject} isOwner={userObject.uid === tweetObject.uid ? true : false} />;
           })}
       </div>
     </>
