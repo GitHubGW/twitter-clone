@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { firestoreService } from "firebaseConfiguration";
+import { useEffect, useRef, useState } from "react";
+import { firestoreService, storageService } from "firebaseConfiguration";
 import Tweet from "components/Tweet";
 
 const Home = ({ userObject }) => {
@@ -9,11 +9,17 @@ const Home = ({ userObject }) => {
   const [tweet, setTweet] = useState("");
   const [allTweets, setAllTweets] = useState("");
   const [allTweetsLength, setAllTweetsLength] = useState(0);
+  const [fileName, setFileName] = useState("");
+  const [fileDataUrl, setFileDataUrl] = useState("");
+  const fileInput = useRef();
 
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    await firestoreService.collection(FIRESTORE_COLLECTION).add({
+    storageService.ref().
+
+
+    /* await firestoreService.collection(FIRESTORE_COLLECTION).add({
       uid: userObject.uid,
       displayName: userObject.displayName,
       email: userObject.email,
@@ -26,7 +32,7 @@ const Home = ({ userObject }) => {
       createdAtDate: new Date().toLocaleDateString(),
     });
 
-    setTweet("");
+    setTweet(""); */
   };
 
   const onChange = (event) => {
@@ -35,6 +41,27 @@ const Home = ({ userObject }) => {
     } = event;
 
     setTweet(value);
+  };
+
+  const onFileChange = (event) => {
+    const {
+      target: { files },
+    } = event;
+    const uploadFile = files[0];
+    const fileReader = new FileReader();
+
+    fileReader.onload = (event) => {
+      const {
+        target: { result },
+      } = event;
+      setFileDataUrl(result);
+    };
+    fileReader.readAsDataURL(uploadFile);
+  };
+
+  const onCancelClick = () => {
+    setFileDataUrl("");
+    fileInput.current.value = "";
   };
 
   /*
@@ -92,7 +119,14 @@ const Home = ({ userObject }) => {
     <>
       <h1>Home</h1>
       <form onSubmit={onSubmit}>
+        <input type="file" accept="image/*" onChange={onFileChange} ref={fileInput} />
         <input type="text" placeholder="트윗 입력" value={tweet} onChange={onChange} maxLength={100} />
+        {fileDataUrl && (
+          <div>
+            <img src={fileDataUrl} alt="file" style={{ width: "300px", height: "250px" }} />
+            <button onClick={onCancelClick}>취소</button>
+          </div>
+        )}
         <input type="submit" value="트윗 작성" />
       </form>
       <h1>전체 트윗 갯수: {allTweetsLength}</h1>
