@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { firestoreService } from "firebaseConfiguration";
+import { firestoreService, storageService } from "firebaseConfiguration";
 
 const Tweet = ({ tweetObject, isOwner }) => {
   console.log("tweetObject", tweetObject);
@@ -35,7 +35,11 @@ const Tweet = ({ tweetObject, isOwner }) => {
 
     if (booleanDeleteTweet) {
       // await firestoreService.doc(`${FIRESTORE_COLLECTION}/${tweetObject.documentId}`).delete();
-      await firestoreService.collection(FIRESTORE_COLLECTION).doc(`${tweetObject.documentId}`).delete();
+      await firestoreService.collection(FIRESTORE_COLLECTION).doc(`${tweetObject.documentId}`).delete(); // Cloud Firestore(DB)에서 트윗 삭제
+
+      if (tweetObject.fileDownloadUrl) {
+        await storageService.refFromURL(tweetObject.fileDownloadUrl).delete(); // Storage에서 파일 삭제
+      }
     }
   };
 

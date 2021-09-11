@@ -13,14 +13,14 @@ const Home = ({ userObject }) => {
   const [fileDataUrl, setFileDataUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const fileImageInput = useRef();
-  const textInput = useRef();
+  // const textInput = useRef();
 
   const onSubmit = async (event) => {
     event.preventDefault();
 
     let fileDownloadUrl = "";
 
-    if (fileDataUrl) {
+    if (fileDataUrl !== "") {
       // 1. 파일이 업로드되서 저장될 버킷 내부의 래퍼런스 경로를 생성
       const fileReference = storageService.ref().child(`${userObject.email}/${fileName}`);
 
@@ -46,8 +46,8 @@ const Home = ({ userObject }) => {
     });
 
     fileImageInput.current.value = "";
-    setFileDataUrl("");
     setTweet("");
+    setFileDataUrl("");
   };
 
   const onChange = (event) => {
@@ -63,7 +63,7 @@ const Home = ({ userObject }) => {
       target: { files },
     } = event;
     const uploadFile = files[0];
-    const uploadFileName = uploadFile.name;
+    const uploadFileName = uploadFile?.name;
     setFileName(`${uploadFileName}_${Date.now()}`);
 
     const fileReader = new FileReader();
@@ -138,7 +138,7 @@ const Home = ({ userObject }) => {
       <h1>Home</h1>
       <form onSubmit={onSubmit}>
         <input type="file" accept="image/*" onChange={onFileChange} ref={fileImageInput} />
-        <input type="text" placeholder="트윗 입력" value={tweet} onChange={onChange} maxLength={100} ref={textInput} />
+        <input type="text" placeholder="트윗 입력" value={tweet} onChange={onChange} maxLength={100} />
         {fileDataUrl && (
           <div>
             <img src={fileDataUrl} alt="file" style={{ width: "300px", height: "250px" }} />
