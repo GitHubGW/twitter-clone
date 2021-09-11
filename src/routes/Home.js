@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import Tweet from "components/Tweet";
 
 const Home = ({ userObject }) => {
-  console.log("Home userObject", userObject);
+  // console.log("Home userObject", userObject);
 
   const FIRESTORE_COLLECTION = "tweets";
   const [tweet, setTweet] = useState("");
@@ -13,9 +13,11 @@ const Home = ({ userObject }) => {
   const [fileDataUrl, setFileDataUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const fileImageInput = useRef();
-  // const textInput = useRef();
+  const textInput = useRef();
 
   const onSubmit = async (event) => {
+    console.log("Home onSubmit");
+
     event.preventDefault();
 
     let fileDownloadUrl = "";
@@ -64,7 +66,6 @@ const Home = ({ userObject }) => {
     } = event;
     const uploadFile = files[0];
     const uploadFileName = uploadFile?.name;
-    setFileName(`${uploadFileName}_${Date.now()}`);
 
     const fileReader = new FileReader();
     fileReader.readAsDataURL(uploadFile);
@@ -74,6 +75,7 @@ const Home = ({ userObject }) => {
       } = event;
       setFileDataUrl(result);
     };
+    setFileName(`${uploadFileName}_${Date.now()}`);
   };
 
   const onCancelClick = () => {
@@ -137,21 +139,20 @@ const Home = ({ userObject }) => {
     <>
       <h1>Home</h1>
       <form onSubmit={onSubmit}>
+        <input type="text" placeholder="트윗 입력" value={tweet} onChange={onChange} maxLength={100} ref={textInput} required />
         <input type="file" accept="image/*" onChange={onFileChange} ref={fileImageInput} />
-        <input type="text" placeholder="트윗 입력" value={tweet} onChange={onChange} maxLength={100} />
+        <input type="submit" value="트윗 작성" />
         {fileDataUrl && (
           <div>
-            <img src={fileDataUrl} alt="file" style={{ width: "300px", height: "250px" }} />
+            <img src={fileDataUrl} alt="" style={{ width: "300px", height: "250px" }}></img>
             <button onClick={onCancelClick}>취소</button>
           </div>
         )}
-        <input type="submit" value="트윗 작성" onClick={onSubmit} />
       </form>
       <h1>전체 트윗 갯수: {allTweetsLength}</h1>
       <div>
         {allTweets &&
           allTweets.map((tweetObject) => {
-            console.log("tweetObject", tweetObject);
             return <Tweet key={tweetObject.id} tweetObject={tweetObject} isOwner={userObject.uid === tweetObject.uid ? true : false} />;
           })}
       </div>

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { firestoreService, storageService } from "firebaseConfiguration";
 
 const Tweet = ({ tweetObject, isOwner }) => {
-  console.log("tweetObject", tweetObject);
+  // console.log("Tweet.js tweetObject", tweetObject);
 
   const [isEditing, setIsEditing] = useState(false); // 트윗을 현재 수정중인지 여부 체크
   const [editingTweet, setEditingTweet] = useState(tweetObject.content); // 수정 중인 트윗 내용을 가져옴
@@ -15,8 +15,8 @@ const Tweet = ({ tweetObject, isOwner }) => {
     await firestoreService.collection(FIRESTORE_COLLECTION).doc(`${tweetObject.documentId}`).update({
       content: editingTweet,
     });
-    setEditingTweet("");
     setIsEditing(false);
+    // setEditingTweet("");
   };
 
   const onChange = (event) => {
@@ -28,6 +28,7 @@ const Tweet = ({ tweetObject, isOwner }) => {
 
   const onEditTweet = () => {
     setIsEditing(true);
+    setEditingTweet(tweetObject.content);
   };
 
   const onDeleteTweet = async () => {
@@ -44,6 +45,7 @@ const Tweet = ({ tweetObject, isOwner }) => {
   };
 
   const onCancelTweet = () => {
+    setEditingTweet(editingTweet);
     setIsEditing(false);
   };
 
@@ -55,7 +57,7 @@ const Tweet = ({ tweetObject, isOwner }) => {
             <>
               <form onSubmit={onSubmit}>
                 <input type="text" placeholder="트윗 수정" value={editingTweet} onChange={onChange}></input>
-                <input type="submit" value="업데이트" onClick={onSubmit}></input>
+                <input type="submit" value="업데이트"></input>
               </form>
               <button onClick={onCancelTweet}>취소</button>
             </>
@@ -78,6 +80,8 @@ const Tweet = ({ tweetObject, isOwner }) => {
   );
 };
 
-Tweet.propTypes = {};
+Tweet.propTypes = {
+  isOwner: PropTypes.bool.isRequired,
+};
 
 export default Tweet;
