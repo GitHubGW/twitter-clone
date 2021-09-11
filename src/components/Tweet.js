@@ -1,9 +1,9 @@
-import { firestoreService } from "firebaseConfiguration";
-import PropTypes from "prop-types";
 import { useState } from "react";
+import PropTypes from "prop-types";
+import { firestoreService } from "firebaseConfiguration";
 
 const Tweet = ({ tweetObject, isOwner }) => {
-  console.log("tweetObject", tweetObject.content);
+  console.log("tweetObject", tweetObject);
 
   const [isEditing, setIsEditing] = useState(false); // 트윗을 현재 수정중인지 여부 체크
   const [editingTweet, setEditingTweet] = useState(tweetObject.content); // 수정 중인 트윗 내용을 가져옴
@@ -15,6 +15,7 @@ const Tweet = ({ tweetObject, isOwner }) => {
     await firestoreService.collection(FIRESTORE_COLLECTION).doc(`${tweetObject.documentId}`).update({
       content: editingTweet,
     });
+    setEditingTweet("");
     setIsEditing(false);
   };
 
@@ -58,6 +59,7 @@ const Tweet = ({ tweetObject, isOwner }) => {
         </>
       ) : (
         <>
+          {tweetObject.fileDownloadUrl && <img style={{ width: "250px", height: "200px" }} src={tweetObject.fileDownloadUrl} alt={tweetObject.content} />}
           <h3>{tweetObject.content}</h3>
           <h4>{tweetObject.createdAtDate}</h4>
           {isOwner && (
