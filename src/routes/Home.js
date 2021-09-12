@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import Tweet from "components/Tweet";
 
 const Home = ({ userObject }) => {
-  // console.log("Home userObject", userObject);
+  console.log("Home userObject", userObject);
 
   const FIRESTORE_COLLECTION = "tweets";
   const [tweet, setTweet] = useState("");

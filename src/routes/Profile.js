@@ -1,12 +1,12 @@
 import { useHistory } from "react-router-dom";
 import { authService, firestoreService } from "firebaseConfiguration";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const Profile = ({ userObject }) => {
+const Profile = ({ userObject, refreshDisplayName }) => {
   console.log("Profile userObject", userObject);
 
+  const [newDisplayName, setNewDisplayName] = useState(userObject.displayName);
   const FIRESTORE_COLLECTION = "tweets";
-
   const history = useHistory();
 
   const onClickLogOut = async () => {
@@ -29,6 +29,35 @@ const Profile = ({ userObject }) => {
     tweets.docs.map((doc) => console.log("getMyTweets doc", doc.data()));
   };
 
+  const onSubmit = async (event) => {
+    event.preventDefault();
+
+    if (userObject.displayName === newDisplayName) {
+      console.log("1a");
+
+      return;
+    } else {
+      console.log("2a");
+      // firebase.User = userObject
+      const dd = await userObject.updateProfile({
+        displayName: newDisplayName,
+      });
+      console.log("dd", dd);
+
+      console.log("3a");
+
+      // refreshDisplayName();
+      setNewDisplayName("");
+    }
+  };
+
+  const onChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setNewDisplayName(value);
+  };
+
   useEffect(() => {
     getMyTweets();
   }, []);
@@ -36,6 +65,10 @@ const Profile = ({ userObject }) => {
   return (
     <>
       <h1>Profile</h1>
+      <form onSubmit={onSubmit}>
+        <input type="text" placeholder="유저 닉네임" onChange={onChange} value={newDisplayName}></input>
+        <input type="submit" value="프로필 업데이트"></input>
+      </form>
       <button onClick={onClickLogOut}>로그아웃</button>
     </>
   );
