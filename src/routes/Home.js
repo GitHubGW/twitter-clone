@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { firestoreService, storageService } from "firebaseConfiguration";
+import { authService, firestoreService, storageService } from "firebaseConfiguration";
 import { v4 as uuidv4 } from "uuid";
 import Tweet from "components/Tweet";
 
@@ -18,6 +18,8 @@ const Home = ({ userObject }) => {
   const onSubmit = async (event) => {
     console.log("Home onSubmit");
 
+    const currentUserObject = authService.currentUser;
+
     event.preventDefault();
 
     let fileDownloadUrl = "";
@@ -34,13 +36,13 @@ const Home = ({ userObject }) => {
     }
 
     await firestoreService.collection(FIRESTORE_COLLECTION).add({
-      uid: userObject.uid,
-      displayName: userObject.displayName,
-      email: userObject.email,
-      emailVerified: userObject.emailVerified,
-      photoUrl: userObject.photoURL,
-      creationTime: userObject.metadata.a,
-      lastSignInTime: userObject.metadata.b,
+      uid: currentUserObject.uid,
+      displayName: currentUserObject.displayName,
+      email: currentUserObject.email,
+      emailVerified: currentUserObject.emailVerified,
+      photoURL: currentUserObject.photoURL,
+      creationTime: currentUserObject.metadata.a,
+      lastSignInTime: currentUserObject.metadata.b,
       content: tweet,
       createdAtTime: Date.now(),
       createdAtDate: new Date().toLocaleDateString(),
@@ -68,14 +70,18 @@ const Home = ({ userObject }) => {
     const uploadFileName = uploadFile?.name;
 
     const fileReader = new FileReader();
-    fileReader.readAsDataURL(uploadFile);
-    fileReader.onload = (event) => {
-      const {
-        target: { result },
-      } = event;
-      setFileDataUrl(result);
-    };
-    setFileName(`${uploadFileName}_${Date.now()}`);
+    if (fileReader && uploadFile !== undefined && uploadFile !== null) {
+      console.log("zz", uploadFile);
+
+      fileReader.readAsDataURL(uploadFile);
+      fileReader.onload = (event) => {
+        const {
+          target: { result },
+        } = event;
+        setFileDataUrl(result);
+      };
+      setFileName(`${uploadFileName}_${Date.now()}`);
+    }
   };
 
   const onCancelClick = () => {

@@ -39,14 +39,13 @@ const Profile = ({ userObject, refreshDisplayName }) => {
     } else {
       console.log("2a");
       // firebase.User = userObject
-      const dd = await userObject.updateProfile({
+      await userObject.updateProfile({
         displayName: newDisplayName,
       });
-      console.log("dd", dd);
 
       console.log("3a");
 
-      // refreshDisplayName();
+      refreshDisplayName();
       setNewDisplayName("");
     }
   };
