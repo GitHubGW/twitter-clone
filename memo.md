@@ -24,14 +24,13 @@ import Tweet from "components/Tweet";
 import TweetForm from "components/TweetForm";
 
 const Home = ({ userObject }) => {
-  const FIRESTORE_COLLECTION = "tweets";
   const [allTweets, setAllTweets] = useState("");
   const [allTweetsLength, setAllTweetsLength] = useState(0);
 
   /*
   // 방법1: 전체 트윗 가져오기
   const getTweets = async () => {
-    const querySnapshot = await firestoreService.collection(FIRESTORE_COLLECTION).get();
+    const querySnapshot = await firestoreService.collection("tweets").get();
     querySnapshot.forEach((queryDocumentSnapshot) => {
       const queryDocumentSnapshotObject = {
         id: queryDocumentSnapshot.id,
@@ -49,7 +48,7 @@ const Home = ({ userObject }) => {
     // getTweets();
 
     firestoreService
-      .collection(FIRESTORE_COLLECTION)
+      .collection("tweets")
       .orderBy("createdAtTime", "desc")
       .onSnapshot((querySnapshot) => {
         const querySnapshotSize = querySnapshot.size;
