@@ -9,6 +9,7 @@ const App = () => {
   console.log("44", authService.currentUser);
   console.log("55", userObject);
 
+  // 프로필 이름 변경시 리액트를 리랜더링 시켜주는 함수
   const refreshDisplayName = () => {
     console.log("4a", userObject);
     const currentUserObject = authService.currentUser;
@@ -54,7 +55,6 @@ const App = () => {
     });
   }, []);
 
-  // console.log("authService.currentUser", authService.currentUser);
   return <div>{initializeFirebase ? <Router isLoggedIn={isLoggedIn} userObject={userObject} refreshDisplayName={refreshDisplayName} /> : "Loading..."}</div>;
 };
 

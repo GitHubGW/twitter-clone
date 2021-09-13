@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 const Profile = ({ userObject, refreshDisplayName }) => {
   console.log("Profile userObject", userObject);
 
-  const [newDisplayName, setNewDisplayName] = useState(userObject.displayName);
   const FIRESTORE_COLLECTION = "tweets";
   const history = useHistory();
+  const [newDisplayName, setNewDisplayName] = useState(userObject.displayName);
 
   const onClickLogOut = async () => {
     const currentUser = authService.currentUser;
@@ -33,18 +33,12 @@ const Profile = ({ userObject, refreshDisplayName }) => {
     event.preventDefault();
 
     if (userObject.displayName === newDisplayName) {
-      console.log("1a");
-
       return;
     } else {
-      console.log("2a");
       // firebase.User = userObject
       await userObject.updateProfile({
         displayName: newDisplayName,
       });
-
-      console.log("3a");
-
       refreshDisplayName();
       setNewDisplayName("");
     }
