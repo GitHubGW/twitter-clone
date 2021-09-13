@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { authService, firestoreService, storageService } from "firebaseConfiguration";
 
 const TweetForm = ({ userObject }) => {
-  const FIRESTORE_COLLECTION = "tweets";
   const [tweet, setTweet] = useState("");
   const [fileDataUrl, setFileDataUrl] = useState("");
   const [fileName, setFileName] = useState("");
@@ -17,7 +16,7 @@ const TweetForm = ({ userObject }) => {
 
     if (fileDataUrl !== "") {
       // 1. 파일이 업로드되서 저장될 버킷 내부의 래퍼런스 경로를 생성
-      const fileReference = storageService.ref().child(`${userObject.email}/${fileName}`);
+      const fileReference = storageService.ref().child(`${userObject.email}/tweet/${fileName}`);
 
       // 2. 파일 데이터를 버킷 내부의 래퍼런스 경로로 전달 (파일을 버킷에 업로드)
       const uploadTask = await fileReference.putString(fileDataUrl, "data_url");
@@ -26,7 +25,7 @@ const TweetForm = ({ userObject }) => {
       fileDownloadUrl = await uploadTask.ref.getDownloadURL();
     }
 
-    await firestoreService.collection(FIRESTORE_COLLECTION).add({
+    await firestoreService.collection("tweets").add({
       uid: currentUserObject.uid,
       displayName: currentUserObject.displayName,
       email: currentUserObject.email,
@@ -61,14 +60,14 @@ const TweetForm = ({ userObject }) => {
     const fileReader = new FileReader();
 
     if (fileReader && uploadFile !== undefined && uploadFile !== null) {
-      console.log("zz", uploadFile);
-      fileReader.readAsDataURL(uploadFile);
+      console.log("TweetForm uploadFile", uploadFile);
       fileReader.onload = (event) => {
         const {
           target: { result },
         } = event;
         setFileDataUrl(result);
       };
+      fileReader.readAsDataURL(uploadFile);
       setFileName(`${uploadFileName}_${Date.now()}`);
     }
   };
