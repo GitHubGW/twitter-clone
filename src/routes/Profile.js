@@ -2,9 +2,33 @@ import { useRef, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { authService, firestoreService, storageService } from "firebaseConfiguration";
 import userImage from "images/user.png";
+import Darkmode from "darkmode-js";
 
-const Profile = ({ userObject, refreshDisplayName }) => {
+const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
   console.log("Profile userObject", userObject);
+
+  const handleDarkLightMode = () => {
+    // const darkmode = new Darkmode();
+    // const options = {
+    //   bottom: "20px", // default: '32px'
+    //   right: "20px", // default: '32px'
+    //   left: "unset", // default: 'unset'
+    //   time: "0.5s", // default: '0.3s'
+    //   mixColor: "#fff", // default: '#fff'
+    //   backgroundColor: "#fff", // default: '#fff'
+    //   buttonColorDark: "#100f2c", // default: '#100f2c'
+    //   buttonColorLight: "#fff", // default: '#fff'
+    //   label: "🌞", // default: ''
+    //   autoMatchOsTheme: false, // default: true
+    // };
+
+    const dd = new Darkmode();
+
+    // darkmode.showWidget();
+    // console.log("darkmode2", darkmode.isActivated());
+    // const dd = document.querySelector(".darkmode-toggle");
+    // console.log("zzzz", dd);
+  };
 
   const history = useHistory();
   const creationTime = userObject.creationTime;
@@ -34,6 +58,7 @@ const Profile = ({ userObject, refreshDisplayName }) => {
     if (currentUser) {
       await authService.signOut();
       history.push("/");
+      createNotification("success");
     }
   };
 
@@ -77,22 +102,9 @@ const Profile = ({ userObject, refreshDisplayName }) => {
       setNewDisplayName("");
     }
 
-    // await firestoreService.collection("profile").add({
-    //   uid: currentUserObject.uid,
-    //   displayName: currentUserObject.displayName,
-    //   email: currentUserObject.email,
-    //   emailVerified: currentUserObject.emailVerified,
-    //   photoURL: currentUserObject.photoURL,
-    //   creationTime: currentUserObject.metadata.a,
-    //   lastSignInTime: currentUserObject.metadata.b,
-    //   content: tweet,
-    //   createdAtTime: Date.now(),
-    //   createdAtDate: new Date().toLocaleDateString(),
-    //   fileDownloadUrl,
-    // })
-
     fileImageInput.current.value = "";
     setFileDataUrl("");
+    createNotification("profileSuccess");
   };
 
   const onChange = (event) => {
@@ -103,8 +115,6 @@ const Profile = ({ userObject, refreshDisplayName }) => {
   };
 
   const onFileChange = (event) => {
-    console.log("fileImageInput", fileImageInput.current);
-
     const {
       target: { files },
     } = event;
@@ -136,6 +146,11 @@ const Profile = ({ userObject, refreshDisplayName }) => {
   return (
     <>
       <h1>Profile</h1>
+      <button onClick={() => createNotification("info")}>info</button>
+      <button onClick={() => createNotification("success")}>success</button>
+      <button onClick={() => createNotification("warning")}>warning</button>
+      <button onClick={() => createNotification("error")}>error</button>
+      <button onClick={handleDarkLightMode}>다크모드</button>
       <form onSubmit={onSubmit}>
         <input type="text" placeholder="유저 닉네임" onChange={onChange} value={newDisplayName}></input>
         <input type="file" accept="image/*" onChange={onFileChange}></input>
@@ -178,3 +193,24 @@ const Profile = ({ userObject, refreshDisplayName }) => {
 };
 
 export default Profile;
+
+// const createNotification = (type) => {
+//   switch (type) {
+//     case "info":
+//       NotificationManager.info("트윗 작성 성공", "", 1500);
+//       break;
+//     case "success":
+//       NotificationManager.success("트윗을 작성하였습니다.", "완료", 1500);
+//       break;
+//     case "warning":
+//       NotificationManager.warning("Warning message", "Close after 3000ms", 1500);
+//       break;
+//     case "error":
+//       NotificationManager.error("Error message", "Click me!", 1500, () => {
+//         alert("callback");
+//       });
+//       break;
+//     default:
+//       break;
+//   }
+// };
