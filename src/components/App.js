@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { authService } from "firebaseConfiguration";
 import Router from "components/Router";
+import { NotificationContainer, NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
+import GlobalStyle from "theme/GlobalStyle";
 
 const App = () => {
   const [initializeFirebase, setInitializeFirebase] = useState(false); // 파이어베이스 초기화 체크
@@ -9,6 +12,36 @@ const App = () => {
 
   // console.log("44", authService.currentUser);
   // console.log("55", userObject);
+
+  const createNotification = (type) => {
+    switch (type) {
+      case "info":
+        NotificationManager.info("트윗 작성 성공", "", 1500);
+        break;
+      case "postTweetSuccess":
+        NotificationManager.success("트윗 작성 완료", "성공", 1500);
+        break;
+      case "editTweetSuccess":
+        NotificationManager.success("트윗 수정 완료", "성공", 1500);
+        break;
+      case "deleteTweetSuccess":
+        NotificationManager.success("트윗 삭제 완료", "성공", 1500);
+        break;
+      case "profileSuccess":
+        NotificationManager.success("프로필 업데이트 완료", "성공", 1500);
+        break;
+      case "warning":
+        NotificationManager.warning("Warning message", "Close after 3000ms", 1500);
+        break;
+      case "error":
+        NotificationManager.error("Error message", "Click me!", 1500, () => {
+          alert("callback");
+        });
+        break;
+      default:
+        break;
+    }
+  };
 
   // 프로필 이름 변경시 리액트를 리랜더링 시켜주는 함수
   const refreshDisplayName = () => {
@@ -56,7 +89,19 @@ const App = () => {
     });
   }, []);
 
-  return <div>{initializeFirebase ? <Router isLoggedIn={isLoggedIn} userObject={userObject} refreshDisplayName={refreshDisplayName} /> : "Loading..."}</div>;
+  return (
+    <div>
+      {initializeFirebase ? (
+        <>
+          <GlobalStyle></GlobalStyle>
+          <Router isLoggedIn={isLoggedIn} userObject={userObject} refreshDisplayName={refreshDisplayName} createNotification={createNotification} />
+          <NotificationContainer></NotificationContainer>
+        </>
+      ) : (
+        "Loading..."
+      )}
+    </div>
+  );
 };
 
 export default App;

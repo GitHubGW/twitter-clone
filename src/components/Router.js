@@ -5,7 +5,7 @@ import Profile from "routes/Profile";
 import Authentication from "routes/Authentication";
 import Navigation from "components/Navigation";
 
-const Router = ({ isLoggedIn, userObject, refreshDisplayName }) => {
+const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification }) => {
   return (
     <HashRouter>
       {isLoggedIn && <Navigation userObject={userObject} />}
@@ -15,7 +15,7 @@ const Router = ({ isLoggedIn, userObject, refreshDisplayName }) => {
             <Home userObject={userObject} />
           </Route>
           <Route exact path="/profile">
-            <Profile userObject={userObject} refreshDisplayName={refreshDisplayName} />
+            <Profile userObject={userObject} refreshDisplayName={refreshDisplayName} createNotification={createNotification} />
           </Route>
           <Redirect from="*" to="/" />
         </Switch>
