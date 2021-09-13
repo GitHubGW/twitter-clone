@@ -6,8 +6,9 @@ const App = () => {
   const [initializeFirebase, setInitializeFirebase] = useState(false); // 파이어베이스 초기화 체크
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부 체크
   const [userObject, setUserObject] = useState(null); // 로그인한 사용자 체크
-  console.log("44", authService.currentUser);
-  console.log("55", userObject);
+
+  // console.log("44", authService.currentUser);
+  // console.log("55", userObject);
 
   // 프로필 이름 변경시 리액트를 리랜더링 시켜주는 함수
   const refreshDisplayName = () => {

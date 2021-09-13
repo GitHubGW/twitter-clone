@@ -7,12 +7,11 @@ const Tweet = ({ tweetObject, isOwner }) => {
 
   const [isEditing, setIsEditing] = useState(false); // 트윗을 현재 수정중인지 여부 체크
   const [editingTweet, setEditingTweet] = useState(tweetObject.content); // 수정 중인 트윗 내용을 가져옴
-  const FIRESTORE_COLLECTION = "tweets";
 
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    await firestoreService.collection(FIRESTORE_COLLECTION).doc(`${tweetObject.documentId}`).update({
+    await firestoreService.collection("tweets").doc(`${tweetObject.documentId}`).update({
       content: editingTweet,
     });
     setIsEditing(false);
@@ -35,8 +34,8 @@ const Tweet = ({ tweetObject, isOwner }) => {
     const booleanDeleteTweet = window.confirm("트윗을 삭제하시겠습니까?");
 
     if (booleanDeleteTweet) {
-      // await firestoreService.doc(`${FIRESTORE_COLLECTION}/${tweetObject.documentId}`).delete();
-      await firestoreService.collection(FIRESTORE_COLLECTION).doc(`${tweetObject.documentId}`).delete(); // Cloud Firestore(DB)에서 트윗 삭제
+      // await firestoreService.doc(`${"tweets"}/${tweetObject.documentId}`).delete();
+      await firestoreService.collection("tweets").doc(`${tweetObject.documentId}`).delete(); // Cloud Firestore(DB)에서 트윗 삭제
 
       if (tweetObject.fileDownloadUrl) {
         await storageService.refFromURL(tweetObject.fileDownloadUrl).delete(); // Storage에서 파일 삭제

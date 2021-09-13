@@ -6,13 +6,12 @@ import TweetForm from "components/TweetForm";
 const Home = ({ userObject }) => {
   console.log("Home userObject", userObject);
 
-  const FIRESTORE_COLLECTION = "tweets";
   const [allTweets, setAllTweets] = useState("");
   const [allTweetsLength, setAllTweetsLength] = useState(0);
 
   useEffect(() => {
     firestoreService
-      .collection(FIRESTORE_COLLECTION)
+      .collection("tweets")
       .orderBy("createdAtTime", "desc")
       .onSnapshot((querySnapshot) => {
         const querySnapshotSize = querySnapshot.size;
