@@ -5,14 +5,14 @@ import Profile from "routes/Profile";
 import Authentication from "routes/Authentication";
 import Navigation from "components/Navigation";
 
-const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification }) => {
+const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification, changeTheme }) => {
   return (
     <HashRouter>
       {isLoggedIn && <Navigation userObject={userObject} />}
       {isLoggedIn ? (
         <Switch>
           <Route exact path="/">
-            <Home userObject={userObject} />
+            <Home userObject={userObject} changeTheme={changeTheme} />
           </Route>
           <Route exact path="/profile">
             <Profile userObject={userObject} refreshDisplayName={refreshDisplayName} createNotification={createNotification} />

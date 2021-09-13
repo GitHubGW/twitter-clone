@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import { authService } from "firebaseConfiguration";
-import Router from "components/Router";
 import { NotificationContainer, NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import Router from "components/Router";
 import GlobalStyle from "theme/GlobalStyle";
 
 const App = () => {
   const [initializeFirebase, setInitializeFirebase] = useState(false); // 파이어베이스 초기화 체크
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부 체크
   const [userObject, setUserObject] = useState(null); // 로그인한 사용자 체크
+  const [isDark, setIsDark] = useState(false); // 다크모드 체크
 
   // console.log("44", authService.currentUser);
   // console.log("55", userObject);
+
+  const changeTheme = () => {
+    setIsDark(!isDark);
+  };
 
   const createNotification = (type) => {
     switch (type) {
@@ -93,8 +98,14 @@ const App = () => {
     <div>
       {initializeFirebase ? (
         <>
-          <GlobalStyle></GlobalStyle>
-          <Router isLoggedIn={isLoggedIn} userObject={userObject} refreshDisplayName={refreshDisplayName} createNotification={createNotification} />
+          <GlobalStyle bgColor={isDark ? true : false} color={isDark ? true : false} borderColor={isDark ? true : false}></GlobalStyle>
+          <Router
+            isLoggedIn={isLoggedIn}
+            userObject={userObject}
+            refreshDisplayName={refreshDisplayName}
+            createNotification={createNotification}
+            changeTheme={changeTheme}
+          />
           <NotificationContainer></NotificationContainer>
         </>
       ) : (

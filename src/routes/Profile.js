@@ -2,33 +2,11 @@ import { useRef, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { authService, firestoreService, storageService } from "firebaseConfiguration";
 import userImage from "images/user.png";
-import Darkmode from "darkmode-js";
 
 const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
   console.log("Profile userObject", userObject);
 
-  const handleDarkLightMode = () => {
-    // const darkmode = new Darkmode();
-    // const options = {
-    //   bottom: "20px", // default: '32px'
-    //   right: "20px", // default: '32px'
-    //   left: "unset", // default: 'unset'
-    //   time: "0.5s", // default: '0.3s'
-    //   mixColor: "#fff", // default: '#fff'
-    //   backgroundColor: "#fff", // default: '#fff'
-    //   buttonColorDark: "#100f2c", // default: '#100f2c'
-    //   buttonColorLight: "#fff", // default: '#fff'
-    //   label: "🌞", // default: ''
-    //   autoMatchOsTheme: false, // default: true
-    // };
-
-    const dd = new Darkmode();
-
-    // darkmode.showWidget();
-    // console.log("darkmode2", darkmode.isActivated());
-    // const dd = document.querySelector(".darkmode-toggle");
-    // console.log("zzzz", dd);
-  };
+  const handleDarkLightMode = () => {};
 
   const history = useHistory();
   const creationTime = userObject.creationTime;
