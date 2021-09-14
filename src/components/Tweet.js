@@ -2,13 +2,14 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { firestoreService, storageService } from "firebaseConfiguration";
 
-const Tweet = ({ tweetObject, isOwner }) => {
-  // console.log("Tweet.js tweetObject", tweetObject);
+const Tweet = ({ userObject, tweetObject, isOwner }) => {
+  // userObject는 현재 로그인한 유저, tweetObject는 해당 트윗을 작성한 유저
+  console.log("Tweet.js tweetObject", tweetObject);
+  console.log("Tweet.js userObject", userObject);
 
   const [isEditing, setIsEditing] = useState(false); // 트윗을 현재 수정중인지 여부 체크
   const [editingTweet, setEditingTweet] = useState(tweetObject.content); // 수정 중인 트윗 내용을 가져옴
-  const [isLike, setIsLike] = useState(false); // 좋아요 눌렀는지 체크
-  const [likeNumber, setLikeNumber] = useState(tweetObject.likes);
+  const [isLike, setIsLike] = useState(false); // 좋아요 눌렀는지 체크(Local)
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -50,38 +51,41 @@ const Tweet = ({ tweetObject, isOwner }) => {
     setIsEditing(false);
   };
 
-  console.log("222", tweetObject.likes);
-
   const handleLikeBtn = async () => {
-    // await firestoreService.collection("tweets").doc(`${tweetObject.documentId}`).update({
-    //   content: editingTweet,
-    // });
-    // setIsEditing(false);
+    const totalLikesArray = [userObject.uid, ...tweetObject.likesArray];
+    const checkTotalLikesArray = tweetObject.likesArray.includes(userObject.uid);
 
-    console.log("ddadasd", tweetObject.likes);
+    if (checkTotalLikesArray) {
+      const filteredLikesArray = totalLikesArray.filter((value, index) => {
+        return value !== userObject.uid;
+      });
 
-    if (isLike === false) {
-      firestoreService
-        .collection("tweets")
-        .doc(`${tweetObject.documentId}`)
-        .update({
-          likes: tweetObject.likes + 1,
-        });
-
-      localStorage.setItem("likes", tweetObject.likes + 1);
-      setLikeNumber(localStorage.getItem("likes"));
-    } else if (isLike === true) {
-      firestoreService
-        .collection("tweets")
-        .doc(`${tweetObject.documentId}`)
-        .update({
-          likes: tweetObject.likes - 1,
-        });
-
-      localStorage.setItem("likes", tweetObject.likes - 1);
-      setLikeNumber(localStorage.getItem("likes"));
+      await firestoreService.collection("tweets").doc(`${tweetObject.documentId}`).update({
+        likesArray: filteredLikesArray,
+        clickLikes: false,
+      });
+      setIsLike(false);
+      return;
     }
 
+    if (isLike === false) {
+      await firestoreService
+        .collection("tweets")
+        .doc(`${tweetObject.documentId}`)
+        .update({
+          likesArray: [...new Set(totalLikesArray)],
+          clickLikes: true,
+        });
+    } else if (isLike === true) {
+      const filteredLikesArray = totalLikesArray.filter((value, index) => {
+        return value !== userObject.uid;
+      });
+
+      await firestoreService.collection("tweets").doc(`${tweetObject.documentId}`).update({
+        likesArray: filteredLikesArray,
+        clickLikes: false,
+      });
+    }
     setIsLike(!isLike);
   };
 
@@ -101,10 +105,11 @@ const Tweet = ({ tweetObject, isOwner }) => {
         </>
       ) : (
         <>
+          {console.log("문서", tweetObject)}
           {tweetObject.fileDownloadUrl && <img style={{ width: "250px", height: "200px" }} src={tweetObject.fileDownloadUrl} alt={tweetObject.content} />}
           <h3>{tweetObject.content}</h3>
           <h4>{tweetObject.createdAtDate}</h4>
-          <button onClick={handleLikeBtn}>좋아요{tweetObject.likes}</button>
+          <button onClick={handleLikeBtn}>좋아요{tweetObject.likesArray.length}</button>
           {isOwner && (
             <>
               <button onClick={onEditTweet}>트윗 수정</button>

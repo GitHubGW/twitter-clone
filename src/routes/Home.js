@@ -11,8 +11,8 @@ const Home = ({ userObject, changeTheme }) => {
   const [isDesc, setIsDesc] = useState(true);
   const [searchText, setSearchText] = useState("");
 
-  const handleOrderBy = () => {
-    firestoreService
+  const handleOrderBy = async () => {
+    await firestoreService
       .collection("tweets")
       .orderBy("createdAtTime", `${isDesc ? "asc" : "desc"}`)
       .onSnapshot((querySnapshot) => {
@@ -79,7 +79,7 @@ const Home = ({ userObject, changeTheme }) => {
       <div>
         {allTweets &&
           allTweets.map((tweetObject) => {
-            return <Tweet key={tweetObject.id} tweetObject={tweetObject} isOwner={userObject.uid === tweetObject.uid ? true : false} />;
+            return <Tweet key={tweetObject.id} userObject={userObject} tweetObject={tweetObject} isOwner={userObject.uid === tweetObject.uid ? true : false} />;
           })}
       </div>
     </>
