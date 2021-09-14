@@ -37,6 +37,8 @@ const TweetForm = ({ userObject }) => {
       createdAtTime: Date.now(),
       createdAtDate: new Date().toLocaleDateString(),
       fileDownloadUrl,
+      likes: 0,
+      clickLikes: false,
     });
 
     fileImageInput.current.value = "";

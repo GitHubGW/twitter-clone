@@ -7,6 +7,8 @@ const Tweet = ({ tweetObject, isOwner }) => {
 
   const [isEditing, setIsEditing] = useState(false); // 트윗을 현재 수정중인지 여부 체크
   const [editingTweet, setEditingTweet] = useState(tweetObject.content); // 수정 중인 트윗 내용을 가져옴
+  const [isLike, setIsLike] = useState(false); // 좋아요 눌렀는지 체크
+  const [likeNumber, setLikeNumber] = useState(tweetObject.likes);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -48,6 +50,41 @@ const Tweet = ({ tweetObject, isOwner }) => {
     setIsEditing(false);
   };
 
+  console.log("222", tweetObject.likes);
+
+  const handleLikeBtn = async () => {
+    // await firestoreService.collection("tweets").doc(`${tweetObject.documentId}`).update({
+    //   content: editingTweet,
+    // });
+    // setIsEditing(false);
+
+    console.log("ddadasd", tweetObject.likes);
+
+    if (isLike === false) {
+      firestoreService
+        .collection("tweets")
+        .doc(`${tweetObject.documentId}`)
+        .update({
+          likes: tweetObject.likes + 1,
+        });
+
+      localStorage.setItem("likes", tweetObject.likes + 1);
+      setLikeNumber(localStorage.getItem("likes"));
+    } else if (isLike === true) {
+      firestoreService
+        .collection("tweets")
+        .doc(`${tweetObject.documentId}`)
+        .update({
+          likes: tweetObject.likes - 1,
+        });
+
+      localStorage.setItem("likes", tweetObject.likes - 1);
+      setLikeNumber(localStorage.getItem("likes"));
+    }
+
+    setIsLike(!isLike);
+  };
+
   return (
     <div>
       {isEditing ? (
@@ -67,6 +104,7 @@ const Tweet = ({ tweetObject, isOwner }) => {
           {tweetObject.fileDownloadUrl && <img style={{ width: "250px", height: "200px" }} src={tweetObject.fileDownloadUrl} alt={tweetObject.content} />}
           <h3>{tweetObject.content}</h3>
           <h4>{tweetObject.createdAtDate}</h4>
+          <button onClick={handleLikeBtn}>좋아요{tweetObject.likes}</button>
           {isOwner && (
             <>
               <button onClick={onEditTweet}>트윗 수정</button>

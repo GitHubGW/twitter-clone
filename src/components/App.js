@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
-import { authService } from "firebaseConfiguration";
+import { authService, firestoreService } from "firebaseConfiguration";
 import { NotificationContainer, NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import Router from "components/Router";
 import GlobalStyle from "theme/GlobalStyle";
 
 const App = () => {
+  console.log("authService.currentUser", authService.currentUser);
+  // console.log("userObject", userObject);
+
   const [initializeFirebase, setInitializeFirebase] = useState(false); // 파이어베이스 초기화 체크
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부 체크
   const [userObject, setUserObject] = useState(null); // 로그인한 사용자 체크
   const [isDark, setIsDark] = useState(false); // 다크모드 체크
 
-  // console.log("44", authService.currentUser);
-  // console.log("55", userObject);
+  // const localDark = localStorage.getItem("isDark");
+  // console.log("localDark", localDark);
 
-  const changeTheme = () => {
+  const changeTheme = async () => {
+    console.log("changeTheme userObject", userObject);
     setIsDark(!isDark);
   };
 
@@ -50,7 +54,7 @@ const App = () => {
 
   // 프로필 이름 변경시 리액트를 리랜더링 시켜주는 함수
   const refreshDisplayName = () => {
-    console.log("4a", userObject);
+    console.log("refreshDisplayName", userObject);
     const currentUserObject = authService.currentUser;
 
     setUserObject({
@@ -85,6 +89,7 @@ const App = () => {
           creationTime: userObject.metadata.a,
           lastSignInTime: userObject.metadata.b,
           updateProfile: (displayName) => userObject.updateProfile(displayName),
+          isDarkMode: false,
         });
       } else {
         setIsLoggedIn(false);
@@ -96,6 +101,7 @@ const App = () => {
 
   return (
     <div>
+      {/* {console.log("123123", typeof userObject.isDarkMode, userObject.isDarkMode)} */}
       {initializeFirebase ? (
         <>
           <GlobalStyle bgColor={isDark ? true : false} color={isDark ? true : false} borderColor={isDark ? true : false}></GlobalStyle>

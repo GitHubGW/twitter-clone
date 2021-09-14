@@ -9,6 +9,7 @@ const Home = ({ userObject, changeTheme }) => {
   const [allTweets, setAllTweets] = useState("");
   const [allTweetsLength, setAllTweetsLength] = useState(0);
   const [isDesc, setIsDesc] = useState(true);
+  const [searchText, setSearchText] = useState("");
 
   const handleOrderBy = () => {
     firestoreService
@@ -34,6 +35,19 @@ const Home = ({ userObject, changeTheme }) => {
     window.open(`https://twitter.com/intent/tweet?text=${sendText}\&url\=${sendUrl}`);
   };
 
+  const onSearchSubmit = (event) => {
+    event.preventDefault();
+    window.open(`https://twitter.com/search?q=${searchText}&src=typed_query`);
+    setSearchText("");
+  };
+
+  const onSearchInput = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setSearchText(value);
+  };
+
   useEffect(() => {
     firestoreService
       .collection("tweets")
@@ -54,6 +68,9 @@ const Home = ({ userObject, changeTheme }) => {
   return (
     <>
       <h1>Home</h1>
+      <form onSubmit={onSearchSubmit}>
+        <input type="text" placeholder="트위터 검색" onChange={onSearchInput} value={searchText}></input>
+      </form>
       <button onClick={changeTheme}>모드 전환</button>
       <button onClick={handleOrderBy}>{isDesc ? "오래된순" : "최신순"}</button>
       <button onClick={shareTwitter}>트위터에 공유하기</button>
