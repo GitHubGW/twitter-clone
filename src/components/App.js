@@ -12,14 +12,17 @@ const App = () => {
   const [initializeFirebase, setInitializeFirebase] = useState(false); // 파이어베이스 초기화 체크
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부 체크
   const [userObject, setUserObject] = useState(null); // 로그인한 사용자 체크
-  const [isDark, setIsDark] = useState(false); // 다크모드 체크
-
-  // const localDark = localStorage.getItem("isDark");
-  // console.log("localDark", localDark);
+  const [isDark, setIsDark] = useState(localStorage.getItem("isDark")); // 다크모드 체크
+  const localDark = localStorage.getItem("isDark");
 
   const changeTheme = async () => {
-    console.log("changeTheme userObject", userObject);
+    if (isDark === "false") {
+      setIsDark(true);
+      localStorage.setItem("isDark", true);
+      return;
+    }
     setIsDark(!isDark);
+    localStorage.setItem("isDark", !isDark);
   };
 
   const createNotification = (type) => {
@@ -89,7 +92,6 @@ const App = () => {
           creationTime: userObject.metadata.a,
           lastSignInTime: userObject.metadata.b,
           updateProfile: (displayName) => userObject.updateProfile(displayName),
-          isDarkMode: false,
         });
       } else {
         setIsLoggedIn(false);
@@ -101,10 +103,13 @@ const App = () => {
 
   return (
     <div>
-      {/* {console.log("123123", typeof userObject.isDarkMode, userObject.isDarkMode)} */}
       {initializeFirebase ? (
         <>
-          <GlobalStyle bgColor={isDark ? true : false} color={isDark ? true : false} borderColor={isDark ? true : false}></GlobalStyle>
+          <GlobalStyle
+            bgColor={String(localDark) === "true" ? true : false}
+            color={String(localDark) === "true" ? true : false}
+            borderColor={String(localDark) === "true" ? true : false}
+          ></GlobalStyle>
           <Router
             isLoggedIn={isLoggedIn}
             userObject={userObject}
