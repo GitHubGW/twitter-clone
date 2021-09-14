@@ -52,12 +52,12 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
   };
 
   const handleLikeBtn = async () => {
-    const totalLikesArray = [userObject.uid, ...tweetObject.likesArray];
-    const checkTotalLikesArray = tweetObject.likesArray.includes(userObject.uid);
+    const totalLikesArray = [userObject.email, ...tweetObject.likesArray];
+    const checkTotalLikesArray = tweetObject.likesArray.includes(userObject.email);
 
     if (checkTotalLikesArray) {
       const filteredLikesArray = totalLikesArray.filter((value, index) => {
-        return value !== userObject.uid;
+        return value !== userObject.email;
       });
 
       await firestoreService.collection("tweets").doc(`${tweetObject.documentId}`).update({
@@ -78,7 +78,7 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
         });
     } else if (isLike === true) {
       const filteredLikesArray = totalLikesArray.filter((value, index) => {
-        return value !== userObject.uid;
+        return value !== userObject.email;
       });
 
       await firestoreService.collection("tweets").doc(`${tweetObject.documentId}`).update({

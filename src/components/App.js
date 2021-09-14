@@ -4,6 +4,7 @@ import { NotificationContainer, NotificationManager } from "react-notifications"
 import "react-notifications/lib/notifications.css";
 import Router from "components/Router";
 import GlobalStyle from "theme/GlobalStyle";
+import Loading from "./Loading";
 
 const App = () => {
   console.log("authService.currentUser", authService.currentUser);
@@ -120,7 +121,7 @@ const App = () => {
           <NotificationContainer></NotificationContainer>
         </>
       ) : (
-        "Loading..."
+        <Loading />
       )}
     </div>
   );
