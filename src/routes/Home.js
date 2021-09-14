@@ -344,7 +344,15 @@ const Home = ({ userObject, changeTheme }) => {
             <TrendInfo></TrendInfo>
             <SeeMore>더 보기</SeeMore>
           </TrendContainer>
-          <FollowContainer></FollowContainer>
+          <FollowContainer>
+            <FollowHeader>팔로우 추천</FollowHeader>
+            <FollowContent>
+              <FollowImage></FollowImage>
+              <FollowInfo></FollowInfo>
+              <FollowButton>팔로우</FollowButton>
+            </FollowContent>
+            <SeeMore>더 보기</SeeMore>
+          </FollowContainer>
           <PolicyContainer>
             <PolicyHeader>
               <PolicyLink href="https://twitter.com/ko/tos">이용약관</PolicyLink>
