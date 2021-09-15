@@ -12,8 +12,8 @@ import userImage from "images/user.png";
 
 const Container = styled.div`
   border: 3px solid red;
-  width: 1280px;
-  max-width: 1280px;
+  width: 1200px;
+  max-width: 1200px;
   display: flex;
 `;
 
@@ -37,6 +37,7 @@ const MenuImage = styled.div`
   border-radius: 50%;
   padding: 10px;
   display: inline-block;
+
   &:hover {
     background-color: #e6f3ff;
   }
@@ -139,20 +140,26 @@ const IconUserEtcContainer = styled(FontAwesomeIcon)`
 `;
 
 const CenterContainer = styled.div`
-  /* border: 3px solid green; */
-  flex: 2.5;
+  border: 3px solid green;
+  /* flex: 2.2; */
+  width: 590px;
+  max-width: 590px;
 `;
 
-const ContentContainer = styled.div``;
+const ContentContainer = styled.div`
+  border: 1px solid #eeeeee;
+`;
 
 const ContentHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #eee;
+  padding: 10px 17px;
 `;
 
 const ContentOrderBy = styled.button`
-  padding: 10px 15px;
+  padding: 12px 13px;
   background-color: var(--twitter-color);
   color: white;
   border-radius: 30px;
@@ -175,7 +182,7 @@ const ContentInput = styled.input`
   outline: none;
   width: 310px;
   box-sizing: border-box;
-  padding: 15px;
+  padding: 12px;
   padding-left: 50px;
   padding-right: 30px;
   border-radius: 30px;
@@ -204,8 +211,9 @@ const IconContentFormContainer = styled(FontAwesomeIcon)`
 `;
 
 const ContentTweet = styled.div`
-  border: 3px solid red;
   display: flex;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
 `;
 
 const TweetImage = styled.img`
@@ -213,21 +221,32 @@ const TweetImage = styled.img`
   height: 47px;
   border-radius: 50%;
 `;
+
 const TweetPostContainer = styled.div`
-  border: 3px solid blue;
   width: 100%;
-  margin-left: 10px;
+  margin-left: 5px;
 `;
+
 const TweetPostHeader = styled.div`
-  border: 3px solid green;
-  height: 200px;
+  /* height: 200px; */
+  margin-left: 7px;
 `;
 
 const ContentArticle = styled.div`
-  margin-top: 100px;
+  /* border: 3px solid green; */
 `;
 
 const ContentPost = styled.div``;
+
+const ContentTweetNumber = styled.h1`
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 17px;
+  margin-top: 17px;
+  margin-bottom: 15px;
+`;
+
+const ContentAllTweets = styled.div``;
 
 const RightContainer = styled.div`
   flex: 1.3;
@@ -517,8 +536,8 @@ const Home = ({ userObject, changeTheme }) => {
             </ContentTweet>
             <ContentArticle>
               <ContentPost>
-                <h1>전체 트윗/{allTweetsLength}</h1>
-                <div>
+                <ContentTweetNumber>전체 트윗 ({allTweetsLength})</ContentTweetNumber>
+                <ContentAllTweets>
                   {allTweets &&
                     allTweets.map((tweetObject) => {
                       return (
@@ -530,7 +549,7 @@ const Home = ({ userObject, changeTheme }) => {
                         />
                       );
                     })}
-                </div>
+                </ContentAllTweets>
               </ContentPost>
             </ContentArticle>
           </ContentContainer>

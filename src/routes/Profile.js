@@ -22,7 +22,7 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
     const date = new Date(now);
     const day = ["일", "월", "화", "수", "목", "금", "토"];
     const getFullYear = date.getFullYear();
-    const getMonth = date.getMonth();
+    const getMonth = date.getMonth() + 1;
     const getDate = date.getDate();
     const getDay = day[date.getDay()];
     const getHours = date.getHours();

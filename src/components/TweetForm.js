@@ -2,27 +2,24 @@ import { useRef, useState } from "react";
 import { authService, firestoreService, storageService } from "firebaseConfiguration";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {} from "@fortawesome/free-solid-svg-icons";
-import {} from "@fortawesome/free-brands-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-import userImage from "images/user.png";
 
-const TweetFormContainer = styled.form`
-  height: 100%;
-`;
+const TweetFormContainer = styled.form``;
 
 const TweetFormTextContainer = styled.div`
-  height: 150px;
+  position: relative;
 `;
 
 const TweetFormTextInput = styled.input`
   width: 100%;
-  padding-bottom: 150px;
   border: none;
   outline: none;
   padding: 12px 0px;
+  padding-left: 4px;
+  padding-right: 30px;
+  padding-bottom: 18px;
   box-sizing: border-box;
-  border: 3px solid red;
   font-size: 18px;
 
   &::placeholder {
@@ -32,7 +29,38 @@ const TweetFormTextInput = styled.input`
 
 const TweetFormImageInput = styled.input``;
 
-const TweetFormImageContainer = styled.div``;
+const FileDataContainer = styled.div`
+  /* position: absolute; */
+  /* top: 60px; */
+  /* left: 0; */
+  position: relative;
+`;
+
+const FileData = styled.img`
+  width: 480px;
+  height: 280px;
+  border-radius: 15px;
+`;
+
+const FileDataButton = styled.button``;
+
+const IconDataCancelContainer = styled(FontAwesomeIcon)`
+  position: absolute;
+  top: 5px;
+  left: 6px;
+  font-size: 17px;
+  padding: 7px 9px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+`;
+
+const TweetFormImageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+`;
 
 const TweetFormImageLabel = styled.label``;
 
@@ -49,9 +77,16 @@ const TweetFormSubmit = styled.input`
 `;
 
 const IconTweetFormContainer = styled(FontAwesomeIcon)`
-  font-size: 35px;
+  font-size: 25px;
   cursor: pointer;
-  color: gray;
+  color: #bebebe;
+  padding: 7px;
+  border-radius: 50%;
+
+  &:hover {
+    color: var(--twitter-color);
+    background-color: #e6f3ff;
+  }
 `;
 
 const TweetForm = ({ userObject }) => {
@@ -144,6 +179,8 @@ const TweetForm = ({ userObject }) => {
     <TweetFormContainer onSubmit={onSubmit}>
       <TweetFormTextContainer>
         <TweetFormTextInput
+          multiline
+          contenteditable="true"
           type="text"
           placeholder="무슨 일이 일어나고 있나요?"
           value={tweet}
@@ -160,6 +197,14 @@ const TweetForm = ({ userObject }) => {
           id="fileUploadBtn"
           style={{ display: "none" }}
         ></TweetFormImageInput>
+        {fileDataUrl && (
+          <FileDataContainer>
+            <FileData src={fileDataUrl} alt="image"></FileData>
+            <FileDataButton onClick={onCancelClick}>
+              <IconDataCancelContainer icon={faTimes}></IconDataCancelContainer>
+            </FileDataButton>
+          </FileDataContainer>
+        )}
       </TweetFormTextContainer>
 
       <TweetFormImageContainer>
@@ -168,13 +213,6 @@ const TweetForm = ({ userObject }) => {
         </TweetFormImageLabel>
         <TweetFormSubmit type="submit" value="트윗하기" ref={inputTweet}></TweetFormSubmit>
       </TweetFormImageContainer>
-
-      {fileDataUrl && (
-        <div>
-          <img src={fileDataUrl} alt="" style={{ width: "300px", height: "250px" }}></img>
-          <button onClick={onCancelClick}>취소</button>
-        </div>
-      )}
     </TweetFormContainer>
   );
 };
