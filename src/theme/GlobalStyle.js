@@ -27,6 +27,10 @@ const GlobalStyle = createGlobalStyle`
   a:focus, a:visited{
     /* color:inherit; */
   }
+  aside.emoji-picker-react{
+    position:absolute;
+    top:42px;
+  }
 `;
 
 export default GlobalStyle;
