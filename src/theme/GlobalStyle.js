@@ -5,7 +5,7 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   :root{
     --twitter-color: #1DA1F2;
-    --twitter-dark-color: rgb(26, 140, 216);
+    --twitter-dark-color: #00AFF0;
   }
   body{
     background-color: ${(props) => (props.bgColor === true ? "#18191A" : "#ffffff")};
@@ -18,6 +18,7 @@ const GlobalStyle = createGlobalStyle`
     border:none;
     outline:none;
     cursor: pointer;
+    background-color:transparent;
   }
   a{
     text-decoration:none;

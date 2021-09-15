@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { firestoreService } from "firebaseConfiguration";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faHashtag, faEllipsisH, faCog } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faHashtag, faEllipsisH, faCog, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faBell, faEnvelope, faBookmark, faListAlt, faUser } from "@fortawesome/free-regular-svg-icons";
 import Tweet from "components/Tweet";
@@ -80,7 +80,7 @@ const IconText = styled.span`
 
 const MenuButton = styled.button`
   margin-top: 15px;
-  padding: 17px 90px;
+  padding: 17px 80px;
   background-color: var(--twitter-color);
   color: white;
   border-radius: 30px;
@@ -139,49 +139,231 @@ const IconUserEtcContainer = styled(FontAwesomeIcon)`
 `;
 
 const CenterContainer = styled.div`
-  border: 3px solid green;
+  /* border: 3px solid green; */
   flex: 2.5;
 `;
 
 const ContentContainer = styled.div``;
 
+const ContentHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ContentOrderBy = styled.button`
+  padding: 10px 15px;
+  background-color: var(--twitter-color);
+  color: white;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: var(--twitter-dark-color);
+  }
+`;
+
+const ContentSearch = styled.div``;
+
+const ContentForm = styled.form`
+  position: relative;
+`;
+
+const ContentInput = styled.input`
+  border: none;
+  outline: none;
+  width: 310px;
+  box-sizing: border-box;
+  padding: 15px;
+  padding-left: 50px;
+  padding-right: 30px;
+  border-radius: 30px;
+  background-color: #f8f8f8;
+  font-size: 15px;
+  border: 1px solid transparent;
+
+  &:focus {
+    background-color: #fff;
+    border: 1px solid var(--twitter-color);
+  }
+
+  &::placeholder {
+    color: gray;
+  }
+`;
+
+const IconContentFormContainer = styled(FontAwesomeIcon)`
+  font-size: 15px;
+  cursor: pointer;
+  color: gray;
+  position: absolute;
+  top: 50%;
+  left: 22px;
+  transform: translateY(-50%);
+`;
+
+const ContentTweet = styled.div`
+  border: 3px solid red;
+  display: flex;
+`;
+
+const TweetImage = styled.img`
+  width: 47px;
+  height: 47px;
+  border-radius: 50%;
+`;
+const TweetPostContainer = styled.div`
+  border: 3px solid blue;
+  width: 100%;
+  margin-left: 10px;
+`;
+const TweetPostHeader = styled.div`
+  border: 3px solid green;
+  height: 200px;
+`;
+
+const ContentArticle = styled.div`
+  margin-top: 100px;
+`;
+
+const ContentPost = styled.div``;
+
 const RightContainer = styled.div`
-  border: 3px solid orange;
   flex: 1.3;
 `;
 
 const RegisterContainer = styled.div`
-  border: 3px solid blue;
+  /* border: 3px solid blue; */
 `;
 
 const TrendContainer = styled.div`
-  border: 3px solid red;
-  background-color: #f0f2f2;
+  background-color: white;
+  background-color: #f8f8f8;
+  border-radius: 20px;
+  padding: 20px 0;
 `;
 
-const TrendHeader = styled.div``;
+const TrendHeader = styled.h1`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 const TrendHeaderTitle = styled.h1`
-  font-size: 25px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 12px;
 `;
 
 const IconTrendContainer = styled(FontAwesomeIcon)`
   font-size: 16px;
+  margin-right: 11px;
+  cursor: pointer;
 `;
 
-const TrendInfo = styled.div``;
+const TrendInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 13px 12px;
+  margin-top: 10px;
+  cursor: pointer;
 
-const SeeMore = styled.div``;
+  &:hover {
+    background-color: #eeeeee;
+  }
+`;
 
-const FollowContainer = styled.div``;
+const TrendContent = styled.div``;
+
+const TrendHeading = styled.h3`
+  font-size: 13px;
+  color: #272c30;
+`;
+
+const TrendTitle = styled.h1`
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 5px;
+`;
+
+const IconTrendDotContainer = styled(FontAwesomeIcon)`
+  font-size: 15px;
+  cursor: pointer;
+  color: #272c30;
+`;
+
+const SeeMore = styled.div`
+  color: var(--twitter-color);
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 30px;
+  margin-left: 12px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const FollowContainer = styled.div`
+  background-color: white;
+  background-color: #f8f8f8;
+  border-radius: 20px;
+  margin-top: 15px;
+  padding: 20px 0;
+`;
+
+const FollowHeader = styled.h1`
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 12px;
+`;
+
+const FollowContent = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  cursor: pointer;
+  padding: 10px 12px;
+
+  &:hover {
+    background-color: #eeeeee;
+  }
+`;
+const FollowImage = styled.img`
+  width: 47px;
+  height: 47px;
+  border-radius: 50%;
+`;
+const FollowInfo = styled.div`
+  margin-left: 15px;
+  margin-right: 20px;
+`;
+
+const FollowInfoTitle = styled.h1`
+  font-weight: bold;
+  font-size: 17px;
+  margin-bottom: 5px;
+`;
+
+const FollowInfoDesc = styled.h2`
+  font-size: 15px;
+`;
+
+const FollowButton = styled.button`
+  background-color: #272c30;
+  color: white;
+  padding: 7px 15px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: bold;
+`;
 
 const PolicyContainer = styled.div`
-  text-align: center;
+  margin-top: 20px;
 `;
 
-const PolicyHeader = styled.div`
-  border: 3px solid red;
-`;
+const PolicyHeader = styled.div``;
 
 const PolicyLink = styled.a`
   font-size: 12px;
@@ -195,7 +377,8 @@ const PolicyLink = styled.a`
 
 const PolicyFooter = styled.div`
   font-size: 14px;
-  margin-top: 5px;
+  margin-top: 10px;
+  margin-left: 12px;
 `;
 
 const Home = ({ userObject, changeTheme }) => {
@@ -315,40 +498,118 @@ const Home = ({ userObject, changeTheme }) => {
         </LeftContainer>
         <CenterContainer>
           <ContentContainer>
-            <h1>Home</h1>
-            <form onSubmit={onSearchSubmit}>
-              <input type="text" placeholder="트위터 검색" onChange={onSearchInput} value={searchText}></input>
-            </form>
-            <button onClick={changeTheme}>모드 전환</button>
-            <button onClick={handleOrderBy}>{isDesc ? "오래된순" : "최신순"}</button>
-            <button onClick={shareTwitter}>트위터에 공유하기</button>
-            <TweetForm userObject={userObject}></TweetForm>
-            <h1>전체 트윗 갯수: {allTweetsLength}</h1>
-            <div>
-              {allTweets &&
-                allTweets.map((tweetObject) => {
-                  return (
-                    <Tweet key={tweetObject.id} userObject={userObject} tweetObject={tweetObject} isOwner={userObject.uid === tweetObject.uid ? true : false} />
-                  );
-                })}
-            </div>
+            <ContentHeader>
+              <ContentOrderBy onClick={handleOrderBy}>{isDesc ? "오래된순" : "최신순"}</ContentOrderBy>
+              <ContentSearch>
+                <ContentForm onSubmit={onSearchSubmit}>
+                  <ContentInput type="text" placeholder="트위터 검색" onChange={onSearchInput} value={searchText}></ContentInput>
+                  <IconContentFormContainer icon={faSearch}></IconContentFormContainer>
+                </ContentForm>
+              </ContentSearch>
+            </ContentHeader>
+            <ContentTweet>
+              <TweetImage src={userImage}></TweetImage>
+              <TweetPostContainer>
+                <TweetPostHeader>
+                  <TweetForm userObject={userObject}></TweetForm>
+                </TweetPostHeader>
+              </TweetPostContainer>
+            </ContentTweet>
+            <ContentArticle>
+              <ContentPost>
+                <h1>전체 트윗/{allTweetsLength}</h1>
+                <div>
+                  {allTweets &&
+                    allTweets.map((tweetObject) => {
+                      return (
+                        <Tweet
+                          key={tweetObject.id}
+                          userObject={userObject}
+                          tweetObject={tweetObject}
+                          isOwner={userObject.uid === tweetObject.uid ? true : false}
+                        />
+                      );
+                    })}
+                </div>
+              </ContentPost>
+            </ContentArticle>
           </ContentContainer>
         </CenterContainer>
         <RightContainer>
-          <RegisterContainer></RegisterContainer>
+          <RegisterContainer>
+            <button onClick={changeTheme}>모드 전환</button>
+            <button onClick={shareTwitter}>트위터에 공유하기</button>
+            <h1>로그인</h1>
+            <h1>회원가입</h1>
+            <h1>로그아웃</h1>
+          </RegisterContainer>
           <TrendContainer>
             <TrendHeader>
               <TrendHeaderTitle>나를 위한 트렌드</TrendHeaderTitle>
               <IconTrendContainer icon={faCog}></IconTrendContainer>
             </TrendHeader>
-            <TrendInfo></TrendInfo>
+            <TrendInfo>
+              <TrendContent>
+                <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
+                <TrendTitle>리액트</TrendTitle>
+              </TrendContent>
+              <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
+            </TrendInfo>
+            <TrendInfo>
+              <TrendContent>
+                <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
+                <TrendTitle>리액트</TrendTitle>
+              </TrendContent>
+              <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
+            </TrendInfo>
+            <TrendInfo>
+              <TrendContent>
+                <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
+                <TrendTitle>리액트</TrendTitle>
+              </TrendContent>
+              <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
+            </TrendInfo>
+            <TrendInfo>
+              <TrendContent>
+                <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
+                <TrendTitle>리액트</TrendTitle>
+              </TrendContent>
+              <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
+            </TrendInfo>
             <SeeMore>더 보기</SeeMore>
           </TrendContainer>
           <FollowContainer>
             <FollowHeader>팔로우 추천</FollowHeader>
             <FollowContent>
-              <FollowImage></FollowImage>
-              <FollowInfo></FollowInfo>
+              <FollowImage src={userImage}></FollowImage>
+              <FollowInfo>
+                <FollowInfoTitle>Apple</FollowInfoTitle>
+                <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
+              </FollowInfo>
+              <FollowButton>팔로우</FollowButton>
+            </FollowContent>
+            <FollowContent>
+              <FollowImage src={userImage}></FollowImage>
+              <FollowInfo>
+                <FollowInfoTitle>Apple</FollowInfoTitle>
+                <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
+              </FollowInfo>
+              <FollowButton>팔로우</FollowButton>
+            </FollowContent>
+            <FollowContent>
+              <FollowImage src={userImage}></FollowImage>
+              <FollowInfo>
+                <FollowInfoTitle>Apple</FollowInfoTitle>
+                <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
+              </FollowInfo>
+              <FollowButton>팔로우</FollowButton>
+            </FollowContent>
+            <FollowContent>
+              <FollowImage src={userImage}></FollowImage>
+              <FollowInfo>
+                <FollowInfoTitle>Apple</FollowInfoTitle>
+                <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
+              </FollowInfo>
               <FollowButton>팔로우</FollowButton>
             </FollowContent>
             <SeeMore>더 보기</SeeMore>
