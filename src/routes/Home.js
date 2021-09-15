@@ -11,22 +11,35 @@ import TweetForm from "components/TweetForm";
 import userImage from "images/user.png";
 
 const Container = styled.div`
-  border: 3px solid red;
-  width: 1200px;
-  max-width: 1200px;
+  /* border: 3px solid red; */
+  width: 1260px;
+  max-width: 1260px;
   display: flex;
 `;
 
+const LeftContainerParent = styled.div`
+  width: 280px;
+`;
+
+const CenterContainerParent = styled.div`
+  width: 590px;
+`;
+
+const RightContainerParent = styled.div`
+  width: 330px;
+`;
+
 const LeftContainer = styled.div`
-  flex: 1;
   width: 280px;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* position: fixed; */
-  /* top: 0; */
-  /* border: 5px solid red; */
+  position: fixed;
+  padding-right: 20px;
+  box-sizing: border-box;
+  padding-top: 5px;
+  padding-bottom: 15px;
 `;
 
 const MenuContainer = styled.div``;
@@ -51,12 +64,28 @@ const IconTwitterContainer = styled(FontAwesomeIcon)`
 
 const MenuNav = styled.ul``;
 
-const MenuList = styled.li`
+// const MenuList = styled.li`
+//   margin-bottom: 8px;
+//   display: inline-block;
+//   margin-right: 50px;
+//   align-items: center;
+//   padding: 12px 15px;
+//   padding-right: 25px;
+//   border-radius: 50px;
+//   box-sizing: border-box;
+//   cursor: pointer;
+
+//   &:hover {
+//     background-color: #eeeeee;
+//   }
+// `;
+
+const MenuList = styled(Link)`
   margin-bottom: 8px;
   display: inline-block;
   margin-right: 50px;
   align-items: center;
-  padding: 14px 15px;
+  padding: 12px 15px;
   padding-right: 25px;
   border-radius: 50px;
   box-sizing: border-box;
@@ -97,9 +126,8 @@ const UserContainer = styled.div`
   display: flex;
   align-items: center;
   border-radius: 50px;
-  padding: 12px 10px;
+  padding: 8px 10px;
   cursor: pointer;
-  margin-bottom: 10px;
 
   &:hover {
     background-color: #eeeeee;
@@ -140,7 +168,7 @@ const IconUserEtcContainer = styled(FontAwesomeIcon)`
 `;
 
 const CenterContainer = styled.div`
-  border: 3px solid green;
+  /* border: 3px solid blue; */
   /* flex: 2.2; */
   width: 590px;
   max-width: 590px;
@@ -249,7 +277,9 @@ const ContentTweetNumber = styled.h1`
 const ContentAllTweets = styled.div``;
 
 const RightContainer = styled.div`
-  flex: 1.3;
+  width: 330px;
+  padding-left: 20px;
+  position: fixed;
 `;
 
 const RegisterContainer = styled.div`
@@ -260,7 +290,7 @@ const TrendContainer = styled.div`
   background-color: white;
   background-color: #f8f8f8;
   border-radius: 20px;
-  padding: 20px 0;
+  padding: 20px 0px;
 `;
 
 const TrendHeader = styled.h1`
@@ -272,19 +302,19 @@ const TrendHeader = styled.h1`
 const TrendHeaderTitle = styled.h1`
   font-size: 20px;
   font-weight: bold;
-  margin-left: 12px;
+  margin-left: 17px;
 `;
 
 const IconTrendContainer = styled(FontAwesomeIcon)`
   font-size: 16px;
-  margin-right: 11px;
+  margin-right: 15px;
   cursor: pointer;
 `;
 
 const TrendInfo = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 13px 12px;
+  padding: 13px 17px;
   margin-top: 10px;
   cursor: pointer;
 
@@ -317,7 +347,7 @@ const SeeMore = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-top: 30px;
-  margin-left: 12px;
+  margin-left: 17px;
 
   &:hover {
     text-decoration: underline;
@@ -329,13 +359,13 @@ const FollowContainer = styled.div`
   background-color: #f8f8f8;
   border-radius: 20px;
   margin-top: 15px;
-  padding: 20px 0;
+  padding: 20px 0px;
 `;
 
 const FollowHeader = styled.h1`
   font-size: 20px;
   font-weight: bold;
-  margin-left: 12px;
+  margin-left: 17px;
 `;
 
 const FollowContent = styled.div`
@@ -343,7 +373,7 @@ const FollowContent = styled.div`
   align-items: center;
   margin-top: 10px;
   cursor: pointer;
-  padding: 10px 12px;
+  padding: 10px 17px;
 
   &:hover {
     background-color: #eeeeee;
@@ -463,186 +493,202 @@ const Home = ({ userObject, changeTheme }) => {
   return (
     <>
       <Container>
-        <LeftContainer>
-          <MenuContainer>
-            <MenuImage>
-              <Link to="/">
-                <IconTwitterContainer icon={faTwitter}></IconTwitterContainer>
-              </Link>
-            </MenuImage>
-            <MenuNav>
-              <MenuList>
-                <IconContainer icon={faHome}></IconContainer>
-                <IconText>홈</IconText>
-              </MenuList>
-              <MenuList>
-                <IconContainer icon={faHashtag}></IconContainer>
-                <IconText>탐색하기</IconText>
-              </MenuList>
-              <MenuList>
-                <IconContainer icon={faBell}></IconContainer>
-                <IconText>알림</IconText>
-              </MenuList>
-              <MenuList>
-                <IconContainer icon={faEnvelope}></IconContainer>
-                <IconText>쪽지</IconText>
-              </MenuList>
-              <MenuList>
-                <IconContainer icon={faBookmark}></IconContainer>
-                <IconText>북마크</IconText>
-              </MenuList>
-              <MenuList>
-                <IconContainer icon={faListAlt}></IconContainer>
-                <IconText>리스트</IconText>
-              </MenuList>
-              <MenuList>
-                <IconContainer icon={faUser}></IconContainer>
-                <IconText>프로필</IconText>
-              </MenuList>
-              <MenuList>
-                <IconContainer icon={faEllipsisH}></IconContainer>
-                <IconText>더보기</IconText>
-              </MenuList>
-            </MenuNav>
-            <MenuButton>트윗하기</MenuButton>
-          </MenuContainer>
-          <UserContainer>
-            <UserPhoto src={userObject.photoURL ? userObject.photoURL : userImage}></UserPhoto>
-            <UserInfo>
-              <UserName>{userObject.displayName ? userObject.displayName : "유저"}</UserName>
-              <UserEmail>{userObject.email ? userObject.email : "#"}</UserEmail>
-            </UserInfo>
-            <IconUserEtcContainer icon={faEllipsisH}></IconUserEtcContainer>
-          </UserContainer>
-        </LeftContainer>
-        <CenterContainer>
-          <ContentContainer>
-            <ContentHeader>
-              <ContentOrderBy onClick={handleOrderBy}>{isDesc ? "오래된순" : "최신순"}</ContentOrderBy>
-              <ContentSearch>
-                <ContentForm onSubmit={onSearchSubmit}>
-                  <ContentInput type="text" placeholder="트위터 검색" onChange={onSearchInput} value={searchText}></ContentInput>
-                  <IconContentFormContainer icon={faSearch}></IconContentFormContainer>
-                </ContentForm>
-              </ContentSearch>
-            </ContentHeader>
-            <ContentTweet>
-              <TweetImage src={userImage}></TweetImage>
-              <TweetPostContainer>
-                <TweetPostHeader>
-                  <TweetForm userObject={userObject}></TweetForm>
-                </TweetPostHeader>
-              </TweetPostContainer>
-            </ContentTweet>
-            <ContentArticle>
-              <ContentPost>
-                <ContentTweetNumber>전체 트윗 ({allTweetsLength})</ContentTweetNumber>
-                <ContentAllTweets>
-                  {allTweets &&
-                    allTweets.map((tweetObject) => {
-                      return (
-                        <Tweet
-                          key={tweetObject.id}
-                          userObject={userObject}
-                          tweetObject={tweetObject}
-                          isOwner={userObject.uid === tweetObject.uid ? true : false}
-                        />
-                      );
-                    })}
-                </ContentAllTweets>
-              </ContentPost>
-            </ContentArticle>
-          </ContentContainer>
-        </CenterContainer>
-        <RightContainer>
-          <RegisterContainer>
-            <button onClick={changeTheme}>모드 전환</button>
-            <button onClick={shareTwitter}>트위터에 공유하기</button>
-            <h1>로그인</h1>
-            <h1>회원가입</h1>
-            <h1>로그아웃</h1>
-          </RegisterContainer>
-          <TrendContainer>
-            <TrendHeader>
-              <TrendHeaderTitle>나를 위한 트렌드</TrendHeaderTitle>
-              <IconTrendContainer icon={faCog}></IconTrendContainer>
-            </TrendHeader>
-            <TrendInfo>
-              <TrendContent>
-                <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
-                <TrendTitle>리액트</TrendTitle>
-              </TrendContent>
-              <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
-            </TrendInfo>
-            <TrendInfo>
-              <TrendContent>
-                <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
-                <TrendTitle>리액트</TrendTitle>
-              </TrendContent>
-              <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
-            </TrendInfo>
-            <TrendInfo>
-              <TrendContent>
-                <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
-                <TrendTitle>리액트</TrendTitle>
-              </TrendContent>
-              <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
-            </TrendInfo>
-            <TrendInfo>
-              <TrendContent>
-                <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
-                <TrendTitle>리액트</TrendTitle>
-              </TrendContent>
-              <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
-            </TrendInfo>
-            <SeeMore>더 보기</SeeMore>
-          </TrendContainer>
-          <FollowContainer>
-            <FollowHeader>팔로우 추천</FollowHeader>
-            <FollowContent>
-              <FollowImage src={userImage}></FollowImage>
-              <FollowInfo>
-                <FollowInfoTitle>Apple</FollowInfoTitle>
-                <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
-              </FollowInfo>
-              <FollowButton>팔로우</FollowButton>
-            </FollowContent>
-            <FollowContent>
-              <FollowImage src={userImage}></FollowImage>
-              <FollowInfo>
-                <FollowInfoTitle>Apple</FollowInfoTitle>
-                <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
-              </FollowInfo>
-              <FollowButton>팔로우</FollowButton>
-            </FollowContent>
-            <FollowContent>
-              <FollowImage src={userImage}></FollowImage>
-              <FollowInfo>
-                <FollowInfoTitle>Apple</FollowInfoTitle>
-                <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
-              </FollowInfo>
-              <FollowButton>팔로우</FollowButton>
-            </FollowContent>
-            <FollowContent>
-              <FollowImage src={userImage}></FollowImage>
-              <FollowInfo>
-                <FollowInfoTitle>Apple</FollowInfoTitle>
-                <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
-              </FollowInfo>
-              <FollowButton>팔로우</FollowButton>
-            </FollowContent>
-            <SeeMore>더 보기</SeeMore>
-          </FollowContainer>
-          <PolicyContainer>
-            <PolicyHeader>
-              <PolicyLink href="https://twitter.com/ko/tos">이용약관</PolicyLink>
-              <PolicyLink href="https://twitter.com/ko/privacy">개인정보 처리방침</PolicyLink>
-              <PolicyLink href="https://help.twitter.com/ko/rules-and-policies/twitter-cookies">쿠키 정책</PolicyLink>
-              <PolicyLink href="https://business.twitter.com/en/help.html">광고 정보</PolicyLink>
-            </PolicyHeader>
-            <PolicyFooter>© 2021 GW. ALL RIGHTS RESERVED.</PolicyFooter>
-          </PolicyContainer>
-        </RightContainer>
+        <LeftContainerParent>
+          <LeftContainer>
+            <MenuContainer>
+              <MenuImage>
+                <Link to="/">
+                  <IconTwitterContainer icon={faTwitter}></IconTwitterContainer>
+                </Link>
+              </MenuImage>
+              <MenuNav>
+                <MenuList to="/profile">
+                  <IconContainer icon={faHome}></IconContainer>
+                  <IconText>홈</IconText>
+                </MenuList>
+                <MenuList>
+                  <IconContainer icon={faUser}></IconContainer>
+                  <IconText>프로필</IconText>
+                </MenuList>
+                <MenuList>
+                  <IconContainer icon={faHashtag}></IconContainer>
+                  <IconText>탐색하기</IconText>
+                </MenuList>
+                <MenuList>
+                  <IconContainer icon={faBell}></IconContainer>
+                  <IconText>알림</IconText>
+                </MenuList>
+                <MenuList>
+                  <IconContainer icon={faEnvelope}></IconContainer>
+                  <IconText>쪽지</IconText>
+                </MenuList>
+                <MenuList>
+                  <IconContainer icon={faBookmark}></IconContainer>
+                  <IconText>북마크</IconText>
+                </MenuList>
+                <MenuList>
+                  <IconContainer icon={faListAlt}></IconContainer>
+                  <IconText>리스트</IconText>
+                </MenuList>
+                <MenuList>
+                  <IconContainer icon={faEllipsisH}></IconContainer>
+                  <IconText>더보기</IconText>
+                </MenuList>
+              </MenuNav>
+              <MenuButton>트윗하기</MenuButton>
+            </MenuContainer>
+            <UserContainer>
+              <UserPhoto src={userObject?.photoURL ? userObject.photoURL : userImage}></UserPhoto>
+              <UserInfo>
+                <UserName>{userObject?.displayName ? userObject.displayName : "유저"}</UserName>
+                <UserEmail>{userObject?.email ? userObject.email : "#"}</UserEmail>
+              </UserInfo>
+              <IconUserEtcContainer icon={faEllipsisH}></IconUserEtcContainer>
+            </UserContainer>
+          </LeftContainer>
+        </LeftContainerParent>
+
+        <CenterContainerParent>
+          <CenterContainer>
+            <ContentContainer>
+              <ContentHeader>
+                <ContentOrderBy onClick={handleOrderBy}>{isDesc ? "오래된순" : "최신순"}</ContentOrderBy>
+                <ContentSearch>
+                  <ContentForm onSubmit={onSearchSubmit}>
+                    <ContentInput type="text" placeholder="트위터 검색" onChange={onSearchInput} value={searchText}></ContentInput>
+                    <IconContentFormContainer icon={faSearch}></IconContentFormContainer>
+                  </ContentForm>
+                </ContentSearch>
+              </ContentHeader>
+              <ContentTweet>
+                <TweetImage src={userImage}></TweetImage>
+                <TweetPostContainer>
+                  <TweetPostHeader>
+                    <TweetForm userObject={userObject}></TweetForm>
+                  </TweetPostHeader>
+                </TweetPostContainer>
+              </ContentTweet>
+              <ContentArticle>
+                <ContentPost>
+                  <ContentTweetNumber>전체 트윗 ({allTweetsLength})</ContentTweetNumber>
+                  <ContentAllTweets>
+                    {allTweets &&
+                      allTweets.map((tweetObject) => {
+                        return (
+                          <Tweet
+                            key={tweetObject.id}
+                            userObject={userObject}
+                            tweetObject={tweetObject}
+                            isOwner={userObject.uid === tweetObject.uid ? true : false}
+                          />
+                        );
+                      })}
+                  </ContentAllTweets>
+                </ContentPost>
+              </ContentArticle>
+            </ContentContainer>
+          </CenterContainer>
+        </CenterContainerParent>
+
+        <RightContainerParent>
+          <RightContainer>
+            <RegisterContainer>
+              <button onClick={changeTheme}>모드 전환</button>
+              <button onClick={shareTwitter}>트위터에 공유하기</button>
+              <h1>로그인</h1>
+              <h1>회원가입</h1>
+              <h1>로그아웃</h1>
+            </RegisterContainer>
+            <TrendContainer>
+              <TrendHeader>
+                <TrendHeaderTitle>나를 위한 트렌드</TrendHeaderTitle>
+                <IconTrendContainer icon={faCog}></IconTrendContainer>
+              </TrendHeader>
+              <TrendInfo>
+                <TrendContent>
+                  <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
+                  <TrendTitle>리액트</TrendTitle>
+                </TrendContent>
+                <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
+              </TrendInfo>
+              <TrendInfo>
+                <TrendContent>
+                  <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
+                  <TrendTitle>리액트</TrendTitle>
+                </TrendContent>
+                <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
+              </TrendInfo>
+              <TrendInfo>
+                <TrendContent>
+                  <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
+                  <TrendTitle>리액트</TrendTitle>
+                </TrendContent>
+                <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
+              </TrendInfo>
+              <TrendInfo>
+                <TrendContent>
+                  <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
+                  <TrendTitle>리액트</TrendTitle>
+                </TrendContent>
+                <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
+              </TrendInfo>
+              <SeeMore>더 보기</SeeMore>
+            </TrendContainer>
+            <FollowContainer>
+              <FollowHeader>팔로우 추천</FollowHeader>
+              <FollowContent>
+                <FollowImage src={userImage}></FollowImage>
+                <FollowInfo>
+                  <FollowInfoTitle>Apple</FollowInfoTitle>
+                  <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
+                </FollowInfo>
+                <FollowButton>팔로우</FollowButton>
+              </FollowContent>
+              <FollowContent>
+                <FollowImage src={userImage}></FollowImage>
+                <FollowInfo>
+                  <FollowInfoTitle>Apple</FollowInfoTitle>
+                  <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
+                </FollowInfo>
+                <FollowButton>팔로우</FollowButton>
+              </FollowContent>
+              <FollowContent>
+                <FollowImage src={userImage}></FollowImage>
+                <FollowInfo>
+                  <FollowInfoTitle>Apple</FollowInfoTitle>
+                  <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
+                </FollowInfo>
+                <FollowButton>팔로우</FollowButton>
+              </FollowContent>
+              <FollowContent>
+                <FollowImage src={userImage}></FollowImage>
+                <FollowInfo>
+                  <FollowInfoTitle>Apple</FollowInfoTitle>
+                  <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
+                </FollowInfo>
+                <FollowButton>팔로우</FollowButton>
+              </FollowContent>
+              <SeeMore>더 보기</SeeMore>
+            </FollowContainer>
+            <PolicyContainer>
+              <PolicyHeader>
+                <PolicyLink href="https://twitter.com/ko/tos" target="_blank">
+                  이용약관
+                </PolicyLink>
+                <PolicyLink href="https://twitter.com/ko/privacy" target="_blank">
+                  개인정보 처리방침
+                </PolicyLink>
+                <PolicyLink href="https://help.twitter.com/ko/rules-and-policies/twitter-cookies" target="_blank">
+                  쿠키 정책
+                </PolicyLink>
+                <PolicyLink href="https://business.twitter.com/en/help.html" target="_blank">
+                  광고 정보
+                </PolicyLink>
+              </PolicyHeader>
+              <PolicyFooter>© 2021 GW. ALL RIGHTS RESERVED.</PolicyFooter>
+            </PolicyContainer>
+          </RightContainer>
+        </RightContainerParent>
       </Container>
     </>
   );

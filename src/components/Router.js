@@ -8,7 +8,7 @@ import Navigation from "components/Navigation";
 const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification, changeTheme }) => {
   return (
     <HashRouter>
-      {isLoggedIn && <Navigation userObject={userObject} />}
+      {/* {isLoggedIn && <Navigation userObject={userObject} />} */}
       {isLoggedIn ? (
         <Switch>
           <Route exact path="/">

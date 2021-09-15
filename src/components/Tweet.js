@@ -12,6 +12,7 @@ const PostingTweetContainer = styled.div`
   padding: 10px 17px;
   cursor: pointer;
   border-bottom: 1px solid #eee;
+  background-color: ${(props) => props.current && "#f8f8f8"};
 
   &:hover {
     background-color: #f8f8f8;
@@ -29,6 +30,10 @@ const PostingTweetContent = styled.div`
   width: 100%;
 `;
 
+const EditingTweetForm = styled.form`
+  width: 100%;
+`;
+
 const PostingTweetAuthor = styled.div`
   display: flex;
   align-items: center;
@@ -38,6 +43,7 @@ const PostingTweetAuthor = styled.div`
 const AuthorInfo = styled.div`
   display: flex;
   align-items: center;
+  height: 40px;
 `;
 
 const PostingEditDelete = styled.div`
@@ -46,19 +52,19 @@ const PostingEditDelete = styled.div`
 `;
 
 const AuthorName = styled.h2`
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
 `;
 
 const AuthorEmail = styled.h3`
-  font-size: 16px;
+  font-size: 17px;
   margin-left: 7px;
   color: gray;
   font-weight: 500;
 `;
 
 const AuthorCreatedAt = styled.h4`
-  font-size: 14px;
+  font-size: 15px;
   color: gray;
   font-weight: 500;
 `;
@@ -72,6 +78,21 @@ const PostingTweetDesc = styled.p`
   margin-bottom: 10px;
   font-size: 16px;
   line-height: 1.5;
+  margin-top: 8px;
+`;
+
+const PostingEditTweetDesc = styled.input`
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  border: none;
+  outline: none;
+  width: 100%;
+  background-color: white;
+  padding: 12px 12px;
+  box-sizing: border-box;
+  margin-top: 8px;
+  color: gray;
 `;
 
 const PostingTweetImage = styled.img`
@@ -84,6 +105,7 @@ const PostingTweetLike = styled.button`
   margin-top: 8px;
   display: flex;
   align-items: center;
+  margin-left: -10px;
 `;
 
 const PostingTweetEdit = styled.button``;
@@ -94,18 +116,23 @@ const IconTweetLike = styled(FontAwesomeIcon)`
   cursor: pointer;
   font-size: 17px;
   color: #f91880;
+  padding: 10px;
+
+  &:hover {
+    background-color: rgba(249, 24, 128, 0.2);
+    border-radius: 50%;
+  }
 `;
 
 const IconTweetLikeNumber = styled.span`
   color: #f91880;
-  margin-left: 5px;
   font-size: 15px;
   font-weight: 500;
 `;
 
 const IconTweetEdit = styled(FontAwesomeIcon)`
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   color: gray;
   padding: 10px;
   border-radius: 50%;
@@ -118,7 +145,7 @@ const IconTweetEdit = styled(FontAwesomeIcon)`
 
 const IconTweetDelete = styled(FontAwesomeIcon)`
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   color: gray;
   padding: 10px;
   border-radius: 50%;
@@ -126,6 +153,33 @@ const IconTweetDelete = styled(FontAwesomeIcon)`
   &:hover {
     color: var(--twitter-color);
     background-color: #e6f3ff;
+  }
+`;
+
+const EditTweetBtn = styled.button`
+  padding: 6px 10px;
+  color: white;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #74b9ff;
+
+  &:hover {
+    background-color: rgb(29, 161, 242);
+  }
+`;
+
+const DeleteTweetBtn = styled.button`
+  margin-left: 4px;
+  padding: 6px 10px;
+  color: white;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #ff7979;
+
+  &:hover {
+    background-color: #eb4d4b;
   }
 `;
 
@@ -143,12 +197,9 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
     const now = parseInt(time);
     const date = new Date(now);
     const day = ["일", "월", "화", "수", "목", "금", "토"];
-    const getFullYear = date.getFullYear();
     const getMonth = date.getMonth() + 1;
     const getDate = date.getDate();
     const getDay = day[date.getDay()];
-    const getHours = date.getHours();
-    const getMinutes = date.getMinutes();
     return `${getMonth}월 ${getDate}일 (${getDay})`;
   };
 
@@ -233,17 +284,41 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
     setIsLike(!isLike);
   };
 
+  const handleNothing = () => {};
+
   return (
-    <PostingTweetContainer>
+    <PostingTweetContainer current={isEditing ? true : false} onClick={isOwner === true ? onEditTweet : handleNothing}>
       {isEditing ? (
         <>
           {isOwner && (
             <>
-              <form onSubmit={onSubmit}>
-                <input type="text" placeholder="트윗 수정" value={editingTweet} onChange={onChange}></input>
-                <input type="submit" value="업데이트"></input>
-              </form>
-              <button onClick={onCancelTweet}>취소</button>
+              <PostingTweetAuthorImage src={tweetObject.photoURL ? tweetObject.photoURL : userImage}></PostingTweetAuthorImage>
+              <EditingTweetForm>
+                <PostingTweetContent>
+                  <PostingTweetAuthor>
+                    <AuthorInfo>
+                      <AuthorName>{tweetObject.displayName}</AuthorName>
+                      <AuthorEmail>{tweetObject.email}</AuthorEmail>
+                      <AuthorDot>·</AuthorDot>
+                      <AuthorCreatedAt>{getTime(tweetObject.createdAtTime)}</AuthorCreatedAt>
+                    </AuthorInfo>
+                    <PostingEditDelete>
+                      {isOwner && (
+                        <>
+                          <EditTweetBtn onClick={onSubmit}>수정</EditTweetBtn>
+                          <DeleteTweetBtn onClick={onCancelTweet}>취소</DeleteTweetBtn>
+                        </>
+                      )}
+                    </PostingEditDelete>
+                  </PostingTweetAuthor>
+                  <PostingEditTweetDesc type="text" value={editingTweet} onChange={onChange}></PostingEditTweetDesc>
+                  {tweetObject.fileDownloadUrl && <PostingTweetImage src={tweetObject.fileDownloadUrl} alt={tweetObject.content}></PostingTweetImage>}
+                  <PostingTweetLike onClick={handleLikeBtn}>
+                    <IconTweetLike icon={isHeart ? faHeart2 : faHeart}></IconTweetLike>
+                    <IconTweetLikeNumber>{tweetObject.likesArray.length}</IconTweetLikeNumber>
+                  </PostingTweetLike>
+                </PostingTweetContent>
+              </EditingTweetForm>
             </>
           )}
         </>
@@ -289,3 +364,11 @@ Tweet.propTypes = {
 };
 
 export default Tweet;
+
+{
+  /* <form onSubmit={onSubmit}>
+<input type="text" placeholder="트윗 수정" value={editingTweet} onChange={onChange}></input>
+<input type="submit" value="업데이트"></input>
+</form>
+<button onClick={onCancelTweet}>취소</button> */
+}
