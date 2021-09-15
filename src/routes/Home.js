@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { firestoreService } from "firebaseConfiguration";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faHashtag, faEllipsisH, faCog, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faEllipsisH, faCog, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faBell, faEnvelope, faBookmark, faListAlt, faUser } from "@fortawesome/free-regular-svg-icons";
 import Tweet from "components/Tweet";
@@ -91,6 +91,18 @@ const MenuList = styled(Link)`
   box-sizing: border-box;
   cursor: pointer;
 
+  &:focus {
+    color: black;
+  }
+
+  &:link {
+    color: inherit;
+  }
+
+  &:visited {
+    color: inherit;
+  }
+
   &:hover {
     background-color: #eeeeee;
   }
@@ -151,7 +163,7 @@ const UserInfo = styled.div`
 
 const UserName = styled.div`
   font-weight: bold;
-  font-size: 22px;
+  font-size: 20px;
   margin-bottom: 5px;
 `;
 
@@ -293,7 +305,7 @@ const TrendContainer = styled.div`
   padding: 20px 0px;
 `;
 
-const TrendHeader = styled.h1`
+const TrendHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -437,6 +449,7 @@ const Home = ({ userObject, changeTheme }) => {
   const [allTweetsLength, setAllTweetsLength] = useState(0);
   const [isDesc, setIsDesc] = useState(true);
   const [searchText, setSearchText] = useState("");
+  const twitterSearch = useRef();
 
   const handleOrderBy = async () => {
     await firestoreService
@@ -474,6 +487,10 @@ const Home = ({ userObject, changeTheme }) => {
     setSearchText(value);
   };
 
+  const onFocusTwitterSearch = (event) => {
+    twitterSearch.current.focus();
+  };
+
   useEffect(() => {
     firestoreService
       .collection("tweets")
@@ -502,35 +519,35 @@ const Home = ({ userObject, changeTheme }) => {
                 </Link>
               </MenuImage>
               <MenuNav>
-                <MenuList to="/profile">
+                <MenuList to="/">
                   <IconContainer icon={faHome}></IconContainer>
                   <IconText>홈</IconText>
                 </MenuList>
-                <MenuList>
+                <MenuList to="/profile">
                   <IconContainer icon={faUser}></IconContainer>
                   <IconText>프로필</IconText>
                 </MenuList>
-                <MenuList>
-                  <IconContainer icon={faHashtag}></IconContainer>
-                  <IconText>탐색하기</IconText>
+                <MenuList to="/" onClick={onFocusTwitterSearch}>
+                  <IconContainer icon={faSearch}></IconContainer>
+                  <IconText>검색</IconText>
                 </MenuList>
-                <MenuList>
+                <MenuList to="/">
                   <IconContainer icon={faBell}></IconContainer>
                   <IconText>알림</IconText>
                 </MenuList>
-                <MenuList>
+                <MenuList to="/">
                   <IconContainer icon={faEnvelope}></IconContainer>
                   <IconText>쪽지</IconText>
                 </MenuList>
-                <MenuList>
+                <MenuList to="/">
                   <IconContainer icon={faBookmark}></IconContainer>
                   <IconText>북마크</IconText>
                 </MenuList>
-                <MenuList>
+                <MenuList to="/">
                   <IconContainer icon={faListAlt}></IconContainer>
                   <IconText>리스트</IconText>
                 </MenuList>
-                <MenuList>
+                <MenuList to="/">
                   <IconContainer icon={faEllipsisH}></IconContainer>
                   <IconText>더보기</IconText>
                 </MenuList>
@@ -555,7 +572,7 @@ const Home = ({ userObject, changeTheme }) => {
                 <ContentOrderBy onClick={handleOrderBy}>{isDesc ? "오래된순" : "최신순"}</ContentOrderBy>
                 <ContentSearch>
                   <ContentForm onSubmit={onSearchSubmit}>
-                    <ContentInput type="text" placeholder="트위터 검색" onChange={onSearchInput} value={searchText}></ContentInput>
+                    <ContentInput type="text" placeholder="트위터 검색" onChange={onSearchInput} value={searchText} ref={twitterSearch}></ContentInput>
                     <IconContentFormContainer icon={faSearch}></IconContentFormContainer>
                   </ContentForm>
                 </ContentSearch>

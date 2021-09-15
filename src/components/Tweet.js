@@ -52,19 +52,19 @@ const PostingEditDelete = styled.div`
 `;
 
 const AuthorName = styled.h2`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
 `;
 
 const AuthorEmail = styled.h3`
-  font-size: 17px;
+  font-size: 16px;
   margin-left: 7px;
   color: gray;
   font-weight: 500;
 `;
 
 const AuthorCreatedAt = styled.h4`
-  font-size: 15px;
+  font-size: 14px;
   color: gray;
   font-weight: 500;
 `;
@@ -221,6 +221,8 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
   };
 
   const onEditTweet = () => {
+    console.log("onEditTweet");
+
     setIsEditing(true);
     setEditingTweet(tweetObject.content);
   };
@@ -286,8 +288,18 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
 
   const handleNothing = () => {};
 
+  const onClickPostingImage = (event) => {
+    const {
+      target: { src },
+    } = event;
+
+    if (src) {
+      window.open(src);
+    }
+  };
+
   return (
-    <PostingTweetContainer current={isEditing ? true : false} onClick={isOwner === true ? onEditTweet : handleNothing}>
+    <PostingTweetContainer current={isEditing ? true : false}>
       {isEditing ? (
         <>
           {isOwner && (
@@ -346,8 +358,14 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
                 )}
               </PostingEditDelete>
             </PostingTweetAuthor>
-            <PostingTweetDesc>{tweetObject.content}</PostingTweetDesc>
-            {tweetObject.fileDownloadUrl && <PostingTweetImage src={tweetObject.fileDownloadUrl} alt={tweetObject.content}></PostingTweetImage>}
+            <PostingTweetDesc onClick={isOwner === true ? onEditTweet : handleNothing}>{tweetObject.content}</PostingTweetDesc>
+            {tweetObject.fileDownloadUrl && (
+              <PostingTweetImage
+                src={tweetObject.fileDownloadUrl}
+                alt={tweetObject.content}
+                onClick={isOwner ? handleNothing : onClickPostingImage}
+              ></PostingTweetImage>
+            )}
             <PostingTweetLike onClick={handleLikeBtn}>
               <IconTweetLike icon={isHeart ? faHeart2 : faHeart}></IconTweetLike>
               <IconTweetLikeNumber>{tweetObject.likesArray.length}</IconTweetLikeNumber>

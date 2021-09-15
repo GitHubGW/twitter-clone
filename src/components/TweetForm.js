@@ -208,7 +208,7 @@ const TweetForm = ({ userObject }) => {
       </TweetFormTextContainer>
 
       <TweetFormImageContainer>
-        <TweetFormImageLabel for="fileUploadBtn">
+        <TweetFormImageLabel htmlFor="fileUploadBtn">
           <IconTweetFormContainer icon={faImage}></IconTweetFormContainer>
         </TweetFormImageLabel>
         <TweetFormSubmit type="submit" value="트윗하기" ref={inputTweet}></TweetFormSubmit>
