@@ -3,7 +3,8 @@ import { authService, firestoreService, storageService } from "firebaseConfigura
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { faImage } from "@fortawesome/free-regular-svg-icons";
+import { faImage, faSmile } from "@fortawesome/free-regular-svg-icons";
+import Picker from "emoji-picker-react";
 
 const TweetFormContainer = styled.form``;
 
@@ -58,11 +59,15 @@ const IconDataCancelContainer = styled(FontAwesomeIcon)`
 const TweetFormImageContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-top: 20px;
 `;
 
 const TweetFormImageLabel = styled.label``;
+
+const IconTweetSmileContainer = styled.div`
+  position: relative;
+`;
 
 const TweetFormSubmit = styled.input`
   border: none;
@@ -74,6 +79,7 @@ const TweetFormSubmit = styled.input`
   font-size: 15px;
   font-weight: bold;
   background-color: #98cff8;
+  margin-left: auto;
 `;
 
 const IconTweetFormContainer = styled(FontAwesomeIcon)`
@@ -89,6 +95,21 @@ const IconTweetFormContainer = styled(FontAwesomeIcon)`
   }
 `;
 
+const IconTweetSmile = styled(FontAwesomeIcon)`
+  font-size: 25px;
+  cursor: pointer;
+  color: #bebebe;
+  padding: 7px;
+  border-radius: 50%;
+
+  &:hover {
+    color: var(--twitter-color);
+    background-color: #e6f3ff;
+  }
+`;
+
+const PickerContainer = styled(Picker)``;
+
 const TweetForm = ({ userObject }) => {
   const [tweet, setTweet] = useState("");
   const [fileDataUrl, setFileDataUrl] = useState("");
@@ -96,6 +117,8 @@ const TweetForm = ({ userObject }) => {
   const fileImageInput = useRef();
   const textInput = useRef();
   const inputTweet = useRef();
+  const [chosenEmoji, setChosenEmoji] = useState(null);
+  const [isEmoji, setIsEmoji] = useState(false);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -133,6 +156,7 @@ const TweetForm = ({ userObject }) => {
     fileImageInput.current.value = "";
     setTweet("");
     setFileDataUrl("");
+    setIsEmoji(false);
   };
 
   const onChange = (event) => {
@@ -175,6 +199,18 @@ const TweetForm = ({ userObject }) => {
     fileImageInput.current.value = "";
   };
 
+  const onEmojiClick = (event, emojiObject) => {
+    const textInputValue = textInput.current.value;
+    const inputValue = textInputValue + emojiObject.emoji;
+
+    setTweet(inputValue);
+    setChosenEmoji(emojiObject.emoji);
+  };
+
+  const onClickEmoji = () => {
+    setIsEmoji(!isEmoji);
+  };
+
   return (
     <TweetFormContainer onSubmit={onSubmit}>
       <TweetFormTextContainer>
@@ -211,6 +247,10 @@ const TweetForm = ({ userObject }) => {
         <TweetFormImageLabel htmlFor="fileUploadBtn">
           <IconTweetFormContainer icon={faImage}></IconTweetFormContainer>
         </TweetFormImageLabel>
+        <IconTweetSmileContainer>
+          <IconTweetSmile icon={faSmile} onClick={onClickEmoji}></IconTweetSmile>
+          {isEmoji ? <PickerContainer onEmojiClick={onEmojiClick} disableSearchBar={true} /> : null}
+        </IconTweetSmileContainer>
         <TweetFormSubmit type="submit" value="트윗하기" ref={inputTweet}></TweetFormSubmit>
       </TweetFormImageContainer>
     </TweetFormContainer>

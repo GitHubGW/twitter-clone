@@ -64,22 +64,6 @@ const IconTwitterContainer = styled(FontAwesomeIcon)`
 
 const MenuNav = styled.ul``;
 
-// const MenuList = styled.li`
-//   margin-bottom: 8px;
-//   display: inline-block;
-//   margin-right: 50px;
-//   align-items: center;
-//   padding: 12px 15px;
-//   padding-right: 25px;
-//   border-radius: 50px;
-//   box-sizing: border-box;
-//   cursor: pointer;
-
-//   &:hover {
-//     background-color: #eeeeee;
-//   }
-// `;
-
 const MenuList = styled(Link)`
   margin-bottom: 8px;
   display: inline-block;
@@ -443,7 +427,7 @@ const PolicyFooter = styled.div`
 `;
 
 const Home = ({ userObject, changeTheme }) => {
-  console.log("Home userObject", userObject);
+  console.log("Home.js userObject", userObject);
 
   const [allTweets, setAllTweets] = useState("");
   const [allTweetsLength, setAllTweetsLength] = useState(0);
@@ -552,7 +536,7 @@ const Home = ({ userObject, changeTheme }) => {
                   <IconText>더보기</IconText>
                 </MenuList>
               </MenuNav>
-              <MenuButton>트윗하기</MenuButton>
+              <MenuButton onClick={shareTwitter}>공유하기</MenuButton>
             </MenuContainer>
             <UserContainer>
               <UserPhoto src={userObject?.photoURL ? userObject.photoURL : userImage}></UserPhoto>
@@ -610,8 +594,7 @@ const Home = ({ userObject, changeTheme }) => {
         <RightContainerParent>
           <RightContainer>
             <RegisterContainer>
-              <button onClick={changeTheme}>모드 전환</button>
-              <button onClick={shareTwitter}>트위터에 공유하기</button>
+              <button onClick={changeTheme}>다크모드</button>
               <h1>로그인</h1>
               <h1>회원가입</h1>
               <h1>로그아웃</h1>

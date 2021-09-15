@@ -382,11 +382,3 @@ Tweet.propTypes = {
 };
 
 export default Tweet;
-
-{
-  /* <form onSubmit={onSubmit}>
-<input type="text" placeholder="트윗 수정" value={editingTweet} onChange={onChange}></input>
-<input type="submit" value="업데이트"></input>
-</form>
-<button onClick={onCancelTweet}>취소</button> */
-}

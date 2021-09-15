@@ -7,8 +7,8 @@ import GlobalStyle from "theme/GlobalStyle";
 import Loading from "./Loading";
 
 const App = () => {
-  console.log("authService.currentUser", authService.currentUser);
-  // console.log("userObject", userObject);
+  console.log("App.js authService.currentUser", authService.currentUser);
+  // console.log("App.js userObject", userObject);
 
   const [initializeFirebase, setInitializeFirebase] = useState(false); // 파이어베이스 초기화 체크
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부 체크
