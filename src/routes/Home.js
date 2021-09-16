@@ -9,6 +9,7 @@ import { faBell, faEnvelope, faBookmark, faListAlt, faUser } from "@fortawesome/
 import Tweet from "components/Tweet";
 import TweetForm from "components/TweetForm";
 import userImage from "images/user.png";
+import Authentication from "./Authentication";
 
 const Container = styled.div`
   /* border: 3px solid red; */
@@ -426,6 +427,19 @@ const PolicyFooter = styled.div`
   margin-left: 12px;
 `;
 
+// const LoginFormContainer = styled.div`
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   width: 420px;
+//   height: 600px;
+//   z-index: 10;
+//   background-color: white;
+//   border-radius: 20px;
+//   border: 3px solid red;
+// `;
+
 const Home = ({ userObject, changeTheme }) => {
   console.log("Home.js userObject", userObject);
 
@@ -554,6 +568,7 @@ const Home = ({ userObject, changeTheme }) => {
             <ContentContainer>
               <ContentHeader>
                 <ContentOrderBy onClick={handleOrderBy}>{isDesc ? "오래된순" : "최신순"}</ContentOrderBy>
+                <button onClick={changeTheme}>다크모드</button>
                 <ContentSearch>
                   <ContentForm onSubmit={onSearchSubmit}>
                     <ContentInput type="text" placeholder="트위터 검색" onChange={onSearchInput} value={searchText} ref={twitterSearch}></ContentInput>
@@ -594,10 +609,7 @@ const Home = ({ userObject, changeTheme }) => {
         <RightContainerParent>
           <RightContainer>
             <RegisterContainer>
-              <button onClick={changeTheme}>다크모드</button>
-              <h1>로그인</h1>
-              <h1>회원가입</h1>
-              <h1>로그아웃</h1>
+              <Authentication></Authentication>
             </RegisterContainer>
             <TrendContainer>
               <TrendHeader>

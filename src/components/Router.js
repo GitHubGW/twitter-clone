@@ -22,7 +22,7 @@ const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification
       ) : (
         <Switch>
           <Route exact path="/">
-            <Authentication />
+            <Authentication userObject={userObject} />
           </Route>
           <Redirect from="*" to="/" />
         </Switch>
