@@ -3,6 +3,7 @@ import reset from "styled-reset";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
+  
   :root{
     --twitter-color: #1DA1F2;
     --twitter-dark-color: #00AFF0;

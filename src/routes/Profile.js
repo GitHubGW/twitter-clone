@@ -82,13 +82,14 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
 
     fileImageInput.current.value = "";
     setFileDataUrl("");
-    createNotification("profileSuccess");
+    createNotification("SuccessProfile");
   };
 
   const onChange = (event) => {
     const {
       target: { value },
     } = event;
+
     setNewDisplayName(value);
   };
 

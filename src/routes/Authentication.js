@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter, faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import googleLogo from "../images/google-logo.svg";
+import { useHistory } from "react-router-dom";
 
 const LoginFormContainer = styled.div`
   position: fixed;
@@ -95,8 +96,9 @@ const SocialLoginContainer = styled.div`
 
 const RegisterButton = styled.button`
   color: var(--twitter-color);
-  margin-top: 16px;
+  margin-top: 20px;
   font-size: 16px;
+  font-weight: bold;
 
   &:hover {
     text-decoration: underline;
@@ -117,7 +119,7 @@ const GoogleLogin = styled.button`
   outline: none;
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
-  padding: 9px;
+  padding: 10px;
   color: black;
   border-radius: 30px;
   font-size: 16px;
@@ -137,7 +139,7 @@ const GithubLogin = styled.button`
   border: none;
   outline: none;
   background-color: #303030;
-  padding: 9px;
+  padding: 12px;
   color: white;
   border-radius: 30px;
   font-size: 16px;
@@ -172,9 +174,10 @@ const IconGithubTitle = styled.span`
 `;
 
 const ErrorMessage = styled.h3`
-  height: 20px;
+  /* height: 20px; */
   font-size: 13px;
   margin-top: 8px;
+  margin-bottom: 12px;
   color: #eb4d4b;
   font-weight: bold;
 `;
@@ -205,23 +208,30 @@ const MenuLogoutButton = styled.button`
   background-color: #98cff8;
 `;
 
-const Authentication = (userObject) => {
+const Authentication = ({ userObject, createNotification }) => {
   console.log("Authentication userObject", userObject);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const history = useHistory();
+  const [email, setEmail] = useState(""); // 유저 이메일
+  const [password, setPassword] = useState(""); // 유저 비밀번호
+  const [displayName, setDisplayName] = useState(""); // 유저 닉네임
   const [isAccount, setIsAccount] = useState(false); // 계정 존재 여부 체크 (true: 계정있음, false: 계정없음)
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null); // 로그인 또는 회원가입 에러메시지
+  const [isLoginForm, setIsLoginForm] = useState(false); // 로그인 폼
+  const [isRegisterForm, setIsRegisterForm] = useState(false); // 회원가입 폼
   const [isLogin, setIsLogin] = useState(false);
-  const [isLoginForm, setIsLoginForm] = useState(false);
 
+  // 이메일, 비밀번호 로그인
   const onSubmit = async (event) => {
     event.preventDefault();
-    console.log("xxx", authService.currentUser);
+    console.log("Authentication authService.currentUser", authService.currentUser);
 
     try {
       const data1 = await authService.signInWithEmailAndPassword(email, password); // 로그인
       console.log("data1", data1);
+
+      createNotification("SuccessLogin");
+      setIsLoginForm(!isLoginForm);
     } catch (error) {
       console.log(error);
       setError(error.message);
@@ -237,21 +247,32 @@ const Authentication = (userObject) => {
       setEmail(value);
     } else if (name === "passwordInput") {
       setPassword(value);
+    } else if (name === "displayNameInput") {
+      setDisplayName(value);
     }
   };
 
-  const onClickRegister = async () => {
+  // 이메일, 비밀번호로 계정 생성후 로그인
+  const onClickRegister = async (event) => {
+    event.preventDefault();
+
     try {
       if (!isAccount) {
-        const data2 = await authService.createUserWithEmailAndPassword(email, password); // 계정 생성
-        console.log("data2", data2);
+        await authService.createUserWithEmailAndPassword(email, password); // 이메일, 비밀번호로 계정 생성
+        createNotification("SuccessRegister");
+        setIsRegisterForm(!isRegisterForm);
       }
     } catch (error) {
       console.log(error);
       setError(error.message);
+    } finally {
+      await authService.currentUser.updateProfile({
+        displayName,
+      });
     }
   };
 
+  // 소셜 로그인
   const onClickSocialLogin = async (event) => {
     const {
       target: { name },
@@ -265,6 +286,9 @@ const Authentication = (userObject) => {
         console.log(error);
         setError(error.message);
       }
+
+      createNotification("SuccessGoogleLogin");
+      setIsLoginForm(!isLoginForm);
     } else if (name === "githubLogin") {
       try {
         const githubProvider = new firebaseApp.auth.GithubAuthProvider();
@@ -273,20 +297,60 @@ const Authentication = (userObject) => {
         console.log(error);
         setError(error.message);
       }
+
+      createNotification("SuccessGithubLogin");
+      setIsLoginForm(!isLoginForm);
     }
   };
 
-  const handleMainLogin = (event) => {
+  // 홈화면 로그인 버튼
+  const handleMainLogin = () => {
     setIsLoginForm(!isLoginForm);
+  };
+
+  // 홈화면 회원가입 버튼
+  const handleMainRegister = () => {
+    setIsRegisterForm(!isRegisterForm);
+  };
+
+  // 로그인/회원가입 폼 닫기 버튼
+  const handleCloseButton = () => {
+    setIsLoginForm(false);
+    setIsRegisterForm(false);
+  };
+
+  // 홈화면 로그아웃 버튼
+  const onClickLogOut = async () => {
+    const currentUser = authService.currentUser;
+
+    if (currentUser) {
+      await authService.signOut();
+      history.push("/");
+      createNotification("SuccessLogout");
+    }
+  };
+
+  // 회원가입 폼으로 이동
+  const gotoRegisterForm = () => {
+    setIsLoginForm(false);
+    setIsRegisterForm(true);
   };
 
   return (
     <>
+      {/* 홈화면 메뉴 */}
       <MenuLoginForm>
-        <MenuLoginButton onClick={handleMainLogin}>로그인</MenuLoginButton>
-        <MenuLoginButton onClick={handleMainLogin}>회원가입</MenuLoginButton>
-        <MenuLogoutButton>로그아웃</MenuLogoutButton>
+        {userObject === null ? (
+          <>
+            <MenuLoginButton onClick={handleMainLogin}>로그인</MenuLoginButton>
+            <MenuLoginButton onClick={handleMainRegister}>회원가입</MenuLoginButton>
+          </>
+        ) : (
+          <MenuLogoutButton onClick={onClickLogOut}>로그아웃</MenuLogoutButton>
+        )}
       </MenuLoginForm>
+
+      {/* 로그인 폼 */}
       {isLoginForm ? (
         <>
           <LoginFormContainer>
@@ -301,15 +365,37 @@ const Authentication = (userObject) => {
               </LoginFormTag>
               <SocialLoginContainer>
                 <GoogleLogin name="googleLogin" onClick={onClickSocialLogin}>
-                  <IconGoogle src={googleLogo}></IconGoogle>
-                  <IconGoogleTitle>구글 로그인</IconGoogleTitle>
+                  {/* <IconGoogle src={googleLogo} onClick={onClickSocialLogin}></IconGoogle> */}
+                  구글 로그인
                 </GoogleLogin>
                 <GithubLogin name="githubLogin" onClick={onClickSocialLogin}>
-                  <IconGithub icon={faGithub}></IconGithub>
-                  <IconGithubTitle>깃허브 로그인</IconGithubTitle>
+                  {/* <IconGithub icon={faGithub}></IconGithub> */}
+                  깃허브 로그인
                 </GithubLogin>
-                <RegisterButton onClick={onClickRegister}>트위터 가입</RegisterButton>
+                <RegisterButton onClick={gotoRegisterForm}>트위터 회원가입</RegisterButton>
                 <CloseButton icon={faTimesCircle} onClick={handleMainLogin}></CloseButton>
+              </SocialLoginContainer>
+            </LoginFormContent>
+          </LoginFormContainer>
+        </>
+      ) : null}
+
+      {/* 회원가입 폼 */}
+      {isRegisterForm ? (
+        <>
+          <LoginFormContainer>
+            <LoginFormContent>
+              <IconTwitter icon={faTwitter}></IconTwitter>
+              <LoginFormTitle>트위터 회원가입</LoginFormTitle>
+              <LoginFormTag onSubmit={onClickRegister}>
+                <LoginInputTag name="displayNameInput" type="text" placeholder="닉네임" onChange={onChange} value={displayName} required></LoginInputTag>
+                <LoginInputTag name="emailInput" type="text" placeholder="이메일" onChange={onChange} value={email} required></LoginInputTag>
+                <LoginInputTag name="passwordInput" type="password" placeholder="비밀번호" onChange={onChange} value={password} required></LoginInputTag>
+                <ErrorMessage>{error && error}</ErrorMessage>
+                <LoginSubmitTag type="submit" onClick={onClickRegister} value="회원가입"></LoginSubmitTag>
+              </LoginFormTag>
+              <SocialLoginContainer>
+                <CloseButton icon={faTimesCircle} onClick={handleCloseButton}></CloseButton>
               </SocialLoginContainer>
             </LoginFormContent>
           </LoginFormContainer>
@@ -320,26 +406,3 @@ const Authentication = (userObject) => {
 };
 
 export default Authentication;
-
-// <LoginFormContent>
-// <IconTwitter icon={faTwitter}></IconTwitter>
-// <LoginFormTitle>트위터 로그인</LoginFormTitle>
-// <LoginFormTag onSubmit={onSubmit}>
-//   <LoginInputTag name="emailInput" type="text" placeholder="이메일" onChange={onChange} value={email} required></LoginInputTag>
-//   <LoginInputTag name="passwordInput" type="password" placeholder="비밀번호" onChange={onChange} value={password} required></LoginInputTag>
-//   <ErrorMessage>{error && error}</ErrorMessage>
-//   <LoginSubmitTag type="submit" onClick={onSubmit} value="로그인"></LoginSubmitTag>
-// </LoginFormTag>
-// <SocialLoginContainer>
-//   <GoogleLogin name="googleLogin" onClick={onClickSocialLogin}>
-//     <IconGoogle src={googleLogo}></IconGoogle>
-//     <IconGoogleTitle>구글 로그인</IconGoogleTitle>
-//   </GoogleLogin>
-//   <GithubLogin name="githubLogin" onClick={onClickSocialLogin}>
-//     <IconGithub icon={faGithub}></IconGithub>
-//     <IconGithubTitle>깃허브 로그인</IconGithubTitle>
-//   </GithubLogin>
-//   <RegisterButton onClick={onClickRegister}>트위터 가입</RegisterButton>
-//   <CloseButton icon={faTimesCircle} onClick={handleLogin}></CloseButton>
-// </SocialLoginContainer>
-// </LoginFormContent>

@@ -31,9 +31,6 @@ const TweetFormTextInput = styled.input`
 const TweetFormImageInput = styled.input``;
 
 const FileDataContainer = styled.div`
-  /* position: absolute; */
-  /* top: 60px; */
-  /* left: 0; */
   position: relative;
 `;
 
@@ -110,7 +107,9 @@ const IconTweetSmile = styled(FontAwesomeIcon)`
 
 const PickerContainer = styled(Picker)``;
 
-const TweetForm = ({ userObject }) => {
+const TweetForm = ({ userObject, createNotification }) => {
+  console.log("TweetForm userObject", userObject);
+
   const [tweet, setTweet] = useState("");
   const [fileDataUrl, setFileDataUrl] = useState("");
   const [fileName, setFileName] = useState("");
@@ -120,8 +119,14 @@ const TweetForm = ({ userObject }) => {
   const [chosenEmoji, setChosenEmoji] = useState(null);
   const [isEmoji, setIsEmoji] = useState(false);
 
+  // 트윗하기 버튼
   const onSubmit = async (event) => {
     event.preventDefault();
+
+    if (userObject === null) {
+      createNotification("NotLogin");
+      return;
+    }
 
     let fileDownloadUrl = "";
     const currentUserObject = authService.currentUser;
@@ -172,6 +177,7 @@ const TweetForm = ({ userObject }) => {
     setTweet(value);
   };
 
+  // 파일 첨부 버튼
   const onFileChange = (event) => {
     const {
       target: { files },
@@ -193,12 +199,14 @@ const TweetForm = ({ userObject }) => {
     }
   };
 
+  // 이미지 첨부 후 닫기 버튼
   const onCancelClick = () => {
     setFileDataUrl("");
     setTweet("");
     fileImageInput.current.value = "";
   };
 
+  // input에 이모지 넣기
   const onEmojiClick = (event, emojiObject) => {
     const textInputValue = textInput.current.value;
     const inputValue = textInputValue + emojiObject.emoji;
@@ -207,6 +215,7 @@ const TweetForm = ({ userObject }) => {
     setChosenEmoji(emojiObject.emoji);
   };
 
+  // 이모지 버튼 클릭
   const onClickEmoji = () => {
     setIsEmoji(!isEmoji);
   };

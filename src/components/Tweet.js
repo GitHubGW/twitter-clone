@@ -183,15 +183,15 @@ const DeleteTweetBtn = styled.button`
   }
 `;
 
-const Tweet = ({ userObject, tweetObject, isOwner }) => {
+const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
   // userObject는 현재 로그인한 유저, tweetObject는 해당 트윗을 작성한 유저
   // console.log("Tweet.js tweetObject", tweetObject);
   // console.log("Tweet.js userObject", userObject);
 
-  const [isEditing, setIsEditing] = useState(false); // 트윗을 현재 수정중인지 여부 체크
+  const [isEditing, setIsEditing] = useState(false); // 현재 트윗을 수정 중인지 확인
   const [editingTweet, setEditingTweet] = useState(tweetObject.content); // 수정 중인 트윗 내용을 가져옴
-  const [isLike, setIsLike] = useState(false); // 좋아요 눌렀는지 체크(Local)
-  const [isHeart, setIsHeart] = useState(tweetObject.likesArray.includes(userObject.email)); // 좋아요 눌렀는지 체크(DB)
+  const [isLike, setIsLike] = useState(false); // 좋아요를 눌렀는지 체크(Local)
+  const [isHeart, setIsHeart] = useState(tweetObject.likesArray.includes(userObject?.email)); // 좋아요를 눌렀는지 체크(DB)
 
   const getTime = (time) => {
     const now = parseInt(time);
@@ -203,6 +203,7 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
     return `${getMonth}월 ${getDate}일 (${getDay})`;
   };
 
+  // 트윗 작성 및 수정 버튼
   const onSubmit = async (event) => {
     event.preventDefault();
 
@@ -220,13 +221,13 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
     setEditingTweet(value);
   };
 
+  // 트윗 수정 버튼 (아이콘)
   const onEditTweet = () => {
-    console.log("onEditTweet");
-
     setIsEditing(true);
     setEditingTweet(tweetObject.content);
   };
 
+  // 트윗 삭제 버튼 (아이콘)
   const onDeleteTweet = async () => {
     const booleanDeleteTweet = window.confirm("트윗을 삭제하시겠습니까?");
 
@@ -240,12 +241,19 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
     }
   };
 
+  // 트윗 취소 버튼
   const onCancelTweet = () => {
     setEditingTweet(editingTweet);
     setIsEditing(false);
   };
 
+  // 좋아요 버튼
   const handleLikeBtn = async () => {
+    if (userObject === null) {
+      createNotification("NotLogin");
+      return;
+    }
+
     const totalLikesArray = [userObject.email, ...tweetObject.likesArray];
     const checkTotalLikesArray = tweetObject.likesArray.includes(userObject.email);
 
@@ -258,6 +266,7 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
         likesArray: filteredLikesArray,
         clickLikes: false,
       });
+
       setIsLike(false);
       setIsHeart(false);
       return;
@@ -286,8 +295,6 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
     setIsLike(!isLike);
   };
 
-  const handleNothing = () => {};
-
   const onClickPostingImage = (event) => {
     const {
       target: { src },
@@ -298,8 +305,11 @@ const Tweet = ({ userObject, tweetObject, isOwner }) => {
     }
   };
 
+  const handleNothing = () => {};
+
   return (
     <PostingTweetContainer current={isEditing ? true : false}>
+      {/* 트윗을 현재 수정중인지 확인 */}
       {isEditing ? (
         <>
           {isOwner && (

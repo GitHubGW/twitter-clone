@@ -12,7 +12,6 @@ import userImage from "images/user.png";
 import Authentication from "./Authentication";
 
 const Container = styled.div`
-  /* border: 3px solid red; */
   width: 1260px;
   max-width: 1260px;
   display: flex;
@@ -165,8 +164,6 @@ const IconUserEtcContainer = styled(FontAwesomeIcon)`
 `;
 
 const CenterContainer = styled.div`
-  /* border: 3px solid blue; */
-  /* flex: 2.2; */
   width: 590px;
   max-width: 590px;
 `;
@@ -257,9 +254,7 @@ const TweetPostHeader = styled.div`
   margin-left: 7px;
 `;
 
-const ContentArticle = styled.div`
-  /* border: 3px solid green; */
-`;
+const ContentArticle = styled.div``;
 
 const ContentPost = styled.div``;
 
@@ -279,9 +274,7 @@ const RightContainer = styled.div`
   position: fixed;
 `;
 
-const RegisterContainer = styled.div`
-  /* border: 3px solid blue; */
-`;
+const RegisterContainer = styled.div``;
 
 const TrendContainer = styled.div`
   background-color: white;
@@ -376,11 +369,13 @@ const FollowContent = styled.div`
     background-color: #eeeeee;
   }
 `;
+
 const FollowImage = styled.img`
   width: 47px;
   height: 47px;
   border-radius: 50%;
 `;
+
 const FollowInfo = styled.div`
   margin-left: 15px;
   margin-right: 20px;
@@ -427,28 +422,16 @@ const PolicyFooter = styled.div`
   margin-left: 12px;
 `;
 
-// const LoginFormContainer = styled.div`
-//   position: fixed;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   width: 420px;
-//   height: 600px;
-//   z-index: 10;
-//   background-color: white;
-//   border-radius: 20px;
-//   border: 3px solid red;
-// `;
-
-const Home = ({ userObject, changeTheme }) => {
+const Home = ({ userObject, changeTheme, createNotification }) => {
   console.log("Home.js userObject", userObject);
 
-  const [allTweets, setAllTweets] = useState("");
-  const [allTweetsLength, setAllTweetsLength] = useState(0);
-  const [isDesc, setIsDesc] = useState(true);
-  const [searchText, setSearchText] = useState("");
+  const [allTweets, setAllTweets] = useState(""); // Document에 있는 모튼 트윗들
+  const [allTweetsLength, setAllTweetsLength] = useState(0); // Document에 있는 모튼 트윗 갯수
+  const [isDesc, setIsDesc] = useState(true); // 트윗 정렬 순서
+  const [searchText, setSearchText] = useState(""); // 트위터 검색
   const twitterSearch = useRef();
 
+  // 트윗 정렬 (최신순, 오래된순)
   const handleOrderBy = async () => {
     await firestoreService
       .collection("tweets")
@@ -466,18 +449,21 @@ const Home = ({ userObject, changeTheme }) => {
     setIsDesc(!isDesc);
   };
 
+  // 공유하기 버튼
   const shareTwitter = () => {
     var sendText = "노마드코더";
     var sendUrl = "https://nomadcoders.co/";
     window.open(`https://twitter.com/intent/tweet?text=${sendText}\&url\=${sendUrl}`);
   };
 
+  // 트위터 검색 결과창
   const onSearchSubmit = (event) => {
     event.preventDefault();
     window.open(`https://twitter.com/search?q=${searchText}&src=typed_query`);
     setSearchText("");
   };
 
+  // 트위터 검색창 value
   const onSearchInput = (event) => {
     const {
       target: { value },
@@ -485,9 +471,15 @@ const Home = ({ userObject, changeTheme }) => {
     setSearchText(value);
   };
 
+  // 트위터 검색창 포커싱
   const onFocusTwitterSearch = (event) => {
     twitterSearch.current.focus();
   };
+
+  // const handleGet = async () => {
+  //   const abc = await firestoreService.collection("tweets").orderBy("createdAtTime", "desc").get();
+  //   console.log("abc", abc);
+  // };
 
   useEffect(() => {
     firestoreService
@@ -508,6 +500,7 @@ const Home = ({ userObject, changeTheme }) => {
   return (
     <>
       <Container>
+        {/* 메뉴 (좌측) */}
         <LeftContainerParent>
           <LeftContainer>
             <MenuContainer>
@@ -521,7 +514,7 @@ const Home = ({ userObject, changeTheme }) => {
                   <IconContainer icon={faHome}></IconContainer>
                   <IconText>홈</IconText>
                 </MenuList>
-                <MenuList to="/profile">
+                <MenuList to={userObject ? "/profile" : "/"}>
                   <IconContainer icon={faUser}></IconContainer>
                   <IconText>프로필</IconText>
                 </MenuList>
@@ -556,13 +549,14 @@ const Home = ({ userObject, changeTheme }) => {
               <UserPhoto src={userObject?.photoURL ? userObject.photoURL : userImage}></UserPhoto>
               <UserInfo>
                 <UserName>{userObject?.displayName ? userObject.displayName : "유저"}</UserName>
-                <UserEmail>{userObject?.email ? userObject.email : "#"}</UserEmail>
+                <UserEmail>{userObject?.email ? userObject.email : "로그인 안됨"}</UserEmail>
               </UserInfo>
               <IconUserEtcContainer icon={faEllipsisH}></IconUserEtcContainer>
             </UserContainer>
           </LeftContainer>
         </LeftContainerParent>
 
+        {/* 트윗 (중앙) */}
         <CenterContainerParent>
           <CenterContainer>
             <ContentContainer>
@@ -580,7 +574,7 @@ const Home = ({ userObject, changeTheme }) => {
                 <TweetImage src={userImage}></TweetImage>
                 <TweetPostContainer>
                   <TweetPostHeader>
-                    <TweetForm userObject={userObject}></TweetForm>
+                    <TweetForm userObject={userObject} createNotification={createNotification}></TweetForm>
                   </TweetPostHeader>
                 </TweetPostContainer>
               </ContentTweet>
@@ -592,10 +586,11 @@ const Home = ({ userObject, changeTheme }) => {
                       allTweets.map((tweetObject) => {
                         return (
                           <Tweet
-                            key={tweetObject.id}
+                            key={tweetObject?.id}
                             userObject={userObject}
                             tweetObject={tweetObject}
-                            isOwner={userObject.uid === tweetObject.uid ? true : false}
+                            isOwner={userObject?.uid === tweetObject?.uid ? true : false}
+                            createNotification={createNotification}
                           />
                         );
                       })}
@@ -606,10 +601,11 @@ const Home = ({ userObject, changeTheme }) => {
           </CenterContainer>
         </CenterContainerParent>
 
+        {/* 트렌드, 팔로우 (우측) */}
         <RightContainerParent>
           <RightContainer>
             <RegisterContainer>
-              <Authentication></Authentication>
+              <Authentication userObject={userObject} createNotification={createNotification}></Authentication>
             </RegisterContainer>
             <TrendContainer>
               <TrendHeader>
