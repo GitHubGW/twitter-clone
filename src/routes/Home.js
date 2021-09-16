@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { firestoreService } from "firebaseConfiguration";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faEllipsisH, faCog, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faEllipsisH, faCog, faSearch, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faBell, faEnvelope, faBookmark, faListAlt, faUser } from "@fortawesome/free-regular-svg-icons";
 import Tweet from "components/Tweet";
@@ -422,6 +422,31 @@ const PolicyFooter = styled.div`
   margin-left: 12px;
 `;
 
+const GototopButton = styled.button`
+  position: fixed;
+  bottom: 60px;
+  right: 60px;
+  z-index: 50;
+  width: 47px;
+  height: 47px;
+  background: #1da1f2;
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+  transition: 0.3s;
+
+  &:hover {
+    transform: scale(0.9);
+  }
+`;
+
+const IconGototopButton = styled(FontAwesomeIcon)`
+  font-size: 38px;
+  color: white;
+`;
+
 const Home = ({ userObject, changeTheme, createNotification }) => {
   console.log("Home.js userObject", userObject);
 
@@ -697,6 +722,10 @@ const Home = ({ userObject, changeTheme, createNotification }) => {
             </PolicyContainer>
           </RightContainer>
         </RightContainerParent>
+
+        <GototopButton onClick={() => window.scrollTo(0, 0)}>
+          <IconGototopButton icon={faCaretUp}></IconGototopButton>
+        </GototopButton>
       </Container>
     </>
   );

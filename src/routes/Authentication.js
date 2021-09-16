@@ -3,7 +3,7 @@ import { firebaseApp, authService } from "firebaseConfiguration";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter, faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import googleLogo from "../images/google-logo.svg";
 import { useHistory } from "react-router-dom";
 
@@ -17,7 +17,9 @@ const LoginFormContainer = styled.div`
   z-index: 10;
   background-color: white;
   border-radius: 20px;
-  border: 3px solid gray;
+  border: 1px solid #eeeeee;
+  z-index: 100;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
 `;
 
 const LoginFormContent = styled.div`
@@ -109,9 +111,13 @@ const CloseButton = styled(FontAwesomeIcon)`
   position: absolute;
   top: 12px;
   left: 12px;
-  font-size: 28px;
+  font-size: 24px;
   cursor: pointer;
-  color: #303030;
+  color: gray;
+
+  &:hover {
+    color: #303030;
+  }
 `;
 
 const GoogleLogin = styled.button`
@@ -182,7 +188,10 @@ const ErrorMessage = styled.h3`
   font-weight: bold;
 `;
 
-const MenuLoginForm = styled.div``;
+const MenuLoginForm = styled.div`
+  margin-bottom: 10px;
+  margin-top: 12px;
+`;
 
 const MenuLoginButton = styled.button`
   border: none;
@@ -194,6 +203,11 @@ const MenuLoginButton = styled.button`
   font-size: 15px;
   font-weight: bold;
   background-color: #98cff8;
+  margin-right: 8px;
+
+  &:hover {
+    background-color: var(--twitter-color);
+  }
 `;
 
 const MenuLogoutButton = styled.button`
@@ -206,10 +220,14 @@ const MenuLogoutButton = styled.button`
   font-size: 15px;
   font-weight: bold;
   background-color: #98cff8;
+
+  &:hover {
+    background-color: var(--twitter-color);
+  }
 `;
 
 const Authentication = ({ userObject, createNotification }) => {
-  console.log("Authentication userObject", userObject);
+  // console.log("Authentication userObject", userObject);
 
   const history = useHistory();
   const [email, setEmail] = useState(""); // 유저 이메일
@@ -305,11 +323,16 @@ const Authentication = ({ userObject, createNotification }) => {
 
   // 홈화면 로그인 버튼
   const handleMainLogin = () => {
+    setIsRegisterForm(false);
     setIsLoginForm(!isLoginForm);
+    console.log(window.document.body.childNodes);
+
+    // window.document.body.getElementById("root").classList.add("active");
   };
 
   // 홈화면 회원가입 버튼
   const handleMainRegister = () => {
+    setIsLoginForm(false);
     setIsRegisterForm(!isRegisterForm);
   };
 
@@ -335,6 +358,22 @@ const Authentication = ({ userObject, createNotification }) => {
     setIsLoginForm(false);
     setIsRegisterForm(true);
   };
+
+  // 로그인 폼으로 이동
+  const gotoLoginForm = () => {
+    setIsRegisterForm(false);
+    setIsLoginForm(true);
+  };
+
+  const dd = Array.from(window.document.body.childNodes);
+  const ee = Array.from(dd[1].childNodes.item);
+
+  console.log("ee", ee);
+  // console.log("ee", ee[0]);
+
+  // ee[0]
+
+  // dd[1].classList.add("active");
 
   return (
     <>
@@ -373,7 +412,7 @@ const Authentication = ({ userObject, createNotification }) => {
                   깃허브 로그인
                 </GithubLogin>
                 <RegisterButton onClick={gotoRegisterForm}>트위터 회원가입</RegisterButton>
-                <CloseButton icon={faTimesCircle} onClick={handleMainLogin}></CloseButton>
+                <CloseButton icon={faTimes} onClick={handleMainLogin}></CloseButton>
               </SocialLoginContainer>
             </LoginFormContent>
           </LoginFormContainer>
@@ -395,7 +434,8 @@ const Authentication = ({ userObject, createNotification }) => {
                 <LoginSubmitTag type="submit" onClick={onClickRegister} value="회원가입"></LoginSubmitTag>
               </LoginFormTag>
               <SocialLoginContainer>
-                <CloseButton icon={faTimesCircle} onClick={handleCloseButton}></CloseButton>
+                <RegisterButton onClick={gotoLoginForm}>트위터 로그인</RegisterButton>
+                <CloseButton icon={faTimes} onClick={handleCloseButton}></CloseButton>
               </SocialLoginContainer>
             </LoginFormContent>
           </LoginFormContainer>

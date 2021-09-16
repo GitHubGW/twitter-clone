@@ -52,7 +52,7 @@ const PostingEditDelete = styled.div`
 `;
 
 const AuthorName = styled.h2`
-  font-size: 18px;
+  font-size: 17px;
   font-weight: bold;
 `;
 
