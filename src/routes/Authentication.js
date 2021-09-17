@@ -185,7 +185,7 @@ const MenuLoginForm = styled.div`
   margin-bottom: 10px;
   margin-top: 17px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 `;
 
@@ -225,6 +225,39 @@ const MenuLogoutButton = styled.button`
 const DarkModeButton = styled.button`
   font-size: 30px;
   margin-right: 3px;
+  margin-left: auto;
+`;
+
+const ChangePasswordBtn = styled.button`
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: var(--twitter-color);
+
+  &:hover {
+    background-color: var(--twitter-dark-color);
+  }
+`;
+
+const ChangeEmailBtn = styled.button`
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: var(--twitter-color);
+
+  &:hover {
+    background-color: var(--twitter-dark-color);
+  }
 `;
 
 const Authentication = ({ userObject, createNotification, isDark, changeTheme }) => {
@@ -234,10 +267,14 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
   const [email, setEmail] = useState(""); // 유저 이메일
   const [password, setPassword] = useState(""); // 유저 비밀번호
   const [displayName, setDisplayName] = useState(""); // 유저 닉네임
+  const [newPassword, setNewPassword] = useState(""); // 새로운 비밀번호
+  const [newEmail, setNewEmail] = useState(""); // 새로운 이메일
   const [isAccount, setIsAccount] = useState(false); // 계정 존재 여부 체크 (true: 계정있음, false: 계정없음)
   const [error, setError] = useState(null); // 로그인 또는 회원가입 에러메시지
   const [isLoginForm, setIsLoginForm] = useState(false); // 로그인 폼
   const [isRegisterForm, setIsRegisterForm] = useState(false); // 회원가입 폼
+  const [isChangePasswordForm, setIsChangePasswordForm] = useState(false); // 비밀번호 변경 폼
+  const [isChangeEmailForm, setIsChangeEmailForm] = useState(false); // 이메일 변경 폼
   const [isLogin, setIsLogin] = useState(false);
 
   // 이메일, 비밀번호 로그인
@@ -322,6 +359,50 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
     }
   };
 
+  const onChangePassword = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setNewPassword(value);
+  };
+
+  // 비밀번호 변경
+  const onClickChangePassword = async (event) => {
+    event.preventDefault();
+
+    try {
+      await authService.currentUser.updatePassword(newPassword);
+    } catch (error) {
+      console.log(error);
+      setError(error.message);
+    } finally {
+      history.push("/");
+      setIsChangePasswordForm(false);
+    }
+  };
+
+  const onChangeEmail = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setNewEmail(value);
+  };
+
+  // 이메일 변경
+  const onClickChangeEmail = async (event) => {
+    event.preventDefault();
+
+    try {
+      await authService.currentUser.updateEmail(newEmail);
+    } catch (error) {
+      console.log(error);
+      setError(error.message);
+    } finally {
+      history.push("/");
+      setIsChangeEmailForm(false);
+    }
+  };
+
   // 홈화면 로그인 버튼
   const handleMainLogin = () => {
     setIsRegisterForm(false);
@@ -338,6 +419,8 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
   const handleCloseButton = () => {
     setIsLoginForm(false);
     setIsRegisterForm(false);
+    setIsChangePasswordForm(false);
+    setIsChangeEmailForm(false);
   };
 
   // 홈화면 로그아웃 버튼
@@ -346,21 +429,63 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
 
     if (currentUser) {
       await authService.signOut();
-      history.push("/");
       createNotification("SuccessLogout");
+      history.push("/");
+      return;
     }
   };
 
   // 회원가입 폼으로 이동
   const gotoRegisterForm = () => {
-    setIsLoginForm(false);
     setIsRegisterForm(true);
+    setIsLoginForm(false);
+    setIsChangePasswordForm(false);
   };
 
   // 로그인 폼으로 이동
   const gotoLoginForm = () => {
-    setIsRegisterForm(false);
     setIsLoginForm(true);
+    setIsRegisterForm(false);
+    setIsChangePasswordForm(false);
+    setIsChangeEmailForm(false);
+  };
+
+  // 비밀번호 변경 폼으로 이동
+  const gotoPasswordForm = () => {
+    setIsChangePasswordForm(true);
+    setIsRegisterForm(false);
+    setIsLoginForm(false);
+    setIsChangeEmailForm(false);
+  };
+
+  // 이메일 변경 폼으로 이동
+  const gotoEmailForm = () => {
+    setIsChangeEmailForm(true);
+    setIsChangePasswordForm(false);
+    setIsRegisterForm(false);
+    setIsLoginForm(false);
+  };
+
+  // 회원 탈퇴
+  const onUnRegister = async () => {
+    try {
+      await authService.currentUser.delete();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      history.push("/");
+    }
+  };
+
+  // 이메일 인증 후 새로운 이메일로 변경
+  const onUpdateNewEmail = async () => {
+    try {
+      await authService.currentUser.verifyBeforeUpdateEmail("kowonp@gmail.com");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      history.push("/");
+    }
   };
 
   return (
@@ -373,7 +498,11 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
             <MenuLoginButton onClick={handleMainRegister}>회원가입</MenuLoginButton>
           </>
         ) : (
-          <MenuLogoutButton onClick={onClickLogOut}>로그아웃</MenuLogoutButton>
+          <>
+            <MenuLogoutButton onClick={onClickLogOut}>로그아웃</MenuLogoutButton>
+            <ChangePasswordBtn onClick={gotoPasswordForm}>비밀번호 변경</ChangePasswordBtn>
+            <ChangePasswordBtn onClick={gotoEmailForm}>이메일 변경</ChangePasswordBtn>
+          </>
         )}
         <DarkModeButton onClick={changeTheme}>{isDark ? "🌙" : "🌞"}</DarkModeButton>
       </MenuLoginForm>
@@ -424,6 +553,46 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
               </LoginFormTag>
               <SocialLoginContainer>
                 <RegisterButton onClick={gotoLoginForm}>트위터 로그인</RegisterButton>
+                <CloseButton icon={faTimes} onClick={handleCloseButton}></CloseButton>
+              </SocialLoginContainer>
+            </LoginFormContent>
+          </LoginFormContainer>
+        </>
+      ) : null}
+
+      {/* 비밀번호 변경 폼 */}
+      {isChangePasswordForm ? (
+        <>
+          <LoginFormContainer>
+            <LoginFormContent>
+              <IconTwitter icon={faTwitter}></IconTwitter>
+              <LoginFormTitle>트위터 비밀번호 변경</LoginFormTitle>
+              <LoginFormTag onSubmit={onClickChangePassword}>
+                <LoginInputTag type="password" placeholder="새로운 비밀번호" onChange={onChangePassword} value={newPassword} required></LoginInputTag>
+                <ErrorMessage>{error && error}</ErrorMessage>
+                <LoginSubmitTag type="submit" onClick={onClickChangePassword} value="비밀번호 변경"></LoginSubmitTag>
+              </LoginFormTag>
+              <SocialLoginContainer>
+                <CloseButton icon={faTimes} onClick={handleCloseButton}></CloseButton>
+              </SocialLoginContainer>
+            </LoginFormContent>
+          </LoginFormContainer>
+        </>
+      ) : null}
+
+      {/* 이메일 변경 폼 */}
+      {isChangeEmailForm ? (
+        <>
+          <LoginFormContainer>
+            <LoginFormContent>
+              <IconTwitter icon={faTwitter}></IconTwitter>
+              <LoginFormTitle>트위터 이메일 변경</LoginFormTitle>
+              <LoginFormTag onSubmit={onClickChangeEmail}>
+                <LoginInputTag type="email" placeholder="새로운 이메일" onChange={onChangeEmail} value={newEmail} required></LoginInputTag>
+                <ErrorMessage>{error && error}</ErrorMessage>
+                <LoginSubmitTag type="submit" onClick={onClickChangeEmail} value="이메일 변경"></LoginSubmitTag>
+              </LoginFormTag>
+              <SocialLoginContainer>
                 <CloseButton icon={faTimes} onClick={handleCloseButton}></CloseButton>
               </SocialLoginContainer>
             </LoginFormContent>

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import userImage from "images/user.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faSignOutAlt, faCamera, faUserEdit } from "@fortawesome/free-solid-svg-icons";
-import { faImage, faEdit, faCalendarAlt, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 
 const ProfileContainer = styled.div`
   /* padding: 50px 16px; */
@@ -188,10 +188,6 @@ const PostingTweetContent = styled.div`
   width: 100%;
 `;
 
-const EditingTweetForm = styled.form`
-  width: 100%;
-`;
-
 const PostingTweetAuthor = styled.div`
   display: flex;
   align-items: center;
@@ -202,11 +198,6 @@ const AuthorInfo = styled.div`
   display: flex;
   align-items: center;
   height: 40px;
-`;
-
-const PostingEditDelete = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const AuthorName = styled.h2`
@@ -238,137 +229,33 @@ const PostingTweetDesc = styled.p`
   line-height: 1.5;
 `;
 
-const PostingEditTweetDesc = styled.input`
-  margin-bottom: 10px;
-  font-size: 16px;
-  line-height: 1.5;
-  border: none;
-  outline: none;
-  width: 100%;
-  background-color: white;
-  padding: 12px 12px;
-  box-sizing: border-box;
-  margin-top: 8px;
-  color: gray;
-`;
-
 const PostingTweetImage = styled.img`
   width: 485px;
   height: 280px;
   border-radius: 15px;
 `;
 
-const PostingTweetLike = styled.button`
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  margin-left: -10px;
-`;
-
-const PostingTweetEdit = styled.button``;
-
-const PostingTweetDelete = styled.button``;
-
-const IconTweetLike = styled(FontAwesomeIcon)`
-  cursor: pointer;
-  font-size: 17px;
-  color: #f91880;
-  padding: 10px;
-
-  &:hover {
-    background-color: rgba(249, 24, 128, 0.2);
-    border-radius: 50%;
-  }
-`;
-
-const IconTweetLikeNumber = styled.span`
-  color: #f91880;
-  font-size: 15px;
-  font-weight: 500;
-`;
-
-const IconTweetEdit = styled(FontAwesomeIcon)`
-  cursor: pointer;
-  font-size: 18px;
-  color: gray;
-  padding: 10px;
-  border-radius: 50%;
-
-  &:hover {
-    color: var(--twitter-color);
-    background-color: #e6f3ff;
-  }
-`;
-
-const IconTweetDelete = styled(FontAwesomeIcon)`
-  cursor: pointer;
-  font-size: 18px;
-  color: gray;
-  padding: 10px;
-  border-radius: 50%;
-
-  &:hover {
-    color: var(--twitter-color);
-    background-color: #e6f3ff;
-  }
-`;
-
-const EditTweetBtn = styled.button`
-  padding: 6px 10px;
-  color: white;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: bold;
-  background-color: #74b9ff;
-
-  &:hover {
-    background-color: rgb(29, 161, 242);
-  }
-`;
-
-const DeleteTweetBtn = styled.button`
-  margin-left: 4px;
-  padding: 6px 10px;
-  color: white;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: bold;
-  background-color: #ff7979;
-
-  &:hover {
-    background-color: #eb4d4b;
-  }
-`;
-
-const PostingNoTweet = styled.h1`
-  font-size: 30px;
-`;
-
 const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
   console.log("Profile userObject", userObject);
 
   const history = useHistory();
-  const creationTime = userObject.creationTime;
-  const lastSignInTime = userObject.lastSignInTime;
-  const [newDisplayName, setNewDisplayName] = useState(userObject.displayName);
+  const creationTime = userObject?.creationTime;
+  const lastSignInTime = userObject?.lastSignInTime;
+  const [newDisplayName, setNewDisplayName] = useState(userObject?.displayName);
   const [myTweets, setMyTweets] = useState([]);
   const [fileDataUrl, setFileDataUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const [isEditing, setIsEditing] = useState(false); // 현재 트윗을 수정 중인지 확인
-  const [editingTweet, setEditingTweet] = useState(userObject.content); // 수정 중인 트윗 내용을 가져옴
+  const [editingTweet, setEditingTweet] = useState(userObject?.content); // 수정 중인 트윗 내용을 가져옴
   const fileImageInput = useRef();
   let fileDownloadUrl = "";
 
   const getTime = (time) => {
     const now = parseInt(time);
     const date = new Date(now);
-    const day = ["일", "월", "화", "수", "목", "금", "토"];
     const getFullYear = date.getFullYear();
     const getMonth = date.getMonth() + 1;
     const getDate = date.getDate();
-    const getDay = day[date.getDay()];
-    const getHours = date.getHours();
-    const getMinutes = date.getMinutes();
     return `${getFullYear}년 ${getMonth}월 ${getDate}일`;
   };
 
@@ -388,6 +275,7 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
     setMyTweets(myTweetsArray);
   };
 
+  // 프로필 수정 (프로필 업데이트)
   const onSubmit = async (event) => {
     // authService.currentUser: 현재 로그인한 사용자 정보
     event.preventDefault();
@@ -398,11 +286,14 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
       fileDownloadUrl = await uploadTask.ref.getDownloadURL();
     }
 
-    // firebase.User = userObject
+    // firebase.User = userObject: 현재 로그인한 사용자 정보
     await userObject.updateProfile({
       displayName: newDisplayName,
       photoURL: fileDownloadUrl,
     });
+
+    await userObject.updatePassword("abcd1234");
+
     refreshDisplayName();
     createNotification("SuccessProfile");
   };
@@ -459,7 +350,7 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
           <ProfileForm onSubmit={onSubmit}>
             <ProfileImageContainer>
               <TweetFormImageLabel htmlFor="profilePhotoInput">
-                <ProfileFormImage ref={fileImageInput} src={userObject.photoURL ? userObject.photoURL : userImage} alt={userObject.email}></ProfileFormImage>
+                <ProfileFormImage ref={fileImageInput} src={userObject?.photoURL ? userObject.photoURL : userImage} alt={userObject?.email}></ProfileFormImage>
                 <IconCamera icon={faCamera}></IconCamera>
               </TweetFormImageLabel>
               <ProfileButtons>
@@ -484,8 +375,8 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
           <ProfileInfo>
             <ProfileDisplayName></ProfileDisplayName>
             <ProfileEmailContainer>
-              <ProfileEmail>{userObject.email}</ProfileEmail>
-              {!userObject.emailVerified === true && <ProfileEmailVerified icon={faCheckCircle}></ProfileEmailVerified>}
+              <ProfileEmail>{userObject?.email}</ProfileEmail>
+              {!userObject?.emailVerified === true && <ProfileEmailVerified icon={faCheckCircle}></ProfileEmailVerified>}
             </ProfileEmailContainer>
             <ProfileCreation>
               <IconProfileCreation icon={faCalendarAlt}></IconProfileCreation>
