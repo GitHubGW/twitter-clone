@@ -21,6 +21,7 @@ const TweetFormTextInput = styled.input`
   padding-left: 4px;
   padding-right: 30px;
   padding-bottom: 18px;
+  margin-bottom: 15px;
   box-sizing: border-box;
   font-size: 18px;
   border-radius: 4px;
@@ -39,7 +40,7 @@ const FileDataContainer = styled.div`
 `;
 
 const FileData = styled.img`
-  width: 485px;
+  width: 490px;
   height: 280px;
   border-radius: 15px;
 `;
@@ -92,7 +93,7 @@ const IconTweetFormContainer = styled(FontAwesomeIcon)`
 
   &:hover {
     color: var(--twitter-color);
-    background-color: #e6f3ff;
+    background-color: ${(props) => (props.current ? "#1e2125" : "#e6f3ff")};
   }
 `;
 
@@ -105,7 +106,7 @@ const IconTweetSmile = styled(FontAwesomeIcon)`
 
   &:hover {
     color: var(--twitter-color);
-    background-color: #e6f3ff;
+    background-color: ${(props) => (props.current ? "#1e2125" : "#e6f3ff")};
   }
 `;
 
@@ -259,10 +260,10 @@ const TweetForm = ({ userObject, createNotification, isDark }) => {
 
       <TweetFormImageContainer>
         <TweetFormImageLabel htmlFor="fileUploadBtn">
-          <IconTweetFormContainer icon={faImage}></IconTweetFormContainer>
+          <IconTweetFormContainer icon={faImage} current={isDark ? true : false}></IconTweetFormContainer>
         </TweetFormImageLabel>
         <IconTweetSmileContainer>
-          <IconTweetSmile icon={faSmile} onClick={onClickEmoji}></IconTweetSmile>
+          <IconTweetSmile icon={faSmile} onClick={onClickEmoji} current={isDark ? true : false}></IconTweetSmile>
           {isEmoji ? <PickerContainer onEmojiClick={onEmojiClick} disableSearchBar={true} /> : null}
         </IconTweetSmileContainer>
         <TweetFormSubmit type="submit" value="트윗하기" ref={inputTweet}></TweetFormSubmit>

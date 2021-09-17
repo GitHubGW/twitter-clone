@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faBell, faEnvelope, faBookmark, faListAlt, faUser } from "@fortawesome/free-regular-svg-icons";
 import { faHome, faEllipsisH, faCog, faSearch, faArrowCircleUp } from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet";
 import Tweet from "components/Tweet";
 import TweetForm from "components/TweetForm";
 import Profile from "./Profile";
@@ -50,19 +51,19 @@ const MenuContainer = styled.div``;
 const MenuImage = styled.div`
   margin-left: 5px;
   margin-bottom: 15px;
-  border-radius: 50%;
-  padding: 10px;
   display: inline-block;
-
-  &:hover {
-    background-color: #e6f3ff;
-  }
 `;
 
 const IconTwitterContainer = styled(FontAwesomeIcon)`
   font-size: 30px;
   color: var(--twitter-color);
   cursor: pointer;
+  border-radius: 50%;
+  padding: 10px;
+
+  &:hover {
+    background-color: ${(props) => (props.current ? "#1e2125" : "#e6f3ff")};
+  }
 `;
 
 const MenuNav = styled.ul``;
@@ -314,7 +315,7 @@ const TrendInfo = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: #eeeeee;
+    background-color: ${(props) => (props.current ? "#2E3336" : "#eeeeee")};
   }
 `;
 
@@ -322,7 +323,7 @@ const TrendContent = styled.div``;
 
 const TrendHeading = styled.h3`
   font-size: 13px;
-  color: #272c30;
+  color: #989898;
 `;
 
 const TrendTitle = styled.h1`
@@ -334,7 +335,7 @@ const TrendTitle = styled.h1`
 const IconTrendDotContainer = styled(FontAwesomeIcon)`
   font-size: 15px;
   cursor: pointer;
-  color: #272c30;
+  color: #989898;
 `;
 
 const SeeMore = styled.div`
@@ -370,7 +371,7 @@ const FollowContent = styled.div`
   padding: 10px 17px;
 
   &:hover {
-    background-color: #eeeeee;
+    background-color: ${(props) => (props.current ? "#2E3336" : "#eeeeee")};
   }
 `;
 
@@ -396,12 +397,12 @@ const FollowInfoDesc = styled.h2`
 `;
 
 const FollowButton = styled.button`
-  background-color: #272c30;
   color: white;
   padding: 7px 15px;
   border-radius: 50px;
   font-size: 14px;
   font-weight: bold;
+  background-color: ${(props) => (props.current ? "#303030" : "#272c30")};
 `;
 
 const PolicyContainer = styled.div`
@@ -534,233 +535,238 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
   }, []);
 
   return (
-    <Container>
-      {/* 메뉴 (좌측) */}
-      <LeftContainerParent>
-        <LeftContainer current={isDark ? true : false}>
-          <MenuContainer>
-            <MenuImage>
-              <Link to="/">
-                <IconTwitterContainer icon={faTwitter}></IconTwitterContainer>
-              </Link>
-            </MenuImage>
-            <MenuNav>
-              <MenuList current={isDark ? true : false} to="/">
-                <IconContainer icon={faHome}></IconContainer>
-                <IconText>홈</IconText>
-              </MenuList>
-              <MenuList current={isDark ? true : false} to={userObject ? "/profile" : "/"}>
-                <IconContainer icon={faUser}></IconContainer>
-                <IconText>프로필</IconText>
-              </MenuList>
-              <MenuList current={isDark ? true : false} to="/" onClick={onFocusTwitterSearch}>
-                <IconContainer icon={faSearch}></IconContainer>
-                <IconText>검색</IconText>
-              </MenuList>
-              <MenuList current={isDark ? true : false} to="/">
-                <IconContainer icon={faBell}></IconContainer>
-                <IconText>알림</IconText>
-              </MenuList>
-              <MenuList current={isDark ? true : false} to="/">
-                <IconContainer icon={faEnvelope}></IconContainer>
-                <IconText>쪽지</IconText>
-              </MenuList>
-              <MenuList current={isDark ? true : false} to="/">
-                <IconContainer icon={faBookmark}></IconContainer>
-                <IconText>북마크</IconText>
-              </MenuList>
-              <MenuList current={isDark ? true : false} to="/">
-                <IconContainer icon={faListAlt}></IconContainer>
-                <IconText>리스트</IconText>
-              </MenuList>
-              <MenuList current={isDark ? true : false} to="/">
-                <IconContainer icon={faEllipsisH}></IconContainer>
-                <IconText>더보기</IconText>
-              </MenuList>
-            </MenuNav>
-            <MenuButton type="button" onClick={shareTwitter}>
-              공유하기
-            </MenuButton>
-          </MenuContainer>
-          <UserContainerLink to={userObject === null ? "/" : "/profile"}>
-            <UserContainer current={isDark ? true : false}>
-              <UserPhoto src={userObject?.photoURL ? userObject.photoURL : userImage}></UserPhoto>
-              <UserInfo>
-                <UserName>{userObject?.displayName ? userObject.displayName : "유저"}</UserName>
-                <UserEmail>{userObject?.email ? userObject.email : "로그인 안됨"}</UserEmail>
-              </UserInfo>
-              <IconUserEtcContainer icon={faEllipsisH}></IconUserEtcContainer>
-            </UserContainer>
-          </UserContainerLink>
-        </LeftContainer>
-      </LeftContainerParent>
+    <>
+      <Container>
+        <Helmet>
+          <title>트위터 / 홈</title>
+        </Helmet>
+        {/* 메뉴 (좌측) */}
+        <LeftContainerParent>
+          <LeftContainer current={isDark ? true : false}>
+            <MenuContainer>
+              <MenuImage>
+                <Link to="/">
+                  <IconTwitterContainer icon={faTwitter} current={isDark ? true : false}></IconTwitterContainer>
+                </Link>
+              </MenuImage>
+              <MenuNav>
+                <MenuList current={isDark ? true : false} to="/">
+                  <IconContainer icon={faHome}></IconContainer>
+                  <IconText>홈</IconText>
+                </MenuList>
+                <MenuList current={isDark ? true : false} to={userObject ? "/profile" : "/"}>
+                  <IconContainer icon={faUser}></IconContainer>
+                  <IconText>프로필</IconText>
+                </MenuList>
+                <MenuList current={isDark ? true : false} to="/" onClick={onFocusTwitterSearch}>
+                  <IconContainer icon={faSearch}></IconContainer>
+                  <IconText>검색</IconText>
+                </MenuList>
+                <MenuList current={isDark ? true : false} to="/">
+                  <IconContainer icon={faBell}></IconContainer>
+                  <IconText>알림</IconText>
+                </MenuList>
+                <MenuList current={isDark ? true : false} to="/">
+                  <IconContainer icon={faEnvelope}></IconContainer>
+                  <IconText>쪽지</IconText>
+                </MenuList>
+                <MenuList current={isDark ? true : false} to="/">
+                  <IconContainer icon={faBookmark}></IconContainer>
+                  <IconText>북마크</IconText>
+                </MenuList>
+                <MenuList current={isDark ? true : false} to="/">
+                  <IconContainer icon={faListAlt}></IconContainer>
+                  <IconText>리스트</IconText>
+                </MenuList>
+                <MenuList current={isDark ? true : false} to="/">
+                  <IconContainer icon={faEllipsisH}></IconContainer>
+                  <IconText>더보기</IconText>
+                </MenuList>
+              </MenuNav>
+              <MenuButton type="button" onClick={shareTwitter}>
+                공유하기
+              </MenuButton>
+            </MenuContainer>
+            <UserContainerLink to={userObject === null ? "/" : "/profile"}>
+              <UserContainer current={isDark ? true : false}>
+                <UserPhoto src={userObject?.photoURL ? userObject.photoURL : userImage}></UserPhoto>
+                <UserInfo>
+                  <UserName>{userObject?.displayName ? userObject.displayName : "유저"}</UserName>
+                  <UserEmail>{userObject?.email ? userObject.email : "로그인 안됨"}</UserEmail>
+                </UserInfo>
+                <IconUserEtcContainer icon={faEllipsisH}></IconUserEtcContainer>
+              </UserContainer>
+            </UserContainerLink>
+          </LeftContainer>
+        </LeftContainerParent>
 
-      {/* 트윗 목록 (중앙) */}
-      <CenterContainerParent>
-        <CenterContainer>
-          <ContentContainer current={isDark ? true : false}>
-            <ContentHeader current={isDark ? true : false}>
-              {/* <ContentOrderBy onClick={handleOrderBy}>{isDesc ? "오래된순" : "최신순"}</ContentOrderBy> */}
-              <ContentTweetNumber>전체 트윗 ({allTweetsLength})</ContentTweetNumber>
-              <ContentSearch>
-                <ContentForm onSubmit={onSearchSubmit}>
-                  <ContentInput
-                    current={isDark ? true : false}
-                    type="text"
-                    placeholder="트위터 검색"
-                    onChange={onSearchInput}
-                    value={searchText}
-                    ref={twitterSearch}
-                  ></ContentInput>
-                  <IconContentFormContainer icon={faSearch}></IconContentFormContainer>
-                </ContentForm>
-              </ContentSearch>
-            </ContentHeader>
-            <ContentTweet current={isDark ? true : false}>
-              <TweetImage src={userImage}></TweetImage>
-              <TweetPostContainer>
-                <TweetPostHeader>
-                  <TweetForm userObject={userObject} createNotification={createNotification} isDark={isDark}></TweetForm>
-                </TweetPostHeader>
-              </TweetPostContainer>
-            </ContentTweet>
-            <ContentArticle>
-              <ContentPost>
-                {pathname === "/" ? (
-                  <ContentAllTweets>
-                    {allTweets &&
-                      allTweets.map((tweetObject) => {
-                        return (
-                          <Tweet
-                            key={tweetObject?.id}
-                            userObject={userObject}
-                            tweetObject={tweetObject}
-                            isOwner={userObject?.uid === tweetObject?.uid ? true : false}
-                            createNotification={createNotification}
-                            isDark={isDark}
-                          />
-                        );
-                      })}
-                  </ContentAllTweets>
-                ) : (
-                  <ContentAllTweets>
-                    <Profile
-                      userObject={userObject}
-                      refreshDisplayName={refreshDisplayName}
-                      createNotification={createNotification}
-                      isDark={isDark}
-                      changeTheme={changeTheme}
-                      isDark={isDark}
-                    ></Profile>
-                  </ContentAllTweets>
-                )}
-              </ContentPost>
-            </ContentArticle>
-          </ContentContainer>
-        </CenterContainer>
-      </CenterContainerParent>
+        {/* 트윗 목록 (중앙) */}
+        <CenterContainerParent>
+          <CenterContainer>
+            <ContentContainer current={isDark ? true : false}>
+              <ContentHeader current={isDark ? true : false}>
+                {/* <ContentOrderBy onClick={handleOrderBy}>{isDesc ? "오래된순" : "최신순"}</ContentOrderBy> */}
+                <ContentTweetNumber>전체 트윗 ({allTweetsLength})</ContentTweetNumber>
+                <ContentSearch>
+                  <ContentForm onSubmit={onSearchSubmit}>
+                    <ContentInput
+                      current={isDark ? true : false}
+                      type="text"
+                      placeholder="트위터 검색"
+                      onChange={onSearchInput}
+                      value={searchText}
+                      ref={twitterSearch}
+                    ></ContentInput>
+                    <IconContentFormContainer icon={faSearch}></IconContentFormContainer>
+                  </ContentForm>
+                </ContentSearch>
+              </ContentHeader>
+              <ContentTweet current={isDark ? true : false}>
+                <TweetImage src={userImage}></TweetImage>
+                <TweetPostContainer>
+                  <TweetPostHeader>
+                    <TweetForm userObject={userObject} createNotification={createNotification} isDark={isDark}></TweetForm>
+                  </TweetPostHeader>
+                </TweetPostContainer>
+              </ContentTweet>
+              <ContentArticle>
+                <ContentPost>
+                  {pathname === "/" ? (
+                    <ContentAllTweets>
+                      {allTweets &&
+                        allTweets.map((tweetObject) => {
+                          return (
+                            <Tweet
+                              key={tweetObject?.id}
+                              userObject={userObject}
+                              tweetObject={tweetObject}
+                              isOwner={userObject?.uid === tweetObject?.uid ? true : false}
+                              createNotification={createNotification}
+                              isDark={isDark}
+                            />
+                          );
+                        })}
+                    </ContentAllTweets>
+                  ) : (
+                    <ContentAllTweets>
+                      <Profile
+                        userObject={userObject}
+                        refreshDisplayName={refreshDisplayName}
+                        createNotification={createNotification}
+                        isDark={isDark}
+                        changeTheme={changeTheme}
+                        isDark={isDark}
+                      ></Profile>
+                    </ContentAllTweets>
+                  )}
+                </ContentPost>
+              </ContentArticle>
+            </ContentContainer>
+          </CenterContainer>
+        </CenterContainerParent>
 
-      {/* 트렌드, 팔로우 (우측) */}
-      <RightContainerParent>
-        <RightContainer current={isDark ? true : false}>
-          <RegisterContainer>
-            <Authentication userObject={userObject} createNotification={createNotification} isDark={isDark} changeTheme={changeTheme}></Authentication>
-          </RegisterContainer>
-          <TrendContainer current={isDark ? true : false}>
-            <TrendHeader>
-              <TrendHeaderTitle>나를 위한 트렌드</TrendHeaderTitle>
-              <IconTrendContainer icon={faCog}></IconTrendContainer>
-            </TrendHeader>
-            <TrendInfo>
-              <TrendContent>
-                <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
-                <TrendTitle>리액트</TrendTitle>
-              </TrendContent>
-              <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
-            </TrendInfo>
-            <TrendInfo>
-              <TrendContent>
-                <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
-                <TrendTitle>리액트</TrendTitle>
-              </TrendContent>
-              <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
-            </TrendInfo>
-            <TrendInfo>
-              <TrendContent>
-                <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
-                <TrendTitle>리액트</TrendTitle>
-              </TrendContent>
-              <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
-            </TrendInfo>
-            <TrendInfo>
-              <TrendContent>
-                <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
-                <TrendTitle>리액트</TrendTitle>
-              </TrendContent>
-              <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
-            </TrendInfo>
-            <SeeMore>더 보기</SeeMore>
-          </TrendContainer>
-          <FollowContainer current={isDark ? true : false}>
-            <FollowHeader>팔로우 추천</FollowHeader>
-            <FollowContent>
-              <FollowImage src={userImage}></FollowImage>
-              <FollowInfo>
-                <FollowInfoTitle>Apple</FollowInfoTitle>
-                <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
-              </FollowInfo>
-              <FollowButton>팔로우</FollowButton>
-            </FollowContent>
-            <FollowContent>
-              <FollowImage src={userImage}></FollowImage>
-              <FollowInfo>
-                <FollowInfoTitle>Apple</FollowInfoTitle>
-                <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
-              </FollowInfo>
-              <FollowButton>팔로우</FollowButton>
-            </FollowContent>
-            <FollowContent>
-              <FollowImage src={userImage}></FollowImage>
-              <FollowInfo>
-                <FollowInfoTitle>Apple</FollowInfoTitle>
-                <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
-              </FollowInfo>
-              <FollowButton>팔로우</FollowButton>
-            </FollowContent>
-            <FollowContent>
-              <FollowImage src={userImage}></FollowImage>
-              <FollowInfo>
-                <FollowInfoTitle>Apple</FollowInfoTitle>
-                <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
-              </FollowInfo>
-              <FollowButton>팔로우</FollowButton>
-            </FollowContent>
-            <SeeMore>더 보기</SeeMore>
-          </FollowContainer>
-          <PolicyContainer>
-            <PolicyHeader>
-              <PolicyLink href="https://twitter.com/ko/tos" target="_blank">
-                이용약관
-              </PolicyLink>
-              <PolicyLink href="https://twitter.com/ko/privacy" target="_blank">
-                개인정보 처리방침
-              </PolicyLink>
-              <PolicyLink href="https://help.twitter.com/ko/rules-and-policies/twitter-cookies" target="_blank">
-                쿠키 정책
-              </PolicyLink>
-              <PolicyLink href="https://business.twitter.com/en/help.html" target="_blank">
-                광고 정보
-              </PolicyLink>
-            </PolicyHeader>
-            <PolicyFooter>© 2021 GW. ALL RIGHTS RESERVED.</PolicyFooter>
-          </PolicyContainer>
-        </RightContainer>
-      </RightContainerParent>
+        {/* 트렌드, 팔로우 (우측) */}
+        <RightContainerParent>
+          <RightContainer current={isDark ? true : false}>
+            <RegisterContainer>
+              <Authentication userObject={userObject} createNotification={createNotification} isDark={isDark} changeTheme={changeTheme}></Authentication>
+            </RegisterContainer>
+            <TrendContainer current={isDark ? true : false}>
+              <TrendHeader>
+                <TrendHeaderTitle>나를 위한 트렌드</TrendHeaderTitle>
+                <IconTrendContainer icon={faCog}></IconTrendContainer>
+              </TrendHeader>
+              <TrendInfo current={isDark ? true : false}>
+                <TrendContent>
+                  <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
+                  <TrendTitle>리액트</TrendTitle>
+                </TrendContent>
+                <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
+              </TrendInfo>
+              <TrendInfo current={isDark ? true : false}>
+                <TrendContent>
+                  <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
+                  <TrendTitle>리액트</TrendTitle>
+                </TrendContent>
+                <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
+              </TrendInfo>
+              <TrendInfo current={isDark ? true : false}>
+                <TrendContent>
+                  <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
+                  <TrendTitle>리액트</TrendTitle>
+                </TrendContent>
+                <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
+              </TrendInfo>
+              <TrendInfo current={isDark ? true : false}>
+                <TrendContent>
+                  <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
+                  <TrendTitle>리액트</TrendTitle>
+                </TrendContent>
+                <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
+              </TrendInfo>
+              <SeeMore>더 보기</SeeMore>
+            </TrendContainer>
+            <FollowContainer current={isDark ? true : false}>
+              <FollowHeader>팔로우 추천</FollowHeader>
+              <FollowContent current={isDark ? true : false}>
+                <FollowImage src={userImage}></FollowImage>
+                <FollowInfo>
+                  <FollowInfoTitle>Apple</FollowInfoTitle>
+                  <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
+                </FollowInfo>
+                <FollowButton current={isDark ? true : false}>팔로우</FollowButton>
+              </FollowContent>
+              <FollowContent current={isDark ? true : false}>
+                <FollowImage src={userImage}></FollowImage>
+                <FollowInfo>
+                  <FollowInfoTitle>Apple</FollowInfoTitle>
+                  <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
+                </FollowInfo>
+                <FollowButton current={isDark ? true : false}>팔로우</FollowButton>
+              </FollowContent>
+              <FollowContent current={isDark ? true : false}>
+                <FollowImage src={userImage}></FollowImage>
+                <FollowInfo>
+                  <FollowInfoTitle>Apple</FollowInfoTitle>
+                  <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
+                </FollowInfo>
+                <FollowButton current={isDark ? true : false}>팔로우</FollowButton>
+              </FollowContent>
+              <FollowContent current={isDark ? true : false}>
+                <FollowImage src={userImage}></FollowImage>
+                <FollowInfo>
+                  <FollowInfoTitle>Apple</FollowInfoTitle>
+                  <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
+                </FollowInfo>
+                <FollowButton current={isDark ? true : false}>팔로우</FollowButton>
+              </FollowContent>
+              <SeeMore>더 보기</SeeMore>
+            </FollowContainer>
+            <PolicyContainer>
+              <PolicyHeader>
+                <PolicyLink href="https://twitter.com/ko/tos" target="_blank">
+                  이용약관
+                </PolicyLink>
+                <PolicyLink href="https://twitter.com/ko/privacy" target="_blank">
+                  개인정보 처리방침
+                </PolicyLink>
+                <PolicyLink href="https://help.twitter.com/ko/rules-and-policies/twitter-cookies" target="_blank">
+                  쿠키 정책
+                </PolicyLink>
+                <PolicyLink href="https://business.twitter.com/en/help.html" target="_blank">
+                  광고 정보
+                </PolicyLink>
+              </PolicyHeader>
+              <PolicyFooter>© 2021 GW. ALL RIGHTS RESERVED.</PolicyFooter>
+            </PolicyContainer>
+          </RightContainer>
+        </RightContainerParent>
 
-      <GototopButton type="button" onClick={() => window.scrollTo(0, 0)}>
-        <IconGototopButton icon={faArrowCircleUp}></IconGototopButton>
-      </GototopButton>
-    </Container>
+        <GototopButton type="button" onClick={() => window.scrollTo(0, 0)}>
+          <IconGototopButton icon={faArrowCircleUp}></IconGototopButton>
+        </GototopButton>
+      </Container>
+    </>
   );
 };
 

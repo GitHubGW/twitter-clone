@@ -93,11 +93,12 @@ const PostingEditTweetDesc = styled.input`
   margin-top: 7px;
   color: #989898;
   border-radius: 5px;
-  background-color: ${(props) => (props.current ? "#1e2125" : "white")};
+  background-color: ${(props) => props.currentLight && "white"};
+  background-color: ${(props) => props.currentDark && "#404040"};
 `;
 
 const PostingTweetImage = styled.img`
-  width: 485px;
+  width: 490px;
   height: 280px;
   border-radius: 15px;
 `;
@@ -140,7 +141,7 @@ const IconTweetEdit = styled(FontAwesomeIcon)`
 
   &:hover {
     color: var(--twitter-color);
-    background-color: #e6f3ff;
+    background-color: ${(props) => (props.current ? "#404040" : "#e6f3ff")};
   }
 `;
 
@@ -153,7 +154,7 @@ const IconTweetDelete = styled(FontAwesomeIcon)`
 
   &:hover {
     color: var(--twitter-color);
-    background-color: #e6f3ff;
+    background-color: ${(props) => (props.current ? "#404040" : "#e6f3ff")};
   }
 `;
 
@@ -348,7 +349,13 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
                       )}
                     </PostingEditDelete>
                   </PostingTweetAuthor>
-                  <PostingEditTweetDesc type="text" value={editingTweet} onChange={onChange}></PostingEditTweetDesc>
+                  <PostingEditTweetDesc
+                    currentLight={isEditing === true && isDark === false && true}
+                    currentDark={isEditing === true && isDark === true && true}
+                    type="text"
+                    value={editingTweet}
+                    onChange={onChange}
+                  ></PostingEditTweetDesc>
                   {tweetObject.fileDownloadUrl && <PostingTweetImage src={tweetObject.fileDownloadUrl} alt={tweetObject.content}></PostingTweetImage>}
                   <PostingTweetLike type="button" onClick={handleLikeBtn}>
                     <IconTweetLike icon={isHeart ? faHeart2 : faHeart}></IconTweetLike>
@@ -374,10 +381,10 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
                 {isOwner && (
                   <>
                     <PostingTweetEdit type="button" onClick={onEditTweet}>
-                      <IconTweetEdit icon={faEdit}></IconTweetEdit>
+                      <IconTweetEdit icon={faEdit} current={isDark ? true : false}></IconTweetEdit>
                     </PostingTweetEdit>
                     <PostingTweetDelete type="button" onClick={onDeleteTweet}>
-                      <IconTweetDelete icon={faTrashAlt}></IconTweetDelete>
+                      <IconTweetDelete icon={faTrashAlt} current={isDark ? true : false}></IconTweetDelete>
                     </PostingTweetDelete>
                   </>
                 )}

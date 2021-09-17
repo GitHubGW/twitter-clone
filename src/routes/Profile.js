@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { firestoreService, storageService } from "firebaseConfiguration";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import { faCheckCircle, faSignOutAlt, faCamera, faUserEdit } from "@fortawesome/free-solid-svg-icons";
@@ -72,9 +73,11 @@ const ProfileFormDisplayName = styled.input`
   outline: none;
   font-size: 20px;
   font-weight: bold;
-  margin-top: 13px;
-  margin-bottom: 4px;
+  margin-top: 16px;
+  margin-bottom: 6px;
   margin-left: 14px;
+  color: ${(props) => (props.current ? "#989898" : "black")};
+  background-color: transparent;
 
   &::placeholder {
     font-size: 17px;
@@ -90,17 +93,17 @@ const TweetFormImageLabel = styled.label`
 const IconCamera = styled(FontAwesomeIcon)`
   font-size: 25px;
   cursor: pointer;
-  color: #bebebe;
   padding: 7px;
   border-radius: 50%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  color: ${(props) => (props.current ? "white" : "#bebebe")};
 
   &:hover {
     color: var(--twitter-color);
-    background-color: #e6f3ff;
+    background-color: ${(props) => (props.current ? "white" : "#e6f3ff")};
   }
 `;
 
@@ -149,7 +152,7 @@ const ProfileTweet = styled.div`
 // 작성한 트윗 목록
 const PostingMyTweetContainer = styled.div`
   margin-top: 50px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
 `;
 
 const PostingMyTweetTitle = styled.h1`
@@ -165,10 +168,10 @@ const PostingMyTweet = styled.div`
   padding: 10px 17px;
   cursor: pointer;
   border-bottom: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
-  background-color: ${(props) => props.current && "#f8f8f8"};
+  background-color: ${(props) => (props.current ? "#0F0F0F" : "#ffffff")};
 
   &:hover {
-    background-color: #f8f8f8;
+    background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
   }
   &:last-child {
     border-bottom: none;
@@ -228,7 +231,7 @@ const PostingTweetDesc = styled.p`
 `;
 
 const PostingTweetImage = styled.img`
-  width: 485px;
+  width: 490px;
   height: 280px;
   border-radius: 15px;
 `;
@@ -331,13 +334,16 @@ const Profile = ({ userObject, refreshDisplayName, createNotification, isDark })
 
   return (
     <>
+      <Helmet>
+        <title>트위터 / {userObject?.email && userObject.email} 프로필</title>
+      </Helmet>
       <ProfileContainer>
         <ProfileEdit>
           <ProfileForm onSubmit={onSubmit}>
             <ProfileImageContainer>
               <TweetFormImageLabel htmlFor="profilePhotoInput">
                 <ProfileFormImage ref={fileImageInput} src={userObject?.photoURL ? userObject.photoURL : userImage} alt={userObject?.email}></ProfileFormImage>
-                <IconCamera icon={faCamera}></IconCamera>
+                <IconCamera icon={faCamera} current={isDark ? true : false}></IconCamera>
               </TweetFormImageLabel>
               <ProfileButtons>
                 <TweetFormDisplayNameLabel htmlFor="displayNameInput">
@@ -354,6 +360,7 @@ const Profile = ({ userObject, refreshDisplayName, createNotification, isDark })
               value={newDisplayName}
               minLength={2}
               maxLength={10}
+              current={isDark ? true : false}
               required
             ></ProfileFormDisplayName>
             <ProfileFormFile id="profilePhotoInput" type="file" accept="image/*" onChange={onFileChange} style={{ display: "none" }}></ProfileFormFile>
@@ -376,7 +383,7 @@ const Profile = ({ userObject, refreshDisplayName, createNotification, isDark })
         </ProfileEdit>
         <ProfileTweet>
           {myTweets && myTweets.length > 0 ? (
-            <PostingMyTweetContainer>
+            <PostingMyTweetContainer current={isDark ? true : false}>
               <PostingMyTweetTitle>작성한 트윗 ({myTweets.length})</PostingMyTweetTitle>
               {myTweets.map((myTweet, index) => {
                 return (
