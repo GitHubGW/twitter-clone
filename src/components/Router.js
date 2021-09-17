@@ -4,16 +4,28 @@ import Home from "routes/Home";
 import Profile from "routes/Profile";
 import Authentication from "routes/Authentication";
 
-const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification, changeTheme }) => {
+const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification, isDark, changeTheme }) => {
   return (
     <HashRouter>
       {isLoggedIn ? (
         <Switch>
           <Route exact path="/">
-            <Home userObject={userObject} changeTheme={changeTheme} createNotification={createNotification} />
+            <Home
+              userObject={userObject}
+              refreshDisplayName={refreshDisplayName}
+              createNotification={createNotification}
+              isDark={isDark}
+              changeTheme={changeTheme}
+            />
           </Route>
           <Route exact path="/profile">
-            <Profile userObject={userObject} refreshDisplayName={refreshDisplayName} createNotification={createNotification} />
+            <Home
+              userObject={userObject}
+              refreshDisplayName={refreshDisplayName}
+              createNotification={createNotification}
+              isDark={isDark}
+              changeTheme={changeTheme}
+            />
           </Route>
           <Redirect from="*" to="/" />
         </Switch>
@@ -30,3 +42,13 @@ const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification
 };
 
 export default Router;
+
+{
+  /* <Profile
+              userObject={userObject}
+              refreshDisplayName={refreshDisplayName}
+              createNotification={createNotification}
+              isDark={isDark}
+              changeTheme={changeTheme}
+            /> */
+}

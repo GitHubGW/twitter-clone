@@ -125,7 +125,7 @@ const GoogleLogin = styled.button`
   outline: none;
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
-  padding: 10px;
+  padding: 11px;
   color: black;
   border-radius: 30px;
   font-size: 16px;
@@ -145,7 +145,7 @@ const GithubLogin = styled.button`
   border: none;
   outline: none;
   background-color: #303030;
-  padding: 12px;
+  padding: 11px;
   color: white;
   border-radius: 30px;
   font-size: 16px;
@@ -161,26 +161,19 @@ const GithubLogin = styled.button`
   }
 `;
 
-const IconGithub = styled(FontAwesomeIcon)`
-  font-size: 25px;
-`;
-
 const IconGoogle = styled.img`
-  width: 22px;
+  width: 18px;
+  margin-right: 5px;
+  margin-bottom: 1px;
 `;
 
-const IconGoogleTitle = styled.span`
-  margin-top: 3px;
-  margin-left: 8px;
-`;
-
-const IconGithubTitle = styled.span`
-  margin-top: 3px;
-  margin-left: 8px;
+const IconGithub = styled(FontAwesomeIcon)`
+  font-size: 21px;
+  margin-right: 5px;
+  margin-bottom: 1px;
 `;
 
 const ErrorMessage = styled.h3`
-  /* height: 20px; */
   font-size: 13px;
   margin-top: 8px;
   margin-bottom: 12px;
@@ -190,7 +183,10 @@ const ErrorMessage = styled.h3`
 
 const MenuLoginForm = styled.div`
   margin-bottom: 10px;
-  margin-top: 12px;
+  margin-top: 17px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const MenuLoginButton = styled.button`
@@ -202,11 +198,11 @@ const MenuLoginButton = styled.button`
   border-radius: 30px;
   font-size: 15px;
   font-weight: bold;
-  background-color: #98cff8;
+  background-color: var(--twitter-color);
   margin-right: 8px;
 
   &:hover {
-    background-color: var(--twitter-color);
+    background-color: var(--twitter-dark-color);
   }
 `;
 
@@ -219,14 +215,19 @@ const MenuLogoutButton = styled.button`
   border-radius: 30px;
   font-size: 15px;
   font-weight: bold;
-  background-color: #98cff8;
+  background-color: var(--twitter-color);
 
   &:hover {
-    background-color: var(--twitter-color);
+    background-color: var(--twitter-dark-color);
   }
 `;
 
-const Authentication = ({ userObject, createNotification }) => {
+const DarkModeButton = styled.button`
+  font-size: 30px;
+  margin-right: 3px;
+`;
+
+const Authentication = ({ userObject, createNotification, isDark, changeTheme }) => {
   // console.log("Authentication userObject", userObject);
 
   const history = useHistory();
@@ -300,24 +301,24 @@ const Authentication = ({ userObject, createNotification }) => {
       try {
         const googleProvider = new firebaseApp.auth.GoogleAuthProvider();
         await authService.signInWithPopup(googleProvider);
+
+        createNotification("SuccessGoogleLogin");
+        setIsLoginForm(!isLoginForm);
       } catch (error) {
         console.log(error);
         setError(error.message);
       }
-
-      createNotification("SuccessGoogleLogin");
-      setIsLoginForm(!isLoginForm);
     } else if (name === "githubLogin") {
       try {
         const githubProvider = new firebaseApp.auth.GithubAuthProvider();
         await authService.signInWithPopup(githubProvider);
+
+        createNotification("SuccessGithubLogin");
+        setIsLoginForm(!isLoginForm);
       } catch (error) {
         console.log(error);
         setError(error.message);
       }
-
-      createNotification("SuccessGithubLogin");
-      setIsLoginForm(!isLoginForm);
     }
   };
 
@@ -325,9 +326,6 @@ const Authentication = ({ userObject, createNotification }) => {
   const handleMainLogin = () => {
     setIsRegisterForm(false);
     setIsLoginForm(!isLoginForm);
-    console.log(window.document.body.childNodes);
-
-    // window.document.body.getElementById("root").classList.add("active");
   };
 
   // 홈화면 회원가입 버튼
@@ -365,16 +363,6 @@ const Authentication = ({ userObject, createNotification }) => {
     setIsLoginForm(true);
   };
 
-  const dd = Array.from(window.document.body.childNodes);
-  const ee = Array.from(dd[1].childNodes.item);
-
-  console.log("ee", ee);
-  // console.log("ee", ee[0]);
-
-  // ee[0]
-
-  // dd[1].classList.add("active");
-
   return (
     <>
       {/* 홈화면 메뉴 */}
@@ -387,6 +375,7 @@ const Authentication = ({ userObject, createNotification }) => {
         ) : (
           <MenuLogoutButton onClick={onClickLogOut}>로그아웃</MenuLogoutButton>
         )}
+        <DarkModeButton onClick={changeTheme}>{isDark ? "🌙" : "🌞"}</DarkModeButton>
       </MenuLoginForm>
 
       {/* 로그인 폼 */}
@@ -404,11 +393,11 @@ const Authentication = ({ userObject, createNotification }) => {
               </LoginFormTag>
               <SocialLoginContainer>
                 <GoogleLogin name="googleLogin" onClick={onClickSocialLogin}>
-                  {/* <IconGoogle src={googleLogo} onClick={onClickSocialLogin}></IconGoogle> */}
+                  <IconGoogle src={googleLogo}></IconGoogle>
                   구글 로그인
                 </GoogleLogin>
                 <GithubLogin name="githubLogin" onClick={onClickSocialLogin}>
-                  {/* <IconGithub icon={faGithub}></IconGithub> */}
+                  <IconGithub icon={faGithub}></IconGithub>
                   깃허브 로그인
                 </GithubLogin>
                 <RegisterButton onClick={gotoRegisterForm}>트위터 회원가입</RegisterButton>

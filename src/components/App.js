@@ -13,52 +13,49 @@ const App = () => {
   const [initializeFirebase, setInitializeFirebase] = useState(false); // 파이어베이스 초기화 확인
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부 확인
   const [userObject, setUserObject] = useState(null); // 로그인한 사용자 정보
-  const [isDark, setIsDark] = useState(localStorage.getItem("isDark")); // 다크모드 확인
-  const localDark = localStorage.getItem("isDark");
+  const [isDark, setIsDark] = useState(false); // 다크모드 확인
 
   // 다크모드 전환
-  const changeTheme = async () => {
-    if (isDark === "false") {
-      setIsDark(true);
-      localStorage.setItem("isDark", true);
-      return;
-    }
+  const changeTheme = () => {
+    // if (isDark === false) {
+    //   setIsDark(true);
+    //   return;
+    // }
     setIsDark(!isDark);
-    localStorage.setItem("isDark", !isDark);
   };
 
   // 플래시 메세지
   const createNotification = (type) => {
     switch (type) {
       case "SuccessRegister":
-        NotificationManager.success("계정 생성 완료", "성공", 1200);
+        NotificationManager.success("계정 생성을 성공하였습니다.", "성공", 1200);
         break;
       case "SuccessLogin":
-        NotificationManager.success("이메일 로그인 완료", "성공", 1200);
+        NotificationManager.success("이메일 로그인에 성공하였습니다.", "성공", 1200);
         break;
       case "SuccessGoogleLogin":
-        NotificationManager.success("구글 로그인 완료", "성공", 1200);
+        NotificationManager.success("구글 로그인에 성공하였습니다.", "성공", 1200);
         break;
       case "SuccessGithubLogin":
-        NotificationManager.success("깃허브 로그인 완료", "성공", 1200);
+        NotificationManager.success("깃허브 로그인에 성공하였습니다.", "성공", 1200);
         break;
       case "SuccessLogout":
-        NotificationManager.success("로그아웃 완료", "성공", 1200);
+        NotificationManager.success("로그아웃 되었습니다.", "성공", 1200);
         break;
       case "NotLogin":
         NotificationManager.error("로그인 후 이용 가능합니다.", "실패", 1600);
         break;
       case "SuccessPostTweet":
-        NotificationManager.success("트윗 작성 완료", "성공", 1500);
+        NotificationManager.success("트윗을 작성하였습니다.", "성공", 1500);
         break;
       case "SuccessEditTweet":
-        NotificationManager.success("트윗 수정 완료", "성공", 1500);
+        NotificationManager.success("트윗을 수정하였습니다.", "성공", 1500);
         break;
       case "SuccessDeleteTweet":
-        NotificationManager.success("트윗 삭제 완료", "성공", 1500);
+        NotificationManager.success("트윗을 삭제하였습니다.", "성공", 1500);
         break;
       case "SuccessProfile":
-        NotificationManager.success("프로필 업데이트 완료", "성공", 1500);
+        NotificationManager.success("프로필을 업데이트하였습니다.", "성공", 1500);
         break;
       case "info":
         NotificationManager.info("트윗 작성 성공", "", 1500);
@@ -130,15 +127,16 @@ const App = () => {
       {initializeFirebase ? (
         <>
           <GlobalStyle
-            bgColor={String(localDark) === "true" ? true : false}
-            color={String(localDark) === "true" ? true : false}
-            borderColor={String(localDark) === "true" ? true : false}
+            bgColor={isDark === true ? true : false}
+            color={isDark === true ? true : false}
+            borderColor={isDark === true ? true : false}
           ></GlobalStyle>
           <Router
             isLoggedIn={true}
             userObject={userObject}
             refreshDisplayName={refreshDisplayName}
             createNotification={createNotification}
+            isDark={isDark}
             changeTheme={changeTheme}
           />
           <NotificationContainer></NotificationContainer>

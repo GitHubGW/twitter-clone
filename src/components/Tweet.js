@@ -75,10 +75,9 @@ const AuthorDot = styled.span`
 `;
 
 const PostingTweetDesc = styled.p`
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-size: 16px;
   line-height: 1.5;
-  margin-top: 8px;
 `;
 
 const PostingEditTweetDesc = styled.input`
@@ -89,14 +88,15 @@ const PostingEditTweetDesc = styled.input`
   outline: none;
   width: 100%;
   background-color: white;
-  padding: 12px 12px;
+  padding: 10px 12px;
   box-sizing: border-box;
-  margin-top: 8px;
+  margin-top: 7px;
   color: gray;
+  border-radius: 5px;
 `;
 
 const PostingTweetImage = styled.img`
-  width: 480px;
+  width: 485px;
   height: 280px;
   border-radius: 15px;
 `;
@@ -203,7 +203,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
     return `${getMonth}월 ${getDate}일 (${getDay})`;
   };
 
-  // 트윗 작성 및 수정 버튼
+  // 트윗 수정 버튼
   const onSubmit = async (event) => {
     event.preventDefault();
 
@@ -211,7 +211,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
       content: editingTweet,
     });
     setIsEditing(false);
-    // setEditingTweet("");
+    createNotification("SuccessEditTweet");
   };
 
   const onChange = (event) => {
@@ -221,7 +221,6 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
     setEditingTweet(value);
   };
 
-  // 트윗 수정 버튼 (아이콘)
   const onEditTweet = () => {
     setIsEditing(true);
     setEditingTweet(tweetObject.content);
@@ -239,6 +238,8 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
         await storageService.refFromURL(tweetObject.fileDownloadUrl).delete(); // Storage에서 파일 삭제
       }
     }
+
+    createNotification("SuccessDeleteTweet");
   };
 
   // 트윗 취소 버튼

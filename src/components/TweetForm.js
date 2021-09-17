@@ -35,7 +35,7 @@ const FileDataContainer = styled.div`
 `;
 
 const FileData = styled.img`
-  width: 480px;
+  width: 485px;
   height: 280px;
   border-radius: 15px;
 `;
@@ -162,6 +162,7 @@ const TweetForm = ({ userObject, createNotification }) => {
     setTweet("");
     setFileDataUrl("");
     setIsEmoji(false);
+    createNotification("SuccessPostTweet");
   };
 
   const onChange = (event) => {
