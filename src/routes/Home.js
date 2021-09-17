@@ -3,14 +3,14 @@ import { Link, useHistory } from "react-router-dom";
 import { firestoreService } from "firebaseConfiguration";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faEllipsisH, faCog, faSearch, faArrowCircleUp } from "@fortawesome/free-solid-svg-icons";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faBell, faEnvelope, faBookmark, faListAlt, faUser } from "@fortawesome/free-regular-svg-icons";
+import { faHome, faEllipsisH, faCog, faSearch, faArrowCircleUp } from "@fortawesome/free-solid-svg-icons";
 import Tweet from "components/Tweet";
 import TweetForm from "components/TweetForm";
-import userImage from "images/user.png";
-import Authentication from "./Authentication";
 import Profile from "./Profile";
+import Authentication from "./Authentication";
+import userImage from "images/user.png";
 
 const Container = styled.div`
   width: 1260px;
@@ -257,7 +257,6 @@ const TweetPostContainer = styled.div`
 `;
 
 const TweetPostHeader = styled.div`
-  /* height: 200px; */
   margin-left: 7px;
 `;
 
@@ -458,7 +457,7 @@ const IconGototopButton = styled(FontAwesomeIcon)`
 `;
 
 const Home = ({ userObject, refreshDisplayName, createNotification, isDark, changeTheme }) => {
-  console.log("Home.js userObject", userObject);
+  // console.log("Home.js userObject", userObject);
 
   const [allTweets, setAllTweets] = useState(""); // Document에 있는 모튼 트윗들
   const [allTweetsLength, setAllTweetsLength] = useState(0); // Document에 있는 모튼 트윗 갯수
@@ -507,6 +506,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
     const {
       target: { value },
     } = event;
+
     setSearchText(value);
   };
 
@@ -515,9 +515,9 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
     twitterSearch.current.focus();
   };
 
-  // const handleGet = async () => {
-  //   const abc = await firestoreService.collection("tweets").orderBy("createdAtTime", "desc").get();
-  //   console.log("abc", abc);
+  // const handleOrderByDesc = async () => {
+  //   const getDesc = await firestoreService.collection("tweets").orderBy("createdAtTime", "desc").get();
+  //   console.log("getDesc", getDesc);
   // };
 
   useEffect(() => {
@@ -525,12 +525,13 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
       .collection("tweets")
       .orderBy("createdAtTime", "desc")
       .onSnapshot((querySnapshot) => {
-        const querySnapshotSize = querySnapshot.size;
+        // 전체 트윗 가져오기 (map사용)
         const queryDocumentSnapshotObjectArray = querySnapshot.docs.map((queryDocumentSnapshot) => ({
-          // 전체 트윗 가져오기 (map사용)
           documentId: queryDocumentSnapshot.id,
           ...queryDocumentSnapshot.data(),
         }));
+        const querySnapshotSize = querySnapshot.size;
+
         setAllTweetsLength(querySnapshotSize);
         setAllTweets(queryDocumentSnapshotObjectArray);
       });
@@ -581,7 +582,9 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                 <IconText>더보기</IconText>
               </MenuList>
             </MenuNav>
-            <MenuButton onClick={shareTwitter}>공유하기</MenuButton>
+            <MenuButton type="button" onClick={shareTwitter}>
+              공유하기
+            </MenuButton>
           </MenuContainer>
           <UserContainerLink to={userObject === null ? "/" : "/profile"}>
             <UserContainer>
@@ -596,7 +599,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
         </LeftContainer>
       </LeftContainerParent>
 
-      {/* 트윗 (중앙) */}
+      {/* 트윗 목록 (중앙) */}
       <CenterContainerParent>
         <CenterContainer>
           <ContentContainer>
@@ -749,7 +752,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
         </RightContainer>
       </RightContainerParent>
 
-      <GototopButton onClick={() => window.scrollTo(0, 0)}>
+      <GototopButton type="button" onClick={() => window.scrollTo(0, 0)}>
         <IconGototopButton icon={faArrowCircleUp}></IconGototopButton>
       </GototopButton>
     </Container>

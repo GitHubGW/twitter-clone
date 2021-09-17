@@ -1,7 +1,7 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import { firestoreService, storageService } from "firebaseConfiguration";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeart2 } from "@fortawesome/free-solid-svg-icons";
 import { faEdit, faHeart, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
@@ -210,6 +210,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
     await firestoreService.collection("tweets").doc(`${tweetObject.documentId}`).update({
       content: editingTweet,
     });
+
     setIsEditing(false);
     createNotification("SuccessEditTweet");
   };
@@ -218,6 +219,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
     const {
       target: { value },
     } = event;
+
     setEditingTweet(value);
   };
 
@@ -281,6 +283,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
           likesArray: [...new Set(totalLikesArray)],
           clickLikes: true,
         });
+
       setIsHeart(true);
     } else if (isLike === true) {
       const filteredLikesArray = totalLikesArray.filter((value, index) => {
@@ -291,8 +294,10 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
         likesArray: filteredLikesArray,
         clickLikes: false,
       });
+
       setIsHeart(false);
     }
+
     setIsLike(!isLike);
   };
 
@@ -328,15 +333,19 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
                     <PostingEditDelete>
                       {isOwner && (
                         <>
-                          <EditTweetBtn onClick={onSubmit}>수정</EditTweetBtn>
-                          <DeleteTweetBtn onClick={onCancelTweet}>취소</DeleteTweetBtn>
+                          <EditTweetBtn type="submit" onClick={onSubmit}>
+                            수정
+                          </EditTweetBtn>
+                          <DeleteTweetBtn type="button" onClick={onCancelTweet}>
+                            취소
+                          </DeleteTweetBtn>
                         </>
                       )}
                     </PostingEditDelete>
                   </PostingTweetAuthor>
                   <PostingEditTweetDesc type="text" value={editingTweet} onChange={onChange}></PostingEditTweetDesc>
                   {tweetObject.fileDownloadUrl && <PostingTweetImage src={tweetObject.fileDownloadUrl} alt={tweetObject.content}></PostingTweetImage>}
-                  <PostingTweetLike onClick={handleLikeBtn}>
+                  <PostingTweetLike type="button" onClick={handleLikeBtn}>
                     <IconTweetLike icon={isHeart ? faHeart2 : faHeart}></IconTweetLike>
                     <IconTweetLikeNumber>{tweetObject.likesArray.length}</IconTweetLikeNumber>
                   </PostingTweetLike>
@@ -359,10 +368,10 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
               <PostingEditDelete>
                 {isOwner && (
                   <>
-                    <PostingTweetEdit onClick={onEditTweet}>
+                    <PostingTweetEdit type="button" onClick={onEditTweet}>
                       <IconTweetEdit icon={faEdit}></IconTweetEdit>
                     </PostingTweetEdit>
-                    <PostingTweetDelete onClick={onDeleteTweet}>
+                    <PostingTweetDelete type="button" onClick={onDeleteTweet}>
                       <IconTweetDelete icon={faTrashAlt}></IconTweetDelete>
                     </PostingTweetDelete>
                   </>
@@ -377,7 +386,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
                 onClick={isOwner ? handleNothing : onClickPostingImage}
               ></PostingTweetImage>
             )}
-            <PostingTweetLike onClick={handleLikeBtn}>
+            <PostingTweetLike type="button" onClick={handleLikeBtn}>
               <IconTweetLike icon={isHeart ? faHeart2 : faHeart}></IconTweetLike>
               <IconTweetLikeNumber>{tweetObject.likesArray.length}</IconTweetLikeNumber>
             </PostingTweetLike>

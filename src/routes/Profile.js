@@ -1,15 +1,12 @@
 import { useRef, useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { authService, firestoreService, storageService } from "firebaseConfiguration";
+import { firestoreService, storageService } from "firebaseConfiguration";
 import styled from "styled-components";
-import userImage from "images/user.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle, faSignOutAlt, faCamera, faUserEdit } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
+import { faCheckCircle, faSignOutAlt, faCamera, faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import userImage from "images/user.png";
 
-const ProfileContainer = styled.div`
-  /* padding: 50px 16px; */
-`;
+const ProfileContainer = styled.div``;
 
 const ProfileEdit = styled.div``;
 
@@ -236,17 +233,14 @@ const PostingTweetImage = styled.img`
 `;
 
 const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
-  console.log("Profile userObject", userObject);
+  // console.log("Profile userObject", userObject);
 
-  const history = useHistory();
   const creationTime = userObject?.creationTime;
   const lastSignInTime = userObject?.lastSignInTime;
   const [newDisplayName, setNewDisplayName] = useState(userObject?.displayName);
   const [myTweets, setMyTweets] = useState([]);
   const [fileDataUrl, setFileDataUrl] = useState("");
   const [fileName, setFileName] = useState("");
-  const [isEditing, setIsEditing] = useState(false); // 현재 트윗을 수정 중인지 확인
-  const [editingTweet, setEditingTweet] = useState(userObject?.content); // 수정 중인 트윗 내용을 가져옴
   const fileImageInput = useRef();
   let fileDownloadUrl = "";
 
@@ -266,8 +260,6 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
 
     // Document에서 모든 필드의 데이터 가져오기
     // tweets.docs.map((doc)=>doc.data())
-
-    // console.log("getMyTweets doc", doc.data());
 
     const myTweetsArray = tweets.docs.map((doc) => ({
       ...doc.data(),
@@ -292,8 +284,6 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
       photoURL: fileDownloadUrl,
     });
 
-    await userObject.updatePassword("abcd1234");
-
     refreshDisplayName();
     createNotification("SuccessProfile");
   };
@@ -302,7 +292,6 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
     const {
       target: { value },
     } = event;
-
     setNewDisplayName(value);
   };
 
@@ -310,8 +299,6 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
     const {
       target: { files },
     } = event;
-    console.log("Profile Onchange", files);
-
     const uploadFile = files[0];
     const uploadFileName = uploadFile?.name;
     const fileReader = new FileReader();
@@ -382,7 +369,6 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
               <IconProfileCreation icon={faCalendarAlt}></IconProfileCreation>
               계정 생성일: {getTime(creationTime)}
             </ProfileCreation>
-
             <ProfileLastSignIn>
               <IconProfileSignIn icon={faSignOutAlt}></IconProfileSignIn>
               마지막 로그인: {getTime(lastSignInTime)}
@@ -423,5 +409,3 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
 };
 
 export default Profile;
-
-// onClick={isOwner === true ? onEditTweet : handleNothing}

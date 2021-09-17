@@ -108,7 +108,7 @@ const IconTweetSmile = styled(FontAwesomeIcon)`
 const PickerContainer = styled(Picker)``;
 
 const TweetForm = ({ userObject, createNotification }) => {
-  console.log("TweetForm userObject", userObject);
+  // console.log("TweetForm userObject", userObject);
 
   const [tweet, setTweet] = useState("");
   const [fileDataUrl, setFileDataUrl] = useState("");
@@ -175,7 +175,9 @@ const TweetForm = ({ userObject, createNotification }) => {
     } else {
       inputTweet.current.style.backgroundColor = "#98cff8";
     }
+
     setTweet(value);
+    setIsEmoji(false);
   };
 
   // 파일 첨부 버튼
@@ -188,13 +190,16 @@ const TweetForm = ({ userObject, createNotification }) => {
     const fileReader = new FileReader();
 
     if (fileReader && uploadFile !== undefined && uploadFile !== null) {
-      console.log("TweetForm uploadFile", uploadFile);
+      // console.log("TweetForm uploadFile", uploadFile);
+
       fileReader.onload = (event) => {
         const {
           target: { result },
         } = event;
+
         setFileDataUrl(result);
       };
+
       fileReader.readAsDataURL(uploadFile);
       setFileName(`${uploadFileName}_${Date.now()}`);
     }
@@ -246,7 +251,7 @@ const TweetForm = ({ userObject, createNotification }) => {
         {fileDataUrl && (
           <FileDataContainer>
             <FileData src={fileDataUrl} alt="image"></FileData>
-            <FileDataButton onClick={onCancelClick}>
+            <FileDataButton type="button" onClick={onCancelClick}>
               <IconDataCancelContainer icon={faTimes}></IconDataCancelContainer>
             </FileDataButton>
           </FileDataContainer>

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { authService, firestoreService } from "firebaseConfiguration";
-import { NotificationContainer, NotificationManager } from "react-notifications";
+import { authService } from "firebaseConfiguration";
+import { NotificationContainer } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import Router from "components/Router";
 import GlobalStyle from "theme/GlobalStyle";
 import Loading from "./Loading";
+import { createNotification } from "./Notification";
 
 const App = () => {
   // console.log("App.js authService.currentUser", authService.currentUser);
@@ -17,60 +18,7 @@ const App = () => {
 
   // 다크모드 전환
   const changeTheme = () => {
-    // if (isDark === false) {
-    //   setIsDark(true);
-    //   return;
-    // }
     setIsDark(!isDark);
-  };
-
-  // 플래시 메세지
-  const createNotification = (type) => {
-    switch (type) {
-      case "SuccessRegister":
-        NotificationManager.success("계정 생성을 성공하였습니다.", "성공", 1200);
-        break;
-      case "SuccessLogin":
-        NotificationManager.success("이메일 로그인에 성공하였습니다.", "성공", 1200);
-        break;
-      case "SuccessGoogleLogin":
-        NotificationManager.success("구글 로그인에 성공하였습니다.", "성공", 1200);
-        break;
-      case "SuccessGithubLogin":
-        NotificationManager.success("깃허브 로그인에 성공하였습니다.", "성공", 1200);
-        break;
-      case "SuccessLogout":
-        NotificationManager.success("로그아웃 되었습니다.", "성공", 1200);
-        break;
-      case "NotLogin":
-        NotificationManager.error("로그인 후 이용 가능합니다.", "실패", 1600);
-        break;
-      case "SuccessPostTweet":
-        NotificationManager.success("트윗을 작성하였습니다.", "성공", 1500);
-        break;
-      case "SuccessEditTweet":
-        NotificationManager.success("트윗을 수정하였습니다.", "성공", 1500);
-        break;
-      case "SuccessDeleteTweet":
-        NotificationManager.success("트윗을 삭제하였습니다.", "성공", 1500);
-        break;
-      case "SuccessProfile":
-        NotificationManager.success("프로필을 업데이트하였습니다.", "성공", 1500);
-        break;
-      case "info":
-        NotificationManager.info("트윗 작성 성공", "", 1500);
-        break;
-      case "warning":
-        NotificationManager.warning("Warning message", "Close after 3000ms", 1500);
-        break;
-      case "error":
-        NotificationManager.error("로그인후 이용해주세요", "오류", 1500, () => {
-          alert("callback");
-        });
-        break;
-      default:
-        break;
-    }
   };
 
   // 프로필 닉네임 변경시 리액트를 리랜더링 시킴
@@ -94,8 +42,6 @@ const App = () => {
   useEffect(() => {
     // authService에 AuthStateChanged 이벤트 추가
     authService.onAuthStateChanged((userObject) => {
-      // console.log("onAuthStateChanged User", userObject);
-
       if (userObject) {
         if (userObject.displayName === null) {
           userObject.updateProfile({
@@ -122,7 +68,7 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <>
       {/* 파이어베이스 초기화 후 실행 */}
       {initializeFirebase ? (
         <>
@@ -144,7 +90,7 @@ const App = () => {
       ) : (
         <Loading />
       )}
-    </div>
+    </>
   );
 };
 

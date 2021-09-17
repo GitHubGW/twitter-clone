@@ -1,8 +1,8 @@
 import React from "react";
 import { HashRouter, Switch, Route, Redirect } from "react-router-dom";
 import Home from "routes/Home";
-import Profile from "routes/Profile";
 import Authentication from "routes/Authentication";
+import Profile from "routes/Profile";
 
 const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification, isDark, changeTheme }) => {
   return (
@@ -42,13 +42,3 @@ const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification
 };
 
 export default Router;
-
-{
-  /* <Profile
-              userObject={userObject}
-              refreshDisplayName={refreshDisplayName}
-              createNotification={createNotification}
-              isDark={isDark}
-              changeTheme={changeTheme}
-            /> */
-}

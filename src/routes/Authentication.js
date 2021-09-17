@@ -2,7 +2,7 @@ import { useState } from "react";
 import { firebaseApp, authService } from "firebaseConfiguration";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter, faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faTwitter, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import googleLogo from "../images/google-logo.svg";
 import { useHistory } from "react-router-dom";
@@ -14,6 +14,21 @@ const LoginFormContainer = styled.div`
   transform: translate(-50%, -50%);
   width: 420px;
   height: 600px;
+  z-index: 10;
+  background-color: white;
+  border-radius: 20px;
+  border: 1px solid #eeeeee;
+  z-index: 100;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+`;
+
+const PWEmailFormContainer = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  height: 380px;
   z-index: 10;
   background-color: white;
   border-radius: 20px;
@@ -193,13 +208,13 @@ const MenuLoginButton = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 10px 15px;
+  padding: 10px 12px;
   color: white;
   border-radius: 30px;
   font-size: 15px;
   font-weight: bold;
   background-color: var(--twitter-color);
-  margin-right: 8px;
+  margin-right: 5px;
 
   &:hover {
     background-color: var(--twitter-dark-color);
@@ -210,12 +225,13 @@ const MenuLogoutButton = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 10px 15px;
+  padding: 10px 12px;
   color: white;
   border-radius: 30px;
   font-size: 15px;
   font-weight: bold;
   background-color: var(--twitter-color);
+  margin-right: 5px;
 
   &:hover {
     background-color: var(--twitter-dark-color);
@@ -232,15 +248,17 @@ const ChangePasswordBtn = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 10px 15px;
+  padding: 10px 12px;
   color: white;
   border-radius: 30px;
   font-size: 15px;
   font-weight: bold;
-  background-color: var(--twitter-color);
+  background-color: #a4b0be;
+
+  margin-right: 5px;
 
   &:hover {
-    background-color: var(--twitter-dark-color);
+    background-color: #57606f;
   }
 `;
 
@@ -248,15 +266,15 @@ const ChangeEmailBtn = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 10px 15px;
+  padding: 10px 12px;
   color: white;
   border-radius: 30px;
   font-size: 15px;
   font-weight: bold;
-  background-color: var(--twitter-color);
+  background-color: #747d8c;
 
   &:hover {
-    background-color: var(--twitter-dark-color);
+    background-color: #2f3542;
   }
 `;
 
@@ -275,22 +293,21 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
   const [isRegisterForm, setIsRegisterForm] = useState(false); // 회원가입 폼
   const [isChangePasswordForm, setIsChangePasswordForm] = useState(false); // 비밀번호 변경 폼
   const [isChangeEmailForm, setIsChangeEmailForm] = useState(false); // 이메일 변경 폼
-  const [isLogin, setIsLogin] = useState(false);
 
   // 이메일, 비밀번호 로그인
   const onSubmit = async (event) => {
+    // console.log("Authentication authService.currentUser", authService.currentUser);
     event.preventDefault();
-    console.log("Authentication authService.currentUser", authService.currentUser);
 
     try {
-      const data1 = await authService.signInWithEmailAndPassword(email, password); // 로그인
-      console.log("data1", data1);
+      await authService.signInWithEmailAndPassword(email, password); // 로그인
 
       createNotification("SuccessLogin");
       setIsLoginForm(!isLoginForm);
     } catch (error) {
       console.log(error);
       setError(error.message);
+      createNotification("FailLogin");
     }
   };
 
@@ -315,6 +332,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
     try {
       if (!isAccount) {
         await authService.createUserWithEmailAndPassword(email, password); // 이메일, 비밀번호로 계정 생성
+
         createNotification("SuccessRegister");
         setIsRegisterForm(!isRegisterForm);
       }
@@ -339,22 +357,24 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
         const googleProvider = new firebaseApp.auth.GoogleAuthProvider();
         await authService.signInWithPopup(googleProvider);
 
-        createNotification("SuccessGoogleLogin");
         setIsLoginForm(!isLoginForm);
+        createNotification("SuccessGoogleLogin");
       } catch (error) {
         console.log(error);
         setError(error.message);
+        createNotification("FailGoogleLogin");
       }
     } else if (name === "githubLogin") {
       try {
         const githubProvider = new firebaseApp.auth.GithubAuthProvider();
         await authService.signInWithPopup(githubProvider);
 
-        createNotification("SuccessGithubLogin");
         setIsLoginForm(!isLoginForm);
+        createNotification("SuccessGithubLogin");
       } catch (error) {
         console.log(error);
         setError(error.message);
+        createNotification("FailGithubLogin");
       }
     }
   };
@@ -363,6 +383,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
     const {
       target: { value },
     } = event;
+
     setNewPassword(value);
   };
 
@@ -372,12 +393,15 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
 
     try {
       await authService.currentUser.updatePassword(newPassword);
+
+      setIsChangePasswordForm(false);
+      createNotification("SuccessChangePassword");
     } catch (error) {
       console.log(error);
       setError(error.message);
+      createNotification("FailChangePassword");
     } finally {
       history.push("/");
-      setIsChangePasswordForm(false);
     }
   };
 
@@ -385,6 +409,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
     const {
       target: { value },
     } = event;
+
     setNewEmail(value);
   };
 
@@ -394,12 +419,15 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
 
     try {
       await authService.currentUser.updateEmail(newEmail);
+
+      setIsChangeEmailForm(false);
+      createNotification("SuccessChangeEmail");
     } catch (error) {
       console.log(error);
       setError(error.message);
+      createNotification("FailChangeEmail");
     } finally {
       history.push("/");
-      setIsChangeEmailForm(false);
     }
   };
 
@@ -429,6 +457,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
 
     if (currentUser) {
       await authService.signOut();
+
       createNotification("SuccessLogout");
       history.push("/");
       return;
@@ -440,6 +469,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
     setIsRegisterForm(true);
     setIsLoginForm(false);
     setIsChangePasswordForm(false);
+    setIsChangeEmailForm(false);
   };
 
   // 로그인 폼으로 이동
@@ -494,17 +524,29 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       <MenuLoginForm>
         {userObject === null ? (
           <>
-            <MenuLoginButton onClick={handleMainLogin}>로그인</MenuLoginButton>
-            <MenuLoginButton onClick={handleMainRegister}>회원가입</MenuLoginButton>
+            <MenuLoginButton type="button" onClick={handleMainLogin}>
+              로그인
+            </MenuLoginButton>
+            <MenuLoginButton type="button" onClick={handleMainRegister}>
+              회원가입
+            </MenuLoginButton>
           </>
         ) : (
           <>
-            <MenuLogoutButton onClick={onClickLogOut}>로그아웃</MenuLogoutButton>
-            <ChangePasswordBtn onClick={gotoPasswordForm}>비밀번호 변경</ChangePasswordBtn>
-            <ChangePasswordBtn onClick={gotoEmailForm}>이메일 변경</ChangePasswordBtn>
+            <MenuLogoutButton type="button" onClick={onClickLogOut}>
+              로그아웃
+            </MenuLogoutButton>
+            <ChangePasswordBtn type="button" onClick={gotoPasswordForm}>
+              비밀번호 변경
+            </ChangePasswordBtn>
+            <ChangeEmailBtn type="button" onClick={gotoEmailForm}>
+              이메일 변경
+            </ChangeEmailBtn>
           </>
         )}
-        <DarkModeButton onClick={changeTheme}>{isDark ? "🌙" : "🌞"}</DarkModeButton>
+        <DarkModeButton type="button" onClick={changeTheme}>
+          {isDark ? "🌙" : "🌞"}
+        </DarkModeButton>
       </MenuLoginForm>
 
       {/* 로그인 폼 */}
@@ -521,16 +563,18 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
                 <LoginSubmitTag type="submit" onClick={onSubmit} value="로그인"></LoginSubmitTag>
               </LoginFormTag>
               <SocialLoginContainer>
-                <GoogleLogin name="googleLogin" onClick={onClickSocialLogin}>
+                <GoogleLogin name="googleLogin" type="submit" onClick={onClickSocialLogin}>
                   <IconGoogle src={googleLogo}></IconGoogle>
                   구글 로그인
                 </GoogleLogin>
-                <GithubLogin name="githubLogin" onClick={onClickSocialLogin}>
+                <GithubLogin name="githubLogin" type="submit" onClick={onClickSocialLogin}>
                   <IconGithub icon={faGithub}></IconGithub>
                   깃허브 로그인
                 </GithubLogin>
-                <RegisterButton onClick={gotoRegisterForm}>트위터 회원가입</RegisterButton>
-                <CloseButton icon={faTimes} onClick={handleMainLogin}></CloseButton>
+                <RegisterButton type="button" onClick={gotoRegisterForm}>
+                  트위터 회원가입
+                </RegisterButton>
+                <CloseButton icon={faTimes} type="button" onClick={handleMainLogin}></CloseButton>
               </SocialLoginContainer>
             </LoginFormContent>
           </LoginFormContainer>
@@ -552,8 +596,10 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
                 <LoginSubmitTag type="submit" onClick={onClickRegister} value="회원가입"></LoginSubmitTag>
               </LoginFormTag>
               <SocialLoginContainer>
-                <RegisterButton onClick={gotoLoginForm}>트위터 로그인</RegisterButton>
-                <CloseButton icon={faTimes} onClick={handleCloseButton}></CloseButton>
+                <RegisterButton type="button" onClick={gotoLoginForm}>
+                  트위터 로그인
+                </RegisterButton>
+                <CloseButton icon={faTimes} type="button" onClick={handleCloseButton}></CloseButton>
               </SocialLoginContainer>
             </LoginFormContent>
           </LoginFormContainer>
@@ -563,7 +609,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       {/* 비밀번호 변경 폼 */}
       {isChangePasswordForm ? (
         <>
-          <LoginFormContainer>
+          <PWEmailFormContainer>
             <LoginFormContent>
               <IconTwitter icon={faTwitter}></IconTwitter>
               <LoginFormTitle>트위터 비밀번호 변경</LoginFormTitle>
@@ -573,17 +619,17 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
                 <LoginSubmitTag type="submit" onClick={onClickChangePassword} value="비밀번호 변경"></LoginSubmitTag>
               </LoginFormTag>
               <SocialLoginContainer>
-                <CloseButton icon={faTimes} onClick={handleCloseButton}></CloseButton>
+                <CloseButton icon={faTimes} type="button" onClick={handleCloseButton}></CloseButton>
               </SocialLoginContainer>
             </LoginFormContent>
-          </LoginFormContainer>
+          </PWEmailFormContainer>
         </>
       ) : null}
 
       {/* 이메일 변경 폼 */}
       {isChangeEmailForm ? (
         <>
-          <LoginFormContainer>
+          <PWEmailFormContainer>
             <LoginFormContent>
               <IconTwitter icon={faTwitter}></IconTwitter>
               <LoginFormTitle>트위터 이메일 변경</LoginFormTitle>
@@ -593,10 +639,10 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
                 <LoginSubmitTag type="submit" onClick={onClickChangeEmail} value="이메일 변경"></LoginSubmitTag>
               </LoginFormTag>
               <SocialLoginContainer>
-                <CloseButton icon={faTimes} onClick={handleCloseButton}></CloseButton>
+                <CloseButton icon={faTimes} type="button" onClick={handleCloseButton}></CloseButton>
               </SocialLoginContainer>
             </LoginFormContent>
-          </LoginFormContainer>
+          </PWEmailFormContainer>
         </>
       ) : null}
     </>
