@@ -164,7 +164,7 @@ const PostingMyTweet = styled.div`
   display: flex;
   padding: 10px 17px;
   cursor: pointer;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
   background-color: ${(props) => props.current && "#f8f8f8"};
 
   &:hover {
@@ -233,7 +233,7 @@ const PostingTweetImage = styled.img`
   border-radius: 15px;
 `;
 
-const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
+const Profile = ({ userObject, refreshDisplayName, createNotification, isDark }) => {
   const creationTime = userObject?.creationTime;
   const lastSignInTime = userObject?.lastSignInTime;
   const [newDisplayName, setNewDisplayName] = useState(userObject?.displayName);
@@ -380,7 +380,7 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
               <PostingMyTweetTitle>작성한 트윗 ({myTweets.length})</PostingMyTweetTitle>
               {myTweets.map((myTweet, index) => {
                 return (
-                  <PostingMyTweet key={index}>
+                  <PostingMyTweet key={index} current={isDark ? true : false}>
                     <PostingTweetAuthorImage src={myTweet.photoURL ? myTweet.photoURL : userImage} alt={myTweet.displayName}></PostingTweetAuthorImage>
                     <PostingTweetContent>
                       <PostingTweetAuthor>
@@ -411,6 +411,7 @@ Profile.propTypes = {
   userObject: PropTypes.object,
   refreshDisplayName: PropTypes.func.isRequired,
   createNotification: PropTypes.func.isRequired,
+  isDark: PropTypes.bool.isRequired,
 };
 
 export default Profile;

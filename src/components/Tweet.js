@@ -11,11 +11,12 @@ const PostingTweetContainer = styled.div`
   display: flex;
   padding: 10px 17px;
   cursor: pointer;
-  border-bottom: 1px solid #eee;
-  background-color: ${(props) => props.current && "#f8f8f8"};
+  background-color: ${(props) => props.currentLight && "#f8f8f8"};
+  background-color: ${(props) => props.currentDark && "#1e2125"};
+  border-bottom: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
 
   &:hover {
-    background-color: #f8f8f8;
+    background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
   }
 `;
 
@@ -87,12 +88,12 @@ const PostingEditTweetDesc = styled.input`
   border: none;
   outline: none;
   width: 100%;
-  background-color: white;
   padding: 10px 12px;
   box-sizing: border-box;
   margin-top: 7px;
-  color: gray;
+  color: #989898;
   border-radius: 5px;
+  background-color: ${(props) => (props.current ? "#1e2125" : "white")};
 `;
 
 const PostingTweetImage = styled.img`
@@ -183,7 +184,7 @@ const DeleteTweetBtn = styled.button`
   }
 `;
 
-const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
+const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark }) => {
   // userObject는 현재 로그인한 유저, tweetObject는 해당 트윗을 작성한 유저
   // console.log("Tweet.js tweetObject", tweetObject);
   // console.log("Tweet.js userObject", userObject);
@@ -314,7 +315,11 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
   const handleNothing = () => {};
 
   return (
-    <PostingTweetContainer current={isEditing ? true : false}>
+    <PostingTweetContainer
+      current={isDark ? true : false}
+      currentLight={isEditing === true && isDark === false && true}
+      currentDark={isEditing === true && isDark === true && true}
+    >
       {/* 트윗을 현재 수정중인지 확인 */}
       {isEditing ? (
         <>
@@ -402,6 +407,7 @@ Tweet.propTypes = {
   tweetObject: PropTypes.object.isRequired,
   isOwner: PropTypes.bool.isRequired,
   createNotification: PropTypes.func.isRequired,
+  isDark: PropTypes.bool.isRequired,
 };
 
 export default Tweet;

@@ -42,7 +42,7 @@ const LeftContainer = styled.div`
   box-sizing: border-box;
   padding-top: 5px;
   padding-bottom: 15px;
-  border-right: 1px solid #eee;
+  border-right: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
 `;
 
 const MenuContainer = styled.div``;
@@ -78,20 +78,14 @@ const MenuList = styled(Link)`
   box-sizing: border-box;
   cursor: pointer;
 
-  &:focus {
-    color: black;
-  }
-
   &:link {
     color: inherit;
   }
-
   &:visited {
     color: inherit;
   }
-
   &:hover {
-    background-color: #eeeeee;
+    background-color: ${(props) => (props.current ? "#1e2125" : "#eeeeee")};
   }
 `;
 
@@ -129,7 +123,7 @@ const UserContainer = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: #eeeeee;
+    background-color: ${(props) => (props.current ? "#1e2125" : "#eeeeee")};
   }
 `;
 
@@ -160,7 +154,7 @@ const UserName = styled.div`
 
 const UserEmail = styled.div`
   font-size: 17px;
-  color: #444444;
+  color: #989898;
 `;
 
 const IconUserEtcContainer = styled(FontAwesomeIcon)`
@@ -176,15 +170,15 @@ const CenterContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
 `;
 
 const ContentHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #eee;
   padding: 10px 17px;
+  border-bottom: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
 `;
 
 // const ContentOrderBy = styled.button`
@@ -215,17 +209,18 @@ const ContentInput = styled.input`
   padding-left: 50px;
   padding-right: 30px;
   border-radius: 30px;
-  background-color: #f8f8f8;
   font-size: 15px;
   border: 1px solid transparent;
+  color: #989898;
+  background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
 
   &:focus {
-    background-color: #fff;
-    border: 1px solid var(--twitter-color);
+    border: 1px solid #00aff0;
+    background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
   }
 
   &::placeholder {
-    color: gray;
+    color: #989898;
   }
 `;
 
@@ -242,7 +237,7 @@ const IconContentFormContainer = styled(FontAwesomeIcon)`
 const ContentTweet = styled.div`
   display: flex;
   padding: 17px 20px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
 `;
 
 const TweetImage = styled.img`
@@ -279,14 +274,15 @@ const RightContainer = styled.div`
   padding-left: 20px;
   position: fixed;
   height: 100vh;
-  border-left: 1px solid #eee;
+  border-left: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
 `;
 
 const RegisterContainer = styled.div``;
 
 const TrendContainer = styled.div`
-  background-color: white;
-  background-color: #f8f8f8;
+  /* background-color: #1e2125; */
+  /* background-color: #202020; */
+  background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
   border-radius: 20px;
   padding: 20px 0px;
   margin-top: 15px;
@@ -354,8 +350,7 @@ const SeeMore = styled.div`
 `;
 
 const FollowContainer = styled.div`
-  background-color: white;
-  background-color: #f8f8f8;
+  background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
   border-radius: 20px;
   margin-top: 15px;
   padding: 20px 0px;
@@ -542,7 +537,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
     <Container>
       {/* 메뉴 (좌측) */}
       <LeftContainerParent>
-        <LeftContainer>
+        <LeftContainer current={isDark ? true : false}>
           <MenuContainer>
             <MenuImage>
               <Link to="/">
@@ -550,35 +545,35 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
               </Link>
             </MenuImage>
             <MenuNav>
-              <MenuList to="/">
+              <MenuList current={isDark ? true : false} to="/">
                 <IconContainer icon={faHome}></IconContainer>
                 <IconText>홈</IconText>
               </MenuList>
-              <MenuList to={userObject ? "/profile" : "/"}>
+              <MenuList current={isDark ? true : false} to={userObject ? "/profile" : "/"}>
                 <IconContainer icon={faUser}></IconContainer>
                 <IconText>프로필</IconText>
               </MenuList>
-              <MenuList to="/" onClick={onFocusTwitterSearch}>
+              <MenuList current={isDark ? true : false} to="/" onClick={onFocusTwitterSearch}>
                 <IconContainer icon={faSearch}></IconContainer>
                 <IconText>검색</IconText>
               </MenuList>
-              <MenuList to="/">
+              <MenuList current={isDark ? true : false} to="/">
                 <IconContainer icon={faBell}></IconContainer>
                 <IconText>알림</IconText>
               </MenuList>
-              <MenuList to="/">
+              <MenuList current={isDark ? true : false} to="/">
                 <IconContainer icon={faEnvelope}></IconContainer>
                 <IconText>쪽지</IconText>
               </MenuList>
-              <MenuList to="/">
+              <MenuList current={isDark ? true : false} to="/">
                 <IconContainer icon={faBookmark}></IconContainer>
                 <IconText>북마크</IconText>
               </MenuList>
-              <MenuList to="/">
+              <MenuList current={isDark ? true : false} to="/">
                 <IconContainer icon={faListAlt}></IconContainer>
                 <IconText>리스트</IconText>
               </MenuList>
-              <MenuList to="/">
+              <MenuList current={isDark ? true : false} to="/">
                 <IconContainer icon={faEllipsisH}></IconContainer>
                 <IconText>더보기</IconText>
               </MenuList>
@@ -588,7 +583,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
             </MenuButton>
           </MenuContainer>
           <UserContainerLink to={userObject === null ? "/" : "/profile"}>
-            <UserContainer>
+            <UserContainer current={isDark ? true : false}>
               <UserPhoto src={userObject?.photoURL ? userObject.photoURL : userImage}></UserPhoto>
               <UserInfo>
                 <UserName>{userObject?.displayName ? userObject.displayName : "유저"}</UserName>
@@ -603,22 +598,29 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
       {/* 트윗 목록 (중앙) */}
       <CenterContainerParent>
         <CenterContainer>
-          <ContentContainer>
-            <ContentHeader>
+          <ContentContainer current={isDark ? true : false}>
+            <ContentHeader current={isDark ? true : false}>
               {/* <ContentOrderBy onClick={handleOrderBy}>{isDesc ? "오래된순" : "최신순"}</ContentOrderBy> */}
               <ContentTweetNumber>전체 트윗 ({allTweetsLength})</ContentTweetNumber>
               <ContentSearch>
                 <ContentForm onSubmit={onSearchSubmit}>
-                  <ContentInput type="text" placeholder="트위터 검색" onChange={onSearchInput} value={searchText} ref={twitterSearch}></ContentInput>
+                  <ContentInput
+                    current={isDark ? true : false}
+                    type="text"
+                    placeholder="트위터 검색"
+                    onChange={onSearchInput}
+                    value={searchText}
+                    ref={twitterSearch}
+                  ></ContentInput>
                   <IconContentFormContainer icon={faSearch}></IconContentFormContainer>
                 </ContentForm>
               </ContentSearch>
             </ContentHeader>
-            <ContentTweet>
+            <ContentTweet current={isDark ? true : false}>
               <TweetImage src={userImage}></TweetImage>
               <TweetPostContainer>
                 <TweetPostHeader>
-                  <TweetForm userObject={userObject} createNotification={createNotification}></TweetForm>
+                  <TweetForm userObject={userObject} createNotification={createNotification} isDark={isDark}></TweetForm>
                 </TweetPostHeader>
               </TweetPostContainer>
             </ContentTweet>
@@ -635,6 +637,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                             tweetObject={tweetObject}
                             isOwner={userObject?.uid === tweetObject?.uid ? true : false}
                             createNotification={createNotification}
+                            isDark={isDark}
                           />
                         );
                       })}
@@ -647,6 +650,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                       createNotification={createNotification}
                       isDark={isDark}
                       changeTheme={changeTheme}
+                      isDark={isDark}
                     ></Profile>
                   </ContentAllTweets>
                 )}
@@ -658,11 +662,11 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
 
       {/* 트렌드, 팔로우 (우측) */}
       <RightContainerParent>
-        <RightContainer>
+        <RightContainer current={isDark ? true : false}>
           <RegisterContainer>
             <Authentication userObject={userObject} createNotification={createNotification} isDark={isDark} changeTheme={changeTheme}></Authentication>
           </RegisterContainer>
-          <TrendContainer>
+          <TrendContainer current={isDark ? true : false}>
             <TrendHeader>
               <TrendHeaderTitle>나를 위한 트렌드</TrendHeaderTitle>
               <IconTrendContainer icon={faCog}></IconTrendContainer>
@@ -697,7 +701,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
             </TrendInfo>
             <SeeMore>더 보기</SeeMore>
           </TrendContainer>
-          <FollowContainer>
+          <FollowContainer current={isDark ? true : false}>
             <FollowHeader>팔로우 추천</FollowHeader>
             <FollowContent>
               <FollowImage src={userImage}></FollowImage>

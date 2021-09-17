@@ -339,7 +339,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       console.log(error);
       setError(error.message);
     } finally {
-      await authService.currentUser.updateProfile({
+      await authService.currentUser?.updateProfile({
         displayName,
       });
     }

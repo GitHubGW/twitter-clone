@@ -12,9 +12,9 @@ const GlobalStyle = createGlobalStyle`
     scroll-behavior: smooth;
   }
   body{
-    background-color: ${(props) => (props.bgColor === true ? "#18191A" : "#ffffff")};
+    background-color: ${(props) => (props.bgColor === true ? "#101010" : "#ffffff")};
     color: ${(props) => (props.color === true ? "#cccccc" : "#31302E")};
-    border-color: ${(props) => (props.borderCcolor === true ? "#2c2d33" : "#eaeaea")};
+    border-color: ${(props) => (props.borderColor === true ? "#2c2d33" : "#eaeaea")};
     display:flex;
     justify-content:center;
     position:relative;

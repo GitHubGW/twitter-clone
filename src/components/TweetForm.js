@@ -23,9 +23,12 @@ const TweetFormTextInput = styled.input`
   padding-bottom: 18px;
   box-sizing: border-box;
   font-size: 18px;
+  border-radius: 4px;
+  color: #989898;
+  background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
 
   &::placeholder {
-    color: gray;
+    color: #989898;
   }
 `;
 
@@ -108,7 +111,7 @@ const IconTweetSmile = styled(FontAwesomeIcon)`
 
 const PickerContainer = styled(Picker)``;
 
-const TweetForm = ({ userObject, createNotification }) => {
+const TweetForm = ({ userObject, createNotification, isDark }) => {
   const [tweet, setTweet] = useState("");
   const [fileDataUrl, setFileDataUrl] = useState("");
   const [fileName, setFileName] = useState("");
@@ -227,8 +230,7 @@ const TweetForm = ({ userObject, createNotification }) => {
     <TweetFormContainer onSubmit={onSubmit}>
       <TweetFormTextContainer>
         <TweetFormTextInput
-          multiline
-          contenteditable="true"
+          current={isDark ? true : false}
           type="text"
           placeholder="무슨 일이 일어나고 있나요?"
           value={tweet}
@@ -272,6 +274,7 @@ const TweetForm = ({ userObject, createNotification }) => {
 TweetForm.propTypes = {
   userObject: PropTypes.object,
   createNotification: PropTypes.func.isRequired,
+  isDark: PropTypes.bool.isRequired,
 };
 
 export default TweetForm;
