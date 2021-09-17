@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { authService, firestoreService, storageService } from "firebaseConfiguration";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { faImage, faSmile } from "@fortawesome/free-regular-svg-icons";
@@ -108,15 +109,12 @@ const IconTweetSmile = styled(FontAwesomeIcon)`
 const PickerContainer = styled(Picker)``;
 
 const TweetForm = ({ userObject, createNotification }) => {
-  // console.log("TweetForm userObject", userObject);
-
   const [tweet, setTweet] = useState("");
   const [fileDataUrl, setFileDataUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const fileImageInput = useRef();
   const textInput = useRef();
   const inputTweet = useRef();
-  const [chosenEmoji, setChosenEmoji] = useState(null);
   const [isEmoji, setIsEmoji] = useState(false);
 
   // 트윗하기 버튼
@@ -218,7 +216,6 @@ const TweetForm = ({ userObject, createNotification }) => {
     const inputValue = textInputValue + emojiObject.emoji;
 
     setTweet(inputValue);
-    setChosenEmoji(emojiObject.emoji);
   };
 
   // 이모지 버튼 클릭
@@ -270,6 +267,11 @@ const TweetForm = ({ userObject, createNotification }) => {
       </TweetFormImageContainer>
     </TweetFormContainer>
   );
+};
+
+TweetForm.propTypes = {
+  userObject: PropTypes.object,
+  createNotification: PropTypes.func.isRequired,
 };
 
 export default TweetForm;

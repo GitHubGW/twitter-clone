@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { firestoreService, storageService } from "firebaseConfiguration";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import { faCheckCircle, faSignOutAlt, faCamera, faUserEdit } from "@fortawesome/free-solid-svg-icons";
@@ -233,8 +234,6 @@ const PostingTweetImage = styled.img`
 `;
 
 const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
-  // console.log("Profile userObject", userObject);
-
   const creationTime = userObject?.creationTime;
   const lastSignInTime = userObject?.lastSignInTime;
   const [newDisplayName, setNewDisplayName] = useState(userObject?.displayName);
@@ -379,9 +378,9 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
           {myTweets && myTweets.length > 0 ? (
             <PostingMyTweetContainer>
               <PostingMyTweetTitle>작성한 트윗 ({myTweets.length})</PostingMyTweetTitle>
-              {myTweets.map((myTweet) => {
+              {myTweets.map((myTweet, index) => {
                 return (
-                  <PostingMyTweet>
+                  <PostingMyTweet key={index}>
                     <PostingTweetAuthorImage src={myTweet.photoURL ? myTweet.photoURL : userImage} alt={myTweet.displayName}></PostingTweetAuthorImage>
                     <PostingTweetContent>
                       <PostingTweetAuthor>
@@ -406,6 +405,12 @@ const Profile = ({ userObject, refreshDisplayName, createNotification }) => {
       </ProfileContainer>
     </>
   );
+};
+
+Profile.propTypes = {
+  userObject: PropTypes.object,
+  refreshDisplayName: PropTypes.func.isRequired,
+  createNotification: PropTypes.func.isRequired,
 };
 
 export default Profile;

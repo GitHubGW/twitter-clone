@@ -398,7 +398,10 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification }) => {
 };
 
 Tweet.propTypes = {
+  userObject: PropTypes.object,
+  tweetObject: PropTypes.object.isRequired,
   isOwner: PropTypes.bool.isRequired,
+  createNotification: PropTypes.func.isRequired,
 };
 
 export default Tweet;

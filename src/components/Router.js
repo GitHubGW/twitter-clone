@@ -1,8 +1,9 @@
 import React from "react";
 import { HashRouter, Switch, Route, Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
 import Home from "routes/Home";
 import Authentication from "routes/Authentication";
-import Profile from "routes/Profile";
+// import Profile from "routes/Profile";
 
 const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification, isDark, changeTheme }) => {
   return (
@@ -39,6 +40,15 @@ const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification
       )}
     </HashRouter>
   );
+};
+
+Router.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  userObject: PropTypes.object,
+  refreshDisplayName: PropTypes.func.isRequired,
+  createNotification: PropTypes.func.isRequired,
+  isDark: PropTypes.bool.isRequired,
+  changeTheme: PropTypes.func.isRequired,
 };
 
 export default Router;

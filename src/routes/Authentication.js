@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { firebaseApp, authService } from "firebaseConfiguration";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +14,7 @@ const LoginFormContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 420px;
-  height: 600px;
+  height: 580px;
   z-index: 10;
   background-color: white;
   border-radius: 20px;
@@ -279,15 +280,13 @@ const ChangeEmailBtn = styled.button`
 `;
 
 const Authentication = ({ userObject, createNotification, isDark, changeTheme }) => {
-  // console.log("Authentication userObject", userObject);
-
   const history = useHistory();
   const [email, setEmail] = useState(""); // 유저 이메일
   const [password, setPassword] = useState(""); // 유저 비밀번호
   const [displayName, setDisplayName] = useState(""); // 유저 닉네임
   const [newPassword, setNewPassword] = useState(""); // 새로운 비밀번호
   const [newEmail, setNewEmail] = useState(""); // 새로운 이메일
-  const [isAccount, setIsAccount] = useState(false); // 계정 존재 여부 체크 (true: 계정있음, false: 계정없음)
+  const [isAccount] = useState(false); // 계정 존재 여부 체크 (true: 계정있음, false: 계정없음)
   const [error, setError] = useState(null); // 로그인 또는 회원가입 에러메시지
   const [isLoginForm, setIsLoginForm] = useState(false); // 로그인 폼
   const [isRegisterForm, setIsRegisterForm] = useState(false); // 회원가입 폼
@@ -496,6 +495,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
     setIsLoginForm(false);
   };
 
+  /*
   // 회원 탈퇴
   const onUnRegister = async () => {
     try {
@@ -506,7 +506,9 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       history.push("/");
     }
   };
+  */
 
+  /*
   // 이메일 인증 후 새로운 이메일로 변경
   const onUpdateNewEmail = async () => {
     try {
@@ -517,6 +519,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       history.push("/");
     }
   };
+  */
 
   return (
     <>
@@ -647,6 +650,13 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       ) : null}
     </>
   );
+};
+
+Authentication.propTypes = {
+  userObject: PropTypes.object,
+  createNotification: PropTypes.func.isRequired,
+  isDark: PropTypes.bool.isRequired,
+  changeTheme: PropTypes.func.isRequired,
 };
 
 export default Authentication;

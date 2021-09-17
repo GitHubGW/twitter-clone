@@ -8,9 +8,7 @@ import Loading from "./Loading";
 import { createNotification } from "./Notification";
 
 const App = () => {
-  // console.log("App.js authService.currentUser", authService.currentUser);
-  // console.log("App.js userObject", userObject);
-
+  // console.log("App.js authService.currentUser", authService.currentUser, "App.js userObject", userObject);
   const [initializeFirebase, setInitializeFirebase] = useState(false); // 파이어베이스 초기화 확인
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부 확인
   const [userObject, setUserObject] = useState(null); // 로그인한 사용자 정보
@@ -23,8 +21,7 @@ const App = () => {
 
   // 프로필 닉네임 변경시 리액트를 리랜더링 시킴
   const refreshDisplayName = () => {
-    console.log("refreshDisplayName", userObject);
-
+    // console.log("refreshDisplayName", userObject);
     const currentUserObject = authService.currentUser;
 
     setUserObject({

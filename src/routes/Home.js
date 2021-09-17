@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { firestoreService } from "firebaseConfiguration";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faBell, faEnvelope, faBookmark, faListAlt, faUser } from "@fortawesome/free-regular-svg-icons";
@@ -175,7 +176,6 @@ const CenterContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  /* border: 1px solid #eeeeee; */
   border-bottom: 1px solid #eeeeee;
 `;
 
@@ -187,18 +187,18 @@ const ContentHeader = styled.div`
   padding: 10px 17px;
 `;
 
-const ContentOrderBy = styled.button`
-  padding: 12px 13px;
-  background-color: var(--twitter-color);
-  color: white;
-  border-radius: 30px;
-  font-size: 15px;
-  font-weight: bold;
+// const ContentOrderBy = styled.button`
+//   padding: 12px 13px;
+//   background-color: var(--twitter-color);
+//   color: white;
+//   border-radius: 30px;
+//   font-size: 15px;
+//   font-weight: bold;
 
-  &:hover {
-    background-color: var(--twitter-dark-color);
-  }
-`;
+//   &:hover {
+//     background-color: var(--twitter-dark-color);
+//   }
+// `;
 
 const ContentSearch = styled.div``;
 
@@ -457,18 +457,17 @@ const IconGototopButton = styled(FontAwesomeIcon)`
 `;
 
 const Home = ({ userObject, refreshDisplayName, createNotification, isDark, changeTheme }) => {
-  // console.log("Home.js userObject", userObject);
-
   const [allTweets, setAllTweets] = useState(""); // Document에 있는 모튼 트윗들
   const [allTweetsLength, setAllTweetsLength] = useState(0); // Document에 있는 모튼 트윗 갯수
-  const [isDesc, setIsDesc] = useState(true); // 트윗 정렬 순서
   const [searchText, setSearchText] = useState(""); // 트위터 검색
+  // const [isDesc, setIsDesc] = useState(true); // 트윗 정렬 순서
   const twitterSearch = useRef();
   const history = useHistory();
   const {
     location: { pathname },
   } = history;
 
+  /*
   // 트윗 정렬 (최신순, 오래된순)
   const handleOrderBy = async () => {
     await firestoreService
@@ -486,12 +485,13 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
       });
     setIsDesc(!isDesc);
   };
+  */
 
   // 공유하기 버튼
   const shareTwitter = () => {
-    var sendText = "노마드코더";
-    var sendUrl = "https://nomadcoders.co/";
-    window.open(`https://twitter.com/intent/tweet?text=${sendText}\&url\=${sendUrl}`);
+    var sendText = "노마드 코더";
+    var sendUrl = "https://nomadcoders.co";
+    window.open(`https://twitter.com/intent/tweet?text=${sendText}&url=${sendUrl}`);
   };
 
   // 트위터 검색 결과창
@@ -527,6 +527,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
       .onSnapshot((querySnapshot) => {
         // 전체 트윗 가져오기 (map사용)
         const queryDocumentSnapshotObjectArray = querySnapshot.docs.map((queryDocumentSnapshot) => ({
+          id: queryDocumentSnapshot.id,
           documentId: queryDocumentSnapshot.id,
           ...queryDocumentSnapshot.data(),
         }));
@@ -757,6 +758,14 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
       </GototopButton>
     </Container>
   );
+};
+
+Home.propTypes = {
+  userObject: PropTypes.object,
+  refreshDisplayName: PropTypes.func.isRequired,
+  createNotification: PropTypes.func.isRequired,
+  isDark: PropTypes.bool.isRequired,
+  changeTheme: PropTypes.func.isRequired,
 };
 
 export default Home;
