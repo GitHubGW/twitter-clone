@@ -115,7 +115,7 @@ const PostingTweetDesc = styled.p`
   line-height: 1.5;
 `;
 
-const PostingEditTweetDesc = styled.input`
+const PostingEditTweetDesc = styled.textarea`
   margin-bottom: 10px;
   font-size: 16px;
   line-height: 1.5;
@@ -127,8 +127,29 @@ const PostingEditTweetDesc = styled.input`
   margin-top: 7px;
   color: #989898;
   border-radius: 5px;
+  resize: none;
   background-color: ${(props) => props.currentLight && "white"};
   background-color: ${(props) => props.currentDark && "#404040"};
+
+  &::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+    background: #ffffff;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 7px;
+    background-color: #787878;
+
+    &:hover {
+      background-color: #c0c0c0;
+    }
+    &:active {
+      background-color: #c0c0c0;
+    }
+  }
+  &::-webkit-scrollbar-track {
+    background-color: lightgray;
+  }
 `;
 
 const PostingTweetImage = styled.img`
@@ -409,6 +430,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
                     type="text"
                     value={editingTweet}
                     onChange={onChange}
+                    maxlength="50"
                   ></PostingEditTweetDesc>
                   {tweetObject.fileDownloadUrl && <PostingTweetImage src={tweetObject.fileDownloadUrl} alt={tweetObject.content}></PostingTweetImage>}
                   <PostingTweetLike type="button" onClick={handleLikeBtn}>
