@@ -342,7 +342,7 @@ const SeeMore = styled.div`
   color: var(--twitter-color);
   font-size: 14px;
   cursor: pointer;
-  margin-top: 30px;
+  margin-top: 10px;
   margin-left: 17px;
 
   &:hover {
@@ -538,7 +538,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
     <>
       <Container>
         <Helmet>
-          <title>트위터 / 홈</title>
+          <title>{`트위터 / 홈`}</title>
         </Helmet>
         {/* 메뉴 (좌측) */}
         <LeftContainerParent>
@@ -697,25 +697,10 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                 </TrendContent>
                 <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
               </TrendInfo>
-              <TrendInfo current={isDark ? true : false}>
-                <TrendContent>
-                  <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
-                  <TrendTitle>리액트</TrendTitle>
-                </TrendContent>
-                <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
-              </TrendInfo>
               <SeeMore>더 보기</SeeMore>
             </TrendContainer>
             <FollowContainer current={isDark ? true : false}>
               <FollowHeader>팔로우 추천</FollowHeader>
-              <FollowContent current={isDark ? true : false}>
-                <FollowImage src={userImage}></FollowImage>
-                <FollowInfo>
-                  <FollowInfoTitle>Apple</FollowInfoTitle>
-                  <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
-                </FollowInfo>
-                <FollowButton current={isDark ? true : false}>팔로우</FollowButton>
-              </FollowContent>
               <FollowContent current={isDark ? true : false}>
                 <FollowImage src={userImage}></FollowImage>
                 <FollowInfo>

@@ -335,7 +335,7 @@ const Profile = ({ userObject, refreshDisplayName, createNotification, isDark })
   return (
     <>
       <Helmet>
-        <title>트위터 / {userObject?.email && userObject.email} 프로필</title>
+        <title>{`트위터 / ${userObject?.email && userObject.email} 프로필`}</title>
       </Helmet>
       <ProfileContainer>
         <ProfileEdit>
