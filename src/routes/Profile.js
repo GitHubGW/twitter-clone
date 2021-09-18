@@ -153,6 +153,10 @@ const ProfileTweet = styled.div`
 const PostingMyTweetContainer = styled.div`
   margin-top: 50px;
   border-top: 1px solid ${(props) => (props.current === "true" ? "#1e2125" : "#eee")};
+
+  @media (max-width: 768px) {
+    margin-top: 20px;
+  }
 `;
 
 const PostingMyTweetTitle = styled.h1`
@@ -204,6 +208,10 @@ const AuthorInfo = styled.div`
 const AuthorName = styled.h2`
   font-size: 17px;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const AuthorEmail = styled.h3`
@@ -211,17 +219,29 @@ const AuthorEmail = styled.h3`
   margin-left: 7px;
   color: gray;
   font-weight: 500;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const AuthorCreatedAt = styled.h4`
   font-size: 14px;
   color: gray;
   font-weight: 500;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 const AuthorDot = styled.span`
   font-size: 15px;
   margin: 0 5px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const PostingTweetDesc = styled.p`
@@ -234,6 +254,11 @@ const PostingTweetImage = styled.img`
   width: 490px;
   height: 280px;
   border-radius: 15px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 200px;
+  }
 `;
 
 const Profile = ({ userObject, refreshDisplayName, createNotification, isDark }) => {
@@ -395,7 +420,7 @@ const Profile = ({ userObject, refreshDisplayName, createNotification, isDark })
                           <AuthorName>{myTweet.displayName}</AuthorName>
                           <AuthorEmail>{myTweet.email}</AuthorEmail>
                           <AuthorDot>·</AuthorDot>
-                          <AuthorCreatedAt>{getTime(myTweet.createdAtTime)}</AuthorCreatedAt>
+                          <AuthorCreatedAt>{getTime(myTweet.createdAtTime).slice(6, 12)}</AuthorCreatedAt>
                         </AuthorInfo>
                       </PostingTweetAuthor>
                       <PostingTweetDesc>{myTweet.content}</PostingTweetDesc>

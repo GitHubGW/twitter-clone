@@ -46,6 +46,12 @@ const GlobalStyle = createGlobalStyle`
     position:absolute;
     top:42px;
   }
+
+  @media (max-width:768px){
+    #root{
+      width:100%;
+    }
+  }
 `;
 
 export default GlobalStyle;

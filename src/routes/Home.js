@@ -18,18 +18,35 @@ const Container = styled.div`
   width: 1260px;
   max-width: 1260px;
   display: flex;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const LeftContainerParent = styled.div`
   width: 280px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const CenterContainerParent = styled.div`
   width: 590px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const RightContainerParent = styled.div`
   width: 330px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const LeftContainer = styled.div`
@@ -168,6 +185,10 @@ const IconUserEtcContainer = styled(FontAwesomeIcon)`
 const CenterContainer = styled.div`
   width: 590px;
   max-width: 590px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -219,9 +240,12 @@ const ContentInput = styled.input`
     border: 1px solid #00aff0;
     background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
   }
-
   &::placeholder {
     color: #989898;
+  }
+
+  @media (max-width: 768px) {
+    width: 230px;
   }
 `;
 
@@ -281,8 +305,6 @@ const RightContainer = styled.div`
 const RegisterContainer = styled.div``;
 
 const TrendContainer = styled.div`
-  /* background-color: #1e2125; */
-  /* background-color: #202020; */
   background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
   border-radius: 20px;
   padding: 20px 0px;
@@ -443,7 +465,14 @@ const GototopButton = styled.button`
   transition: 0.3s;
 
   &:hover {
-    transform: scale(0.9);
+    transform: scale(0.85);
+  }
+
+  @media (max-width: 768px) {
+    bottom: 70px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
   }
 `;
 
@@ -452,11 +481,54 @@ const IconGototopButton = styled(FontAwesomeIcon)`
   color: white;
 `;
 
+// 모바일 하단 메뉴
+const MobileMenu = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 6px 0;
+    box-sizing: border-box;
+    border-top: 1px solid ${(props) => (props.current === "true" ? "#404040" : "#eee")};
+    background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#fff")};
+  }
+`;
+
+const MobileHome = styled(Link)``;
+
+const MobileProfile = styled(Link)``;
+
+const MobileSearch = styled.div``;
+
+const MobileDarkMode = styled.button`
+  font-size: 27px;
+`;
+
+const IconMobileHome = styled(FontAwesomeIcon)`
+  font-size: 23px;
+  color: #989898;
+`;
+
+const IconMobileProfile = styled(FontAwesomeIcon)`
+  font-size: 23px;
+  color: #989898;
+`;
+
+const IconMobileSearch = styled(FontAwesomeIcon)`
+  font-size: 23px;
+  color: #989898;
+`;
+
 const Home = ({ userObject, refreshDisplayName, createNotification, isDark, changeTheme }) => {
+  // const [isDesc, setIsDesc] = useState(true); // 트윗 정렬 순서
   const [allTweets, setAllTweets] = useState(""); // Document에 있는 모튼 트윗들
   const [allTweetsLength, setAllTweetsLength] = useState(0); // Document에 있는 모튼 트윗 갯수
   const [searchText, setSearchText] = useState(""); // 트위터 검색
-  // const [isDesc, setIsDesc] = useState(true); // 트윗 정렬 순서
   const twitterSearch = useRef();
   const history = useHistory();
   const {
@@ -655,7 +727,6 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                         createNotification={createNotification}
                         isDark={isDark}
                         changeTheme={changeTheme}
-                        isDark={isDark}
                       ></Profile>
                     </ContentAllTweets>
                   )}
@@ -750,6 +821,21 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
         <GototopButton type="button" onClick={() => window.scrollTo(0, 0)}>
           <IconGototopButton icon={faArrowCircleUp}></IconGototopButton>
         </GototopButton>
+
+        <MobileMenu current={isDark ? "true" : "false"}>
+          <MobileHome to="/">
+            <IconMobileHome icon={faHome}></IconMobileHome>
+          </MobileHome>
+          <MobileProfile to={userObject ? "/profile" : "/"}>
+            <IconMobileProfile icon={faUser}></IconMobileProfile>
+          </MobileProfile>
+          <MobileSearch>
+            <IconMobileSearch icon={faSearch} onClick={onFocusTwitterSearch}></IconMobileSearch>
+          </MobileSearch>
+          <MobileDarkMode type="button" onClick={changeTheme}>
+            {isDark ? "🌙" : "🌞"}
+          </MobileDarkMode>
+        </MobileMenu>
       </Container>
     </>
   );

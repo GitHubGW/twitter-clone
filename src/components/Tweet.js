@@ -25,6 +25,10 @@ const PostingTweetAuthorImage = styled.img`
   height: 47px;
   border-radius: 50%;
   margin-right: 17px;
+
+  @media (max-width: 768px) {
+    margin-right: 10px;
+  }
 `;
 
 const PostingTweetContent = styled.div`
@@ -39,22 +43,40 @@ const PostingTweetAuthor = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const AuthorInfo = styled.div`
   display: flex;
   align-items: center;
   height: 40px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: flex-start;
+  }
 `;
 
 const PostingEditDelete = styled.div`
   display: flex;
   align-items: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: flex-end;
+  }
 `;
 
 const AuthorName = styled.h2`
   font-size: 17px;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const AuthorEmail = styled.h3`
@@ -62,17 +84,29 @@ const AuthorEmail = styled.h3`
   margin-left: 7px;
   color: gray;
   font-weight: 500;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const AuthorCreatedAt = styled.h4`
   font-size: 14px;
   color: gray;
   font-weight: 500;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 const AuthorDot = styled.span`
   font-size: 15px;
   margin: 0 5px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const PostingTweetDesc = styled.p`
@@ -101,6 +135,11 @@ const PostingTweetImage = styled.img`
   width: 490px;
   height: 280px;
   border-radius: 15px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 200px;
+  }
 `;
 
 const PostingTweetLike = styled.button`
@@ -124,6 +163,10 @@ const IconTweetLike = styled(FontAwesomeIcon)`
     background-color: rgba(249, 24, 128, 0.2);
     border-radius: 50%;
   }
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 const IconTweetLikeNumber = styled.span`
@@ -143,6 +186,12 @@ const IconTweetEdit = styled(FontAwesomeIcon)`
     color: var(--twitter-color);
     background-color: ${(props) => (props.current === "true" ? "#404040" : "#e6f3ff")};
   }
+
+  @media (max-width: 768px) {
+    padding: 0;
+    font-size: 15px;
+    margin-right: 10px;
+  }
 `;
 
 const IconTweetDelete = styled(FontAwesomeIcon)`
@@ -155,6 +204,11 @@ const IconTweetDelete = styled(FontAwesomeIcon)`
   &:hover {
     color: var(--twitter-color);
     background-color: ${(props) => (props.current === "true" ? "#404040" : "#e6f3ff")};
+  }
+
+  @media (max-width: 768px) {
+    padding: 0;
+    font-size: 15px;
   }
 `;
 
