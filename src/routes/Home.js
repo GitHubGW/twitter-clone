@@ -13,6 +13,10 @@ import TweetForm from "components/TweetForm";
 import Profile from "./Profile";
 import Authentication from "./Authentication";
 import userImage from "images/user.png";
+import nomadCoderImage from "images/nomadcoder-logo-black.jpeg";
+import appleImage from "images/apple-logo.png";
+import nasaImage from "images/nasa-logo.jpeg";
+import teslaImage from "images/tesla-logo.png";
 
 const Container = styled.div`
   width: 1260px;
@@ -385,6 +389,17 @@ const FollowHeader = styled.h1`
   margin-left: 17px;
 `;
 
+const FollowLink = styled.a`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: inherits;
+
+  &:visited {
+    color: inherit;
+  }
+`;
+
 const FollowContent = styled.div`
   display: flex;
   align-items: center;
@@ -418,13 +433,14 @@ const FollowInfoDesc = styled.h2`
   font-size: 15px;
 `;
 
-const FollowButton = styled.button`
+const FollowButton = styled.a`
   color: white;
   padding: 7px 15px;
   border-radius: 50px;
   font-size: 14px;
   font-weight: bold;
   background-color: ${(props) => (props.current === "true" ? "#303030" : "#272c30")};
+  margin-left: auto;
 `;
 
 const PolicyContainer = styled.div`
@@ -749,22 +765,15 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
               </TrendHeader>
               <TrendInfo current={isDark ? "true" : "false"}>
                 <TrendContent>
-                  <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
-                  <TrendTitle>리액트</TrendTitle>
+                  <TrendHeading>노마드코더에서 트렌드 중</TrendHeading>
+                  <TrendTitle>트위터 클론</TrendTitle>
                 </TrendContent>
                 <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
               </TrendInfo>
               <TrendInfo current={isDark ? "true" : "false"}>
                 <TrendContent>
-                  <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
-                  <TrendTitle>리액트</TrendTitle>
-                </TrendContent>
-                <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
-              </TrendInfo>
-              <TrendInfo current={isDark ? "true" : "false"}>
-                <TrendContent>
-                  <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
-                  <TrendTitle>리액트</TrendTitle>
+                  <TrendHeading>페이스북, 구글에서 트렌드 중</TrendHeading>
+                  <TrendTitle>리액트, 파이어베이스</TrendTitle>
                 </TrendContent>
                 <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
               </TrendInfo>
@@ -773,28 +782,44 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
             <FollowContainer current={isDark ? "true" : "false"}>
               <FollowHeader>팔로우 추천</FollowHeader>
               <FollowContent current={isDark ? "true" : "false"}>
-                <FollowImage src={userImage}></FollowImage>
-                <FollowInfo>
-                  <FollowInfoTitle>Apple</FollowInfoTitle>
-                  <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
-                </FollowInfo>
-                <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
+                <FollowLink href="https://nomadcoders.co" target="_blank">
+                  <FollowImage src={nomadCoderImage}></FollowImage>
+                  <FollowInfo>
+                    <FollowInfoTitle>Nomad Coders</FollowInfoTitle>
+                    <FollowInfoDesc>@Nomad Coders</FollowInfoDesc>
+                  </FollowInfo>
+                  <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
+                </FollowLink>
               </FollowContent>
               <FollowContent current={isDark ? "true" : "false"}>
-                <FollowImage src={userImage}></FollowImage>
-                <FollowInfo>
-                  <FollowInfoTitle>Apple</FollowInfoTitle>
-                  <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
-                </FollowInfo>
-                <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
+                <FollowLink href="https://twitter.com/Apple" target="_blank">
+                  <FollowImage src={appleImage}></FollowImage>
+                  <FollowInfo>
+                    <FollowInfoTitle>Apple</FollowInfoTitle>
+                    <FollowInfoDesc>@Apple</FollowInfoDesc>
+                  </FollowInfo>
+                  <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
+                </FollowLink>
               </FollowContent>
               <FollowContent current={isDark ? "true" : "false"}>
-                <FollowImage src={userImage}></FollowImage>
-                <FollowInfo>
-                  <FollowInfoTitle>Apple</FollowInfoTitle>
-                  <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
-                </FollowInfo>
-                <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
+                <FollowLink href="https://twitter.com/NASA" target="_blank">
+                  <FollowImage src={nasaImage}></FollowImage>
+                  <FollowInfo>
+                    <FollowInfoTitle>NASA</FollowInfoTitle>
+                    <FollowInfoDesc>@NASA</FollowInfoDesc>
+                  </FollowInfo>
+                  <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
+                </FollowLink>
+              </FollowContent>
+              <FollowContent current={isDark ? "true" : "false"}>
+                <FollowLink href="https://twitter.com/Tesla" target="_blank">
+                  <FollowImage src={teslaImage}></FollowImage>
+                  <FollowInfo>
+                    <FollowInfoTitle>Tesla</FollowInfoTitle>
+                    <FollowInfoDesc>@Tesla</FollowInfoDesc>
+                  </FollowInfo>
+                  <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
+                </FollowLink>
               </FollowContent>
               <SeeMore>더 보기</SeeMore>
             </FollowContainer>
