@@ -430,7 +430,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
                     type="text"
                     value={editingTweet}
                     onChange={onChange}
-                    maxlength="50"
+                    maxlength="150"
                   ></PostingEditTweetDesc>
                   {tweetObject.fileDownloadUrl && <PostingTweetImage src={tweetObject.fileDownloadUrl} alt={tweetObject.content}></PostingTweetImage>}
                   <PostingTweetLike type="button" onClick={handleLikeBtn}>

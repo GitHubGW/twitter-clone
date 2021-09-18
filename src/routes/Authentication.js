@@ -333,6 +333,9 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
     try {
       if (!isAccount) {
         await authService.createUserWithEmailAndPassword(email, password); // 이메일, 비밀번호로 계정 생성
+        await authService.currentUser?.updateProfile({
+          displayName,
+        });
 
         createNotification("SuccessRegister");
         setIsRegisterForm(!isRegisterForm);
@@ -341,9 +344,6 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       console.log(error);
       setError(error.message);
     } finally {
-      await authService.currentUser?.updateProfile({
-        displayName,
-      });
     }
   };
 

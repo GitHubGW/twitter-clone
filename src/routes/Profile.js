@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { firestoreService, storageService } from "firebaseConfiguration";
+import { authService, firestoreService, storageService } from "firebaseConfiguration";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
@@ -382,7 +382,8 @@ const Profile = ({ userObject, refreshDisplayName, createNotification, isDark })
               type="text"
               placeholder="이름을 입력해주세요."
               onChange={onChange}
-              value={newDisplayName}
+              // value={newDisplayName ? newDisplayName : ""}
+              value={authService.currentUser?.displayName ? authService.currentUser?.displayName : ""}
               minLength={2}
               maxLength={10}
               current={isDark ? "true" : "false"}

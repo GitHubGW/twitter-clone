@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { firestoreService } from "firebaseConfiguration";
+import { authService, firestoreService } from "firebaseConfiguration";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -433,7 +433,7 @@ const FollowInfoDesc = styled.h2`
   font-size: 15px;
 `;
 
-const FollowButton = styled.a`
+const FollowButton = styled.span`
   color: white;
   padding: 7px 15px;
   border-radius: 50px;
