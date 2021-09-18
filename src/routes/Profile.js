@@ -76,7 +76,7 @@ const ProfileFormDisplayName = styled.input`
   margin-top: 16px;
   margin-bottom: 6px;
   margin-left: 14px;
-  color: ${(props) => (props.current ? "#989898" : "black")};
+  color: ${(props) => (props.current === "true" ? "#989898" : "black")};
   background-color: transparent;
 
   &::placeholder {
@@ -99,11 +99,11 @@ const IconCamera = styled(FontAwesomeIcon)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: ${(props) => (props.current ? "white" : "#bebebe")};
+  color: ${(props) => (props.current === "true" ? "white" : "#bebebe")};
 
   &:hover {
     color: var(--twitter-color);
-    background-color: ${(props) => (props.current ? "white" : "#e6f3ff")};
+    background-color: ${(props) => (props.current === "true" ? "white" : "#e6f3ff")};
   }
 `;
 
@@ -152,7 +152,7 @@ const ProfileTweet = styled.div`
 // 작성한 트윗 목록
 const PostingMyTweetContainer = styled.div`
   margin-top: 50px;
-  border-top: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
+  border-top: 1px solid ${(props) => (props.current === "true" ? "#1e2125" : "#eee")};
 `;
 
 const PostingMyTweetTitle = styled.h1`
@@ -167,11 +167,11 @@ const PostingMyTweet = styled.div`
   display: flex;
   padding: 10px 17px;
   cursor: pointer;
-  border-bottom: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
-  background-color: ${(props) => (props.current ? "#0F0F0F" : "#ffffff")};
+  border-bottom: 1px solid ${(props) => (props.current === "true" ? "#1e2125" : "#eee")};
+  background-color: ${(props) => (props.current === "true" ? "#0F0F0F" : "#ffffff")};
 
   &:hover {
-    background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
+    background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
   }
   &:last-child {
     border-bottom: none;
@@ -343,7 +343,7 @@ const Profile = ({ userObject, refreshDisplayName, createNotification, isDark })
             <ProfileImageContainer>
               <TweetFormImageLabel htmlFor="profilePhotoInput">
                 <ProfileFormImage ref={fileImageInput} src={userObject?.photoURL ? userObject.photoURL : userImage} alt={userObject?.email}></ProfileFormImage>
-                <IconCamera icon={faCamera} current={isDark ? true : false}></IconCamera>
+                <IconCamera icon={faCamera} current={isDark ? "true" : "false"}></IconCamera>
               </TweetFormImageLabel>
               <ProfileButtons>
                 <TweetFormDisplayNameLabel htmlFor="displayNameInput">
@@ -360,7 +360,7 @@ const Profile = ({ userObject, refreshDisplayName, createNotification, isDark })
               value={newDisplayName}
               minLength={2}
               maxLength={10}
-              current={isDark ? true : false}
+              current={isDark ? "true" : "false"}
               required
             ></ProfileFormDisplayName>
             <ProfileFormFile id="profilePhotoInput" type="file" accept="image/*" onChange={onFileChange} style={{ display: "none" }}></ProfileFormFile>
@@ -383,11 +383,11 @@ const Profile = ({ userObject, refreshDisplayName, createNotification, isDark })
         </ProfileEdit>
         <ProfileTweet>
           {myTweets && myTweets.length > 0 ? (
-            <PostingMyTweetContainer current={isDark ? true : false}>
+            <PostingMyTweetContainer current={isDark ? "true" : "false"}>
               <PostingMyTweetTitle>작성한 트윗 ({myTweets.length})</PostingMyTweetTitle>
               {myTweets.map((myTweet, index) => {
                 return (
-                  <PostingMyTweet key={index} current={isDark ? true : false}>
+                  <PostingMyTweet key={index} current={isDark ? "true" : "false"}>
                     <PostingTweetAuthorImage src={myTweet.photoURL ? myTweet.photoURL : userImage} alt={myTweet.displayName}></PostingTweetAuthorImage>
                     <PostingTweetContent>
                       <PostingTweetAuthor>

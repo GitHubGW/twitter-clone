@@ -13,10 +13,10 @@ const PostingTweetContainer = styled.div`
   cursor: pointer;
   background-color: ${(props) => props.currentLight && "#f8f8f8"};
   background-color: ${(props) => props.currentDark && "#1e2125"};
-  border-bottom: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
+  border-bottom: 1px solid ${(props) => (props.current === "true" ? "#1e2125" : "#eee")};
 
   &:hover {
-    background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
+    background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
   }
 `;
 
@@ -141,7 +141,7 @@ const IconTweetEdit = styled(FontAwesomeIcon)`
 
   &:hover {
     color: var(--twitter-color);
-    background-color: ${(props) => (props.current ? "#404040" : "#e6f3ff")};
+    background-color: ${(props) => (props.current === "true" ? "#404040" : "#e6f3ff")};
   }
 `;
 
@@ -154,7 +154,7 @@ const IconTweetDelete = styled(FontAwesomeIcon)`
 
   &:hover {
     color: var(--twitter-color);
-    background-color: ${(props) => (props.current ? "#404040" : "#e6f3ff")};
+    background-color: ${(props) => (props.current === "true" ? "#404040" : "#e6f3ff")};
   }
 `;
 
@@ -317,7 +317,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
 
   return (
     <PostingTweetContainer
-      current={isDark ? true : false}
+      current={isDark ? "true" : "false"}
       currentLight={isEditing === true && isDark === false && true}
       currentDark={isEditing === true && isDark === true && true}
     >
@@ -381,10 +381,10 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
                 {isOwner && (
                   <>
                     <PostingTweetEdit type="button" onClick={onEditTweet}>
-                      <IconTweetEdit icon={faEdit} current={isDark ? true : false}></IconTweetEdit>
+                      <IconTweetEdit icon={faEdit} current={isDark ? "true" : "false"}></IconTweetEdit>
                     </PostingTweetEdit>
                     <PostingTweetDelete type="button" onClick={onDeleteTweet}>
-                      <IconTweetDelete icon={faTrashAlt} current={isDark ? true : false}></IconTweetDelete>
+                      <IconTweetDelete icon={faTrashAlt} current={isDark ? "true" : "false"}></IconTweetDelete>
                     </PostingTweetDelete>
                   </>
                 )}

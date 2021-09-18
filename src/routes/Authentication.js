@@ -20,8 +20,8 @@ const LoginFormContainer = styled.div`
   border-radius: 20px;
   z-index: 100;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
-  background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
-  border: 1px solid ${(props) => (props.current ? "#404040" : "#eee")};
+  background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
+  border: 1px solid ${(props) => (props.current === "true" ? "#404040" : "#eee")};
 `;
 
 const PWEmailFormContainer = styled.div`
@@ -36,8 +36,8 @@ const PWEmailFormContainer = styled.div`
   border-radius: 20px;
   z-index: 100;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
-  background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
-  border: 1px solid ${(props) => (props.current ? "#404040" : "#eee")};
+  background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
+  border: 1px solid ${(props) => (props.current === "true" ? "#404040" : "#eee")};
 `;
 
 const LoginFormContent = styled.div`
@@ -134,7 +134,7 @@ const CloseButton = styled(FontAwesomeIcon)`
   color: gray;
 
   &:hover {
-    color: ${(props) => (props.current ? "#DCDCDC" : "#303030")};
+    color: ${(props) => (props.current === "true" ? "#DCDCDC" : "#303030")};
   }
 `;
 
@@ -557,7 +557,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       {/* 로그인 폼 */}
       {isLoginForm ? (
         <>
-          <LoginFormContainer current={isDark ? true : false}>
+          <LoginFormContainer current={isDark ? "true" : "false"}>
             <LoginFormContent>
               <IconTwitter icon={faTwitter}></IconTwitter>
               <LoginFormTitle>트위터 로그인</LoginFormTitle>
@@ -579,7 +579,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
                 <RegisterButton type="button" onClick={gotoRegisterForm}>
                   트위터 회원가입
                 </RegisterButton>
-                <CloseButton current={isDark ? true : false} icon={faTimes} type="button" onClick={handleMainLogin}></CloseButton>
+                <CloseButton current={isDark ? "true" : "false"} icon={faTimes} type="button" onClick={handleMainLogin}></CloseButton>
               </SocialLoginContainer>
             </LoginFormContent>
           </LoginFormContainer>
@@ -589,7 +589,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       {/* 회원가입 폼 */}
       {isRegisterForm ? (
         <>
-          <LoginFormContainer current={isDark ? true : false}>
+          <LoginFormContainer current={isDark ? "true" : "false"}>
             <LoginFormContent>
               <IconTwitter icon={faTwitter}></IconTwitter>
               <LoginFormTitle>트위터 회원가입</LoginFormTitle>
@@ -604,7 +604,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
                 <RegisterButton type="button" onClick={gotoLoginForm}>
                   트위터 로그인
                 </RegisterButton>
-                <CloseButton current={isDark ? true : false} icon={faTimes} type="button" onClick={handleCloseButton}></CloseButton>
+                <CloseButton current={isDark ? "true" : "false"} icon={faTimes} type="button" onClick={handleCloseButton}></CloseButton>
               </SocialLoginContainer>
             </LoginFormContent>
           </LoginFormContainer>
@@ -614,7 +614,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       {/* 비밀번호 변경 폼 */}
       {isChangePasswordForm ? (
         <>
-          <PWEmailFormContainer current={isDark ? true : false}>
+          <PWEmailFormContainer current={isDark ? "true" : "false"}>
             <LoginFormContent>
               <IconTwitter icon={faTwitter}></IconTwitter>
               <LoginFormTitle>트위터 비밀번호 변경</LoginFormTitle>
@@ -624,7 +624,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
                 <LoginSubmitTag type="submit" onClick={onClickChangePassword} value="비밀번호 변경"></LoginSubmitTag>
               </LoginFormTag>
               <SocialLoginContainer>
-                <CloseButton current={isDark ? true : false} icon={faTimes} type="button" onClick={handleCloseButton}></CloseButton>
+                <CloseButton current={isDark ? "true" : "false"} icon={faTimes} type="button" onClick={handleCloseButton}></CloseButton>
               </SocialLoginContainer>
             </LoginFormContent>
           </PWEmailFormContainer>
@@ -634,7 +634,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       {/* 이메일 변경 폼 */}
       {isChangeEmailForm ? (
         <>
-          <PWEmailFormContainer current={isDark ? true : false}>
+          <PWEmailFormContainer current={isDark ? "true" : "false"}>
             <LoginFormContent>
               <IconTwitter icon={faTwitter}></IconTwitter>
               <LoginFormTitle>트위터 이메일 변경</LoginFormTitle>
@@ -644,7 +644,7 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
                 <LoginSubmitTag type="submit" onClick={onClickChangeEmail} value="이메일 변경"></LoginSubmitTag>
               </LoginFormTag>
               <SocialLoginContainer>
-                <CloseButton current={isDark ? true : false} icon={faTimes} type="button" onClick={handleCloseButton}></CloseButton>
+                <CloseButton current={isDark ? "true" : "false"} icon={faTimes} type="button" onClick={handleCloseButton}></CloseButton>
               </SocialLoginContainer>
             </LoginFormContent>
           </PWEmailFormContainer>

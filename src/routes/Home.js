@@ -43,7 +43,7 @@ const LeftContainer = styled.div`
   box-sizing: border-box;
   padding-top: 5px;
   padding-bottom: 15px;
-  border-right: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
+  border-right: 1px solid ${(props) => (props.current === "true" ? "#1e2125" : "#eee")};
 `;
 
 const MenuContainer = styled.div``;
@@ -62,7 +62,7 @@ const IconTwitterContainer = styled(FontAwesomeIcon)`
   padding: 10px;
 
   &:hover {
-    background-color: ${(props) => (props.current ? "#1e2125" : "#e6f3ff")};
+    background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#e6f3ff")};
   }
 `;
 
@@ -86,7 +86,7 @@ const MenuList = styled(Link)`
     color: inherit;
   }
   &:hover {
-    background-color: ${(props) => (props.current ? "#1e2125" : "#eeeeee")};
+    background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#eeeeee")};
   }
 `;
 
@@ -124,7 +124,7 @@ const UserContainer = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: ${(props) => (props.current ? "#1e2125" : "#eeeeee")};
+    background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#eeeeee")};
   }
 `;
 
@@ -171,7 +171,7 @@ const CenterContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  border-bottom: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
+  border-bottom: 1px solid ${(props) => (props.current === "true" ? "#1e2125" : "#eee")};
 `;
 
 const ContentHeader = styled.div`
@@ -179,7 +179,7 @@ const ContentHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px 17px;
-  border-bottom: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
+  border-bottom: 1px solid ${(props) => (props.current === "true" ? "#1e2125" : "#eee")};
 `;
 
 // const ContentOrderBy = styled.button`
@@ -213,11 +213,11 @@ const ContentInput = styled.input`
   font-size: 15px;
   border: 1px solid transparent;
   color: #989898;
-  background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
+  background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
 
   &:focus {
     border: 1px solid #00aff0;
-    background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
+    background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
   }
 
   &::placeholder {
@@ -238,7 +238,7 @@ const IconContentFormContainer = styled(FontAwesomeIcon)`
 const ContentTweet = styled.div`
   display: flex;
   padding: 17px 20px;
-  border-bottom: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
+  border-bottom: 1px solid ${(props) => (props.current === "true" ? "#1e2125" : "#eee")};
 `;
 
 const TweetImage = styled.img`
@@ -275,7 +275,7 @@ const RightContainer = styled.div`
   padding-left: 20px;
   position: fixed;
   height: 100vh;
-  border-left: 1px solid ${(props) => (props.current ? "#1e2125" : "#eee")};
+  border-left: 1px solid ${(props) => (props.current === "true" ? "#1e2125" : "#eee")};
 `;
 
 const RegisterContainer = styled.div``;
@@ -283,7 +283,7 @@ const RegisterContainer = styled.div``;
 const TrendContainer = styled.div`
   /* background-color: #1e2125; */
   /* background-color: #202020; */
-  background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
+  background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
   border-radius: 20px;
   padding: 20px 0px;
   margin-top: 15px;
@@ -315,7 +315,7 @@ const TrendInfo = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: ${(props) => (props.current ? "#2E3336" : "#eeeeee")};
+    background-color: ${(props) => (props.current === "true" ? "#2E3336" : "#eeeeee")};
   }
 `;
 
@@ -351,7 +351,7 @@ const SeeMore = styled.div`
 `;
 
 const FollowContainer = styled.div`
-  background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
+  background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
   border-radius: 20px;
   margin-top: 15px;
   padding: 20px 0px;
@@ -371,7 +371,7 @@ const FollowContent = styled.div`
   padding: 10px 17px;
 
   &:hover {
-    background-color: ${(props) => (props.current ? "#2E3336" : "#eeeeee")};
+    background-color: ${(props) => (props.current === "true" ? "#2E3336" : "#eeeeee")};
   }
 `;
 
@@ -402,7 +402,7 @@ const FollowButton = styled.button`
   border-radius: 50px;
   font-size: 14px;
   font-weight: bold;
-  background-color: ${(props) => (props.current ? "#303030" : "#272c30")};
+  background-color: ${(props) => (props.current === "true" ? "#303030" : "#272c30")};
 `;
 
 const PolicyContainer = styled.div`
@@ -542,43 +542,43 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
         </Helmet>
         {/* 메뉴 (좌측) */}
         <LeftContainerParent>
-          <LeftContainer current={isDark ? true : false}>
+          <LeftContainer current={isDark ? "true" : "false"}>
             <MenuContainer>
               <MenuImage>
                 <Link to="/">
-                  <IconTwitterContainer icon={faTwitter} current={isDark ? true : false}></IconTwitterContainer>
+                  <IconTwitterContainer icon={faTwitter} current={isDark ? "true" : "false"}></IconTwitterContainer>
                 </Link>
               </MenuImage>
               <MenuNav>
-                <MenuList current={isDark ? true : false} to="/">
+                <MenuList current={isDark ? "true" : "false"} to="/">
                   <IconContainer icon={faHome}></IconContainer>
                   <IconText>홈</IconText>
                 </MenuList>
-                <MenuList current={isDark ? true : false} to={userObject ? "/profile" : "/"}>
+                <MenuList current={isDark ? "true" : "false"} to={userObject ? "/profile" : "/"}>
                   <IconContainer icon={faUser}></IconContainer>
                   <IconText>프로필</IconText>
                 </MenuList>
-                <MenuList current={isDark ? true : false} to="/" onClick={onFocusTwitterSearch}>
+                <MenuList current={isDark ? "true" : "false"} to="/" onClick={onFocusTwitterSearch}>
                   <IconContainer icon={faSearch}></IconContainer>
                   <IconText>검색</IconText>
                 </MenuList>
-                <MenuList current={isDark ? true : false} to="/">
+                <MenuList current={isDark ? "true" : "false"} to="/">
                   <IconContainer icon={faBell}></IconContainer>
                   <IconText>알림</IconText>
                 </MenuList>
-                <MenuList current={isDark ? true : false} to="/">
+                <MenuList current={isDark ? "true" : "false"} to="/">
                   <IconContainer icon={faEnvelope}></IconContainer>
                   <IconText>쪽지</IconText>
                 </MenuList>
-                <MenuList current={isDark ? true : false} to="/">
+                <MenuList current={isDark ? "true" : "false"} to="/">
                   <IconContainer icon={faBookmark}></IconContainer>
                   <IconText>북마크</IconText>
                 </MenuList>
-                <MenuList current={isDark ? true : false} to="/">
+                <MenuList current={isDark ? "true" : "false"} to="/">
                   <IconContainer icon={faListAlt}></IconContainer>
                   <IconText>리스트</IconText>
                 </MenuList>
-                <MenuList current={isDark ? true : false} to="/">
+                <MenuList current={isDark ? "true" : "false"} to="/">
                   <IconContainer icon={faEllipsisH}></IconContainer>
                   <IconText>더보기</IconText>
                 </MenuList>
@@ -588,7 +588,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
               </MenuButton>
             </MenuContainer>
             <UserContainerLink to={userObject === null ? "/" : "/profile"}>
-              <UserContainer current={isDark ? true : false}>
+              <UserContainer current={isDark ? "true" : "false"}>
                 <UserPhoto src={userObject?.photoURL ? userObject.photoURL : userImage}></UserPhoto>
                 <UserInfo>
                   <UserName>{userObject?.displayName ? userObject.displayName : "유저"}</UserName>
@@ -603,14 +603,14 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
         {/* 트윗 목록 (중앙) */}
         <CenterContainerParent>
           <CenterContainer>
-            <ContentContainer current={isDark ? true : false}>
-              <ContentHeader current={isDark ? true : false}>
+            <ContentContainer current={isDark ? "true" : "false"}>
+              <ContentHeader current={isDark ? "true" : "false"}>
                 {/* <ContentOrderBy onClick={handleOrderBy}>{isDesc ? "오래된순" : "최신순"}</ContentOrderBy> */}
                 <ContentTweetNumber>전체 트윗 ({allTweetsLength})</ContentTweetNumber>
                 <ContentSearch>
                   <ContentForm onSubmit={onSearchSubmit}>
                     <ContentInput
-                      current={isDark ? true : false}
+                      current={isDark ? "true" : "false"}
                       type="text"
                       placeholder="트위터 검색"
                       onChange={onSearchInput}
@@ -621,7 +621,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                   </ContentForm>
                 </ContentSearch>
               </ContentHeader>
-              <ContentTweet current={isDark ? true : false}>
+              <ContentTweet current={isDark ? "true" : "false"}>
                 <TweetImage src={userImage}></TweetImage>
                 <TweetPostContainer>
                   <TweetPostHeader>
@@ -667,30 +667,30 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
 
         {/* 트렌드, 팔로우 (우측) */}
         <RightContainerParent>
-          <RightContainer current={isDark ? true : false}>
+          <RightContainer current={isDark ? "true" : "false"}>
             <RegisterContainer>
               <Authentication userObject={userObject} createNotification={createNotification} isDark={isDark} changeTheme={changeTheme}></Authentication>
             </RegisterContainer>
-            <TrendContainer current={isDark ? true : false}>
+            <TrendContainer current={isDark ? "true" : "false"}>
               <TrendHeader>
                 <TrendHeaderTitle>나를 위한 트렌드</TrendHeaderTitle>
                 <IconTrendContainer icon={faCog}></IconTrendContainer>
               </TrendHeader>
-              <TrendInfo current={isDark ? true : false}>
+              <TrendInfo current={isDark ? "true" : "false"}>
                 <TrendContent>
                   <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
                   <TrendTitle>리액트</TrendTitle>
                 </TrendContent>
                 <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
               </TrendInfo>
-              <TrendInfo current={isDark ? true : false}>
+              <TrendInfo current={isDark ? "true" : "false"}>
                 <TrendContent>
                   <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
                   <TrendTitle>리액트</TrendTitle>
                 </TrendContent>
                 <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
               </TrendInfo>
-              <TrendInfo current={isDark ? true : false}>
+              <TrendInfo current={isDark ? "true" : "false"}>
                 <TrendContent>
                   <TrendHeading>대한민국에서 트렌드 중</TrendHeading>
                   <TrendTitle>리액트</TrendTitle>
@@ -699,31 +699,31 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
               </TrendInfo>
               <SeeMore>더 보기</SeeMore>
             </TrendContainer>
-            <FollowContainer current={isDark ? true : false}>
+            <FollowContainer current={isDark ? "true" : "false"}>
               <FollowHeader>팔로우 추천</FollowHeader>
-              <FollowContent current={isDark ? true : false}>
+              <FollowContent current={isDark ? "true" : "false"}>
                 <FollowImage src={userImage}></FollowImage>
                 <FollowInfo>
                   <FollowInfoTitle>Apple</FollowInfoTitle>
                   <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
                 </FollowInfo>
-                <FollowButton current={isDark ? true : false}>팔로우</FollowButton>
+                <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
               </FollowContent>
-              <FollowContent current={isDark ? true : false}>
+              <FollowContent current={isDark ? "true" : "false"}>
                 <FollowImage src={userImage}></FollowImage>
                 <FollowInfo>
                   <FollowInfoTitle>Apple</FollowInfoTitle>
                   <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
                 </FollowInfo>
-                <FollowButton current={isDark ? true : false}>팔로우</FollowButton>
+                <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
               </FollowContent>
-              <FollowContent current={isDark ? true : false}>
+              <FollowContent current={isDark ? "true" : "false"}>
                 <FollowImage src={userImage}></FollowImage>
                 <FollowInfo>
                   <FollowInfoTitle>Apple</FollowInfoTitle>
                   <FollowInfoDesc>Iphone, IPad, MacBook</FollowInfoDesc>
                 </FollowInfo>
-                <FollowButton current={isDark ? true : false}>팔로우</FollowButton>
+                <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
               </FollowContent>
               <SeeMore>더 보기</SeeMore>
             </FollowContainer>

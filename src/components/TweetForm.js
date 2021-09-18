@@ -26,7 +26,7 @@ const TweetFormTextInput = styled.input`
   font-size: 18px;
   border-radius: 4px;
   color: #989898;
-  background-color: ${(props) => (props.current ? "#1e2125" : "#f8f8f8")};
+  background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
 
   &::placeholder {
     color: #989898;
@@ -93,7 +93,7 @@ const IconTweetFormContainer = styled(FontAwesomeIcon)`
 
   &:hover {
     color: var(--twitter-color);
-    background-color: ${(props) => (props.current ? "#1e2125" : "#e6f3ff")};
+    background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#e6f3ff")};
   }
 `;
 
@@ -106,7 +106,7 @@ const IconTweetSmile = styled(FontAwesomeIcon)`
 
   &:hover {
     color: var(--twitter-color);
-    background-color: ${(props) => (props.current ? "#1e2125" : "#e6f3ff")};
+    background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#e6f3ff")};
   }
 `;
 
@@ -231,7 +231,7 @@ const TweetForm = ({ userObject, createNotification, isDark }) => {
     <TweetFormContainer onSubmit={onSubmit}>
       <TweetFormTextContainer>
         <TweetFormTextInput
-          current={isDark ? true : false}
+          current={isDark ? "true" : "false"}
           type="text"
           placeholder="무슨 일이 일어나고 있나요?"
           value={tweet}
@@ -260,10 +260,10 @@ const TweetForm = ({ userObject, createNotification, isDark }) => {
 
       <TweetFormImageContainer>
         <TweetFormImageLabel htmlFor="fileUploadBtn">
-          <IconTweetFormContainer icon={faImage} current={isDark ? true : false}></IconTweetFormContainer>
+          <IconTweetFormContainer icon={faImage} current={isDark ? "true" : "false"}></IconTweetFormContainer>
         </TweetFormImageLabel>
         <IconTweetSmileContainer>
-          <IconTweetSmile icon={faSmile} onClick={onClickEmoji} current={isDark ? true : false}></IconTweetSmile>
+          <IconTweetSmile icon={faSmile} onClick={onClickEmoji} current={isDark ? "true" : "false"}></IconTweetSmile>
           {isEmoji ? <PickerContainer onEmojiClick={onEmojiClick} disableSearchBar={true} /> : null}
         </IconTweetSmileContainer>
         <TweetFormSubmit type="submit" value="트윗하기" ref={inputTweet}></TweetFormSubmit>
