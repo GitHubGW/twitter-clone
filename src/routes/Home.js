@@ -573,8 +573,8 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
 
   // 공유하기 버튼
   const shareTwitter = () => {
-    var sendText = "노마드 코더";
-    var sendUrl = "https://nomadcoders.co";
+    var sendText = "노마드 코더 트위터 클론";
+    var sendUrl = "https://nomadcoders.co/nwitter";
     window.open(`https://twitter.com/intent/tweet?text=${sendText}&url=${sendUrl}`);
   };
 
@@ -710,7 +710,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                 </ContentSearch>
               </ContentHeader>
               <ContentTweet current={isDark ? "true" : "false"}>
-                <TweetImage src={userImage}></TweetImage>
+                <TweetImage src={userObject?.photoURL ? userObject.photoURL : userImage}></TweetImage>
                 <TweetPostContainer>
                   <TweetPostHeader>
                     <TweetForm userObject={userObject} createNotification={createNotification} isDark={isDark}></TweetForm>
