@@ -214,7 +214,7 @@ const MenuLoginButton = styled.button`
   padding: 10px 12px;
   color: white;
   border-radius: 30px;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: bold;
   background-color: var(--twitter-color);
   margin-right: 5px;
@@ -231,7 +231,7 @@ const MenuLogoutButton = styled.button`
   padding: 10px 12px;
   color: white;
   border-radius: 30px;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: bold;
   background-color: var(--twitter-color);
   margin-right: 5px;
@@ -254,7 +254,7 @@ const ChangePasswordBtn = styled.button`
   padding: 10px 12px;
   color: white;
   border-radius: 30px;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: bold;
   background-color: #a4b0be;
 
@@ -272,7 +272,7 @@ const ChangeEmailBtn = styled.button`
   padding: 10px 12px;
   color: white;
   border-radius: 30px;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: bold;
   background-color: #747d8c;
 

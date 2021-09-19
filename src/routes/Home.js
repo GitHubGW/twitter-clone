@@ -452,7 +452,7 @@ const PolicyContainer = styled.div`
 const PolicyHeader = styled.div``;
 
 const PolicyLink = styled.a`
-  font-size: 12px;
+  font-size: 11px;
   margin: 0 10px;
   color: gray;
 
