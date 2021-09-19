@@ -427,10 +427,12 @@ const FollowInfoTitle = styled.h1`
   font-weight: bold;
   font-size: 17px;
   margin-bottom: 5px;
+  color: ${(props) => (props.current === "true" ? "#cccccc" : "#31302E")};
 `;
 
 const FollowInfoDesc = styled.h2`
   font-size: 15px;
+  color: ${(props) => (props.current === "true" ? "#cccccc" : "#31302E")};
 `;
 
 const FollowButton = styled.span`
@@ -785,8 +787,8 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                 <FollowLink href="https://nomadcoders.co" target="_blank">
                   <FollowImage src={nomadCoderImage}></FollowImage>
                   <FollowInfo>
-                    <FollowInfoTitle>Nomad Coders</FollowInfoTitle>
-                    <FollowInfoDesc>@Nomad Coders</FollowInfoDesc>
+                    <FollowInfoTitle current={isDark ? "true" : "false"}>Nomad Coders</FollowInfoTitle>
+                    <FollowInfoDesc current={isDark ? "true" : "false"}>@Nomad Coders</FollowInfoDesc>
                   </FollowInfo>
                   <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
                 </FollowLink>
@@ -795,8 +797,8 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                 <FollowLink href="https://twitter.com/Apple" target="_blank">
                   <FollowImage src={appleImage}></FollowImage>
                   <FollowInfo>
-                    <FollowInfoTitle>Apple</FollowInfoTitle>
-                    <FollowInfoDesc>@Apple</FollowInfoDesc>
+                    <FollowInfoTitle current={isDark ? "true" : "false"}>Apple</FollowInfoTitle>
+                    <FollowInfoDesc current={isDark ? "true" : "false"}>@Apple</FollowInfoDesc>
                   </FollowInfo>
                   <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
                 </FollowLink>
@@ -805,8 +807,8 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                 <FollowLink href="https://twitter.com/NASA" target="_blank">
                   <FollowImage src={nasaImage}></FollowImage>
                   <FollowInfo>
-                    <FollowInfoTitle>NASA</FollowInfoTitle>
-                    <FollowInfoDesc>@NASA</FollowInfoDesc>
+                    <FollowInfoTitle current={isDark ? "true" : "false"}>NASA</FollowInfoTitle>
+                    <FollowInfoDesc current={isDark ? "true" : "false"}>@NASA</FollowInfoDesc>
                   </FollowInfo>
                   <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
                 </FollowLink>
@@ -815,8 +817,8 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                 <FollowLink href="https://twitter.com/Tesla" target="_blank">
                   <FollowImage src={teslaImage}></FollowImage>
                   <FollowInfo>
-                    <FollowInfoTitle>Tesla</FollowInfoTitle>
-                    <FollowInfoDesc>@Tesla</FollowInfoDesc>
+                    <FollowInfoTitle current={isDark ? "true" : "false"}>Tesla</FollowInfoTitle>
+                    <FollowInfoDesc current={isDark ? "true" : "false"}>@Tesla</FollowInfoDesc>
                   </FollowInfo>
                   <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
                 </FollowLink>
