@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.js": "/twitter-clone/static/js/main.9dcceae6.chunk.js",
-    "main.js.map": "/twitter-clone/static/js/main.9dcceae6.chunk.js.map",
+    "main.js": "/twitter-clone/static/js/main.f68e7cfb.chunk.js",
+    "main.js.map": "/twitter-clone/static/js/main.f68e7cfb.chunk.js.map",
     "runtime-main.js": "/twitter-clone/static/js/runtime-main.846faefc.js",
     "runtime-main.js.map": "/twitter-clone/static/js/runtime-main.846faefc.js.map",
     "static/css/2.62d7ce97.chunk.css": "/twitter-clone/static/css/2.62d7ce97.chunk.css",
-    "static/js/2.8b0a6367.chunk.js": "/twitter-clone/static/js/2.8b0a6367.chunk.js",
-    "static/js/2.8b0a6367.chunk.js.map": "/twitter-clone/static/js/2.8b0a6367.chunk.js.map",
+    "static/js/2.88667738.chunk.js": "/twitter-clone/static/js/2.88667738.chunk.js",
+    "static/js/2.88667738.chunk.js.map": "/twitter-clone/static/js/2.88667738.chunk.js.map",
     "index.html": "/twitter-clone/index.html",
     "static/css/2.62d7ce97.chunk.css.map": "/twitter-clone/static/css/2.62d7ce97.chunk.css.map",
-    "static/js/2.8b0a6367.chunk.js.LICENSE.txt": "/twitter-clone/static/js/2.8b0a6367.chunk.js.LICENSE.txt",
+    "static/js/2.88667738.chunk.js.LICENSE.txt": "/twitter-clone/static/js/2.88667738.chunk.js.LICENSE.txt",
+    "static/media/coding-logo.76a4771d.png": "/twitter-clone/static/media/coding-logo.76a4771d.png",
     "static/media/google-logo.66ae25be.svg": "/twitter-clone/static/media/google-logo.66ae25be.svg",
     "static/media/nasa-logo.6b742981.jpeg": "/twitter-clone/static/media/nasa-logo.6b742981.jpeg",
     "static/media/notifications.css": "/twitter-clone/static/media/notification.c5d9251e.ttf",
-    "static/media/tesla-logo.73f61964.png": "/twitter-clone/static/media/tesla-logo.73f61964.png",
     "static/media/user.a6410c2b.png": "/twitter-clone/static/media/user.a6410c2b.png"
   },
   "entrypoints": [
     "static/js/runtime-main.846faefc.js",
     "static/css/2.62d7ce97.chunk.css",
-    "static/js/2.8b0a6367.chunk.js",
-    "static/js/main.9dcceae6.chunk.js"
+    "static/js/2.88667738.chunk.js",
+    "static/js/main.f68e7cfb.chunk.js"
   ]
 }
