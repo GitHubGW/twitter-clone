@@ -64,7 +64,7 @@ const GlobalStyle = createGlobalStyle`
   }
   aside.emoji-picker-react{
     position:absolute;
-    top:42px;
+    top:220px;
   }
 
   @media (max-width:768px){
