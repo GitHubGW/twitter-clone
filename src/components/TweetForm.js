@@ -317,7 +317,6 @@ const TweetForm = ({ userObject, createNotification, isDark }) => {
           </IconG>
         </IconSVG>
         {isEmoji ? <PickerContainer onEmojiClick={onEmojiClick} disableSearchBar={true} /> : null}
-
         <IconSVG
           current={isDark ? "true" : "false"}
           style={{ height: "20px" }}
@@ -332,7 +331,6 @@ const TweetForm = ({ userObject, createNotification, isDark }) => {
             <IconPath d="M18.9 18.7c-.1.2-.4.4-.6.4-.1 0-.3 0-.4-.1l-3.1-2v-3c0-.4.3-.8.8-.8.4 0 .8.3.8.8v2.2l2.4 1.5c.2.2.3.6.1 1z"></IconPath>
           </IconG>
         </IconSVG>
-
         <IconSVG
           current={isDark ? "true" : "false"}
           viewBox="0 0 24 24"
@@ -343,7 +341,6 @@ const TweetForm = ({ userObject, createNotification, isDark }) => {
             <IconPath d="M20.222 9.16h-1.334c.015-.09.028-.182.028-.277V6.57c0-.98-.797-1.777-1.778-1.777H3.5V3.358c0-.414-.336-.75-.75-.75s-.75.336-.75.75V20.83c0 .415.336.75.75.75s.75-.335.75-.75v-1.434h10.556c.98 0 1.778-.797 1.778-1.777v-2.313c0-.095-.014-.187-.028-.278h4.417c.98 0 1.778-.798 1.778-1.778v-2.31c0-.983-.797-1.78-1.778-1.78zM17.14 6.293c.152 0 .277.124.277.277v2.31c0 .154-.125.28-.278.28H3.5V6.29h13.64zm-2.807 9.014v2.312c0 .153-.125.277-.278.277H3.5v-2.868h10.556c.153 0 .277.126.277.28zM20.5 13.25c0 .153-.125.277-.278.277H3.5V10.66h16.722c.153 0 .278.124.278.277v2.313z"></IconPath>
           </IconG>
         </IconSVG>
-
         <IconSVG
           current={isDark ? "true" : "false"}
           viewBox="0 0 24 24"
@@ -355,7 +352,6 @@ const TweetForm = ({ userObject, createNotification, isDark }) => {
             <IconPath d="M20.5 2.02h-17c-1.24 0-2.25 1.007-2.25 2.247v15.507c0 1.238 1.01 2.246 2.25 2.246h17c1.24 0 2.25-1.008 2.25-2.246V4.267c0-1.24-1.01-2.247-2.25-2.247zm.75 17.754c0 .41-.336.746-.75.746h-17c-.414 0-.75-.336-.75-.746V4.267c0-.412.336-.747.75-.747h17c.414 0 .75.335.75.747v15.507z"></IconPath>
           </IconG>
         </IconSVG>
-
         <TweetFormSubmit type="submit" value="트윗하기" ref={inputTweet}></TweetFormSubmit>
       </TweetFormImageContainer>
     </TweetFormContainer>
