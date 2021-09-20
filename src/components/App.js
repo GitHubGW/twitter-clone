@@ -12,7 +12,7 @@ const App = () => {
   const [initializeFirebase, setInitializeFirebase] = useState(false); // 파이어베이스 초기화 확인
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부 확인
   const [userObject, setUserObject] = useState(null); // 로그인한 사용자 정보
-  const [isDark, setIsDark] = useState(false); // 다크모드 확인
+  const [isDark, setIsDark] = useState(true); // 다크모드 확인
 
   // 다크모드 전환
   const changeTheme = () => {
