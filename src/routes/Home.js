@@ -333,12 +333,13 @@ const IconTrendContainer = styled(FontAwesomeIcon)`
   cursor: pointer;
 `;
 
-const TrendInfo = styled.div`
+const TrendInfo = styled.a`
   display: flex;
   justify-content: space-between;
   padding: 13px 17px;
   margin-top: 10px;
   cursor: pointer;
+  color: ${(props) => (props.current === "true" ? "#cccccc" : "#31302E")};
 
   &:hover {
     background-color: ${(props) => (props.current === "true" ? "#2E3336" : "#eeeeee")};
@@ -1009,14 +1010,14 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                 <TrendHeaderTitle>나를 위한 트렌드</TrendHeaderTitle>
                 <IconTrendContainer icon={faCog}></IconTrendContainer>
               </TrendHeader>
-              <TrendInfo current={isDark ? "true" : "false"}>
+              <TrendInfo href="https://nomadcoders.co" target="_blank" current={isDark ? "true" : "false"}>
                 <TrendContent>
                   <TrendHeading>노마드코더에서 트렌드 중</TrendHeading>
                   <TrendTitle>트위터 클론</TrendTitle>
                 </TrendContent>
                 <IconTrendDotContainer icon={faEllipsisH}></IconTrendDotContainer>
               </TrendInfo>
-              <TrendInfo current={isDark ? "true" : "false"}>
+              <TrendInfo href="https://nomadcoders.co/nwitter" target="_blank" current={isDark ? "true" : "false"}>
                 <TrendContent>
                   <TrendHeading>페이스북, 구글에서 트렌드 중</TrendHeading>
                   <TrendTitle>리액트, 파이어베이스</TrendTitle>
