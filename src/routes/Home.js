@@ -606,6 +606,10 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
   //   console.log("getDesc", getDesc);
   // };
 
+  const handleFollower = () => {
+    console.log("zzz");
+  };
+
   useEffect(() => {
     firestoreService
       .collection("tweets")
@@ -783,6 +787,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
             </TrendContainer>
             <FollowContainer current={isDark ? "true" : "false"}>
               <FollowHeader>팔로우 추천</FollowHeader>
+
               <FollowContent current={isDark ? "true" : "false"}>
                 <FollowLink href="https://nomadcoders.co" target="_blank">
                   <FollowImage src={nomadCoderImage}></FollowImage>
