@@ -531,7 +531,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
       current={isDark ? "true" : "false"}
       currentLight={isEditing === true && isDark === false && true}
       currentDark={isEditing === true && isDark === true && true}
-      onClick={() => handlePostingTweet(tweetObject.uid)}
+      onClick={!isOwner && (() => handlePostingTweet(tweetObject.uid))}
     >
       {/* 트윗을 현재 수정중인지 확인 */}
       {isEditing ? (
