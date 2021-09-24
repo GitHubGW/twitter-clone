@@ -10,7 +10,6 @@ import userImage from "images/user.png";
 const PostingTweetContainer = styled.div`
   display: flex;
   padding: 10px 17px;
-  cursor: pointer;
   background-color: ${(props) => props.currentLight && "#f8f8f8"};
   background-color: ${(props) => props.currentDark && "#1e2125"};
   border-bottom: 1px solid ${(props) => (props.current === "true" ? "#1e2125" : "#eee")};
@@ -25,6 +24,7 @@ const PostingTweetAuthorImage = styled.img`
   height: 47px;
   border-radius: 50%;
   margin-right: 17px;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     margin-right: 10px;
@@ -53,6 +53,7 @@ const AuthorInfo = styled.div`
   display: flex;
   align-items: center;
   height: 40px;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -531,7 +532,6 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
       current={isDark ? "true" : "false"}
       currentLight={isEditing === true && isDark === false && true}
       currentDark={isEditing === true && isDark === true && true}
-      onClick={!isOwner && (() => handlePostingTweet(tweetObject.uid))}
     >
       {/* 트윗을 현재 수정중인지 확인 */}
       {isEditing ? (
@@ -581,10 +581,13 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
         </>
       ) : (
         <>
-          <PostingTweetAuthorImage src={tweetObject.photoURL ? tweetObject.photoURL : userImage}></PostingTweetAuthorImage>
+          <PostingTweetAuthorImage
+            src={tweetObject.photoURL ? tweetObject.photoURL : userImage}
+            onClick={!isOwner && (() => handlePostingTweet(tweetObject.uid))}
+          ></PostingTweetAuthorImage>
           <PostingTweetContent>
             <PostingTweetAuthor>
-              <AuthorInfo>
+              <AuthorInfo onClick={!isOwner && (() => handlePostingTweet(tweetObject.uid))}>
                 <AuthorName>{tweetObject.displayName}</AuthorName>
                 <AuthorEmail>{tweetObject.email}</AuthorEmail>
                 <AuthorDot>·</AuthorDot>
