@@ -370,7 +370,7 @@ const PostingTweetFollower = styled.div`
 
 const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark }) => {
   // userObject는 현재 로그인한 유저, tweetObject는 해당 트윗을 작성한 유저
-  console.log("Tweet.js tweetObject", tweetObject);
+  // console.log("Tweet.js tweetObject", tweetObject);
   // console.log("Tweet.js userObject", userObject);
 
   const [isEditing, setIsEditing] = useState(false); // 현재 트윗을 수정 중인지 확인

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { authService, firestoreService } from "firebaseConfiguration";
+import { firestoreService } from "firebaseConfiguration";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -4,7 +4,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { faImage, faSmile } from "@fortawesome/free-regular-svg-icons";
 import Picker from "emoji-picker-react";
 
 const TweetFormContainer = styled.form``;
@@ -72,10 +71,6 @@ const TweetFormImageContainer = styled.div`
 
 const TweetFormImageLabel = styled.label`
   margin-top: 4px;
-`;
-
-const IconTweetSmileContainer = styled.div`
-  position: relative;
 `;
 
 const IconSVG = styled.svg`
