@@ -78,6 +78,7 @@ const LoginInputTag = styled.input`
   margin-top: 10px;
   font-size: 16px;
   border-radius: 5px;
+  position: relative;
 
   &:focus {
     background-color: #e8e8e8;
