@@ -5,8 +5,8 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { faBell, faEnvelope, faBookmark, faListAlt, faUser } from "@fortawesome/free-regular-svg-icons";
-import { faHome, faEllipsisH, faCog, faSearch, faArrowCircleUp, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faBookmark, faListAlt } from "@fortawesome/free-regular-svg-icons";
+import { faHome, faEllipsisH, faCog, faSearch, faArrowCircleUp, faTimes, faUserTag, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
 import Tweet from "components/Tweet";
 import TweetForm from "components/TweetForm";
@@ -17,6 +17,7 @@ import nomadCoderImage from "images/nomadcoder-logo-black.jpeg";
 import appleImage from "images/apple-logo.png";
 import nasaImage from "images/nasa-logo.jpeg";
 import codingImage from "images/coding-logo.png";
+import _ from "underscore";
 
 const Container = styled.div`
   width: 1260px;
@@ -90,6 +91,28 @@ const IconTwitterContainer = styled(FontAwesomeIcon)`
 const MenuNav = styled.ul``;
 
 const MenuList = styled(Link)`
+  margin-bottom: 8px;
+  display: inline-block;
+  margin-right: 50px;
+  align-items: center;
+  padding: 12px 15px;
+  padding-right: 25px;
+  border-radius: 50px;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  &:link {
+    color: inherit;
+  }
+  &:visited {
+    color: inherit;
+  }
+  &:hover {
+    background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#eeeeee")};
+  }
+`;
+
+const MenuListSpan = styled.span`
   margin-bottom: 8px;
   display: inline-block;
   margin-right: 50px;
@@ -552,10 +575,45 @@ const LoginFormContainer = styled.div`
   width: 625px;
   height: 700px;
   overflow-y: scroll;
-  z-index: 10;
   background-color: white;
   border-radius: 20px;
   z-index: 100;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+  background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
+  border: 1px solid ${(props) => (props.current === "true" ? "#404040" : "#eee")};
+
+  &::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+    background: #ffffff;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 7px;
+    background-color: #787878;
+
+    &:hover {
+      background-color: #444;
+    }
+    &:active {
+      background-color: #444;
+    }
+  }
+  &::-webkit-scrollbar-track {
+    background-color: lightgray;
+  }
+`;
+
+const MemberFormContainer = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 625px;
+  height: 700px;
+  overflow-y: scroll;
+  background-color: white;
+  border-radius: 20px;
+  z-index: 50;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
   background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
   border: 1px solid ${(props) => (props.current === "true" ? "#404040" : "#eee")};
@@ -598,6 +656,7 @@ const PostingTweetAuthorImage = styled.img`
   height: 47px;
   border-radius: 50%;
   margin-right: 17px;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     margin-right: 10px;
@@ -641,6 +700,38 @@ const AuthorName = styled.h2`
 const AuthorEmail = styled.h3`
   font-size: 16px;
   margin-left: 7px;
+  color: gray;
+  font-weight: 500;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
+`;
+
+const MemberInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 40px;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: flex-start;
+  }
+`;
+
+const MemberName = styled.h2`
+  font-size: 17px;
+  font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
+`;
+
+const MemberEmail = styled.h3`
+  font-size: 16px;
   color: gray;
   font-weight: 500;
 
@@ -757,7 +848,9 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
   const [searchTweetLength, setSearchTweetsLength] = useState(0);
   const [searchTweet, setSearchTweets] = useState("");
   const [isFollower, setIsFollower] = useState(false);
+  const [isMember, setIsMember] = useState(false);
   const [isSearchTweetAuthor, setSearchTweetAuthor] = useState("유저");
+  const [allMembers, setAllMembers] = useState("");
   const twitterSearch = useRef();
   const history = useHistory();
   const {
@@ -841,6 +934,24 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
     setIsFollower(false);
   };
 
+  const handleMember = async (email) => {
+    const querySnapshot = await firestoreService.collection("tweets").get();
+    const allMembersArray = querySnapshot.docs.map((queryDocumentSnapshot) => ({
+      id: queryDocumentSnapshot.id,
+      displayName: queryDocumentSnapshot.data().displayName,
+      email: queryDocumentSnapshot.data().email,
+      photoURL: queryDocumentSnapshot.data().photoURL,
+    }));
+    const filterAllMembersArray = _.uniq(allMembersArray, "email");
+
+    setAllMembers(filterAllMembersArray);
+    setIsMember(true);
+  };
+
+  const handleCloseMember = () => {
+    setIsMember(false);
+  };
+
   const getTime = (time) => {
     const now = parseInt(time);
     const date = new Date(now);
@@ -893,30 +1004,30 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                   <IconContainer icon={faUser}></IconContainer>
                   <IconText>프로필</IconText>
                 </MenuList>
-                <MenuList current={isDark ? "true" : "false"} to="/" onClick={onFocusTwitterSearch}>
+                <MenuListSpan current={isDark ? "true" : "false"} onClick={onFocusTwitterSearch}>
                   <IconContainer icon={faSearch}></IconContainer>
                   <IconText>검색</IconText>
-                </MenuList>
-                <MenuList current={isDark ? "true" : "false"} to="/">
-                  <IconContainer icon={faBell}></IconContainer>
-                  <IconText>알림</IconText>
-                </MenuList>
-                <MenuList current={isDark ? "true" : "false"} to="/">
+                </MenuListSpan>
+                <MenuListSpan current={isDark ? "true" : "false"} onClick={handleMember}>
+                  <IconContainer icon={faUserTag}></IconContainer>
+                  <IconText>팔로우</IconText>
+                </MenuListSpan>
+                <MenuListSpan current={isDark ? "true" : "false"}>
                   <IconContainer icon={faEnvelope}></IconContainer>
                   <IconText>쪽지</IconText>
-                </MenuList>
-                <MenuList current={isDark ? "true" : "false"} to="/">
+                </MenuListSpan>
+                <MenuListSpan current={isDark ? "true" : "false"}>
                   <IconContainer icon={faBookmark}></IconContainer>
                   <IconText>북마크</IconText>
-                </MenuList>
-                <MenuList current={isDark ? "true" : "false"} to="/">
+                </MenuListSpan>
+                <MenuListSpan current={isDark ? "true" : "false"}>
                   <IconContainer icon={faListAlt}></IconContainer>
                   <IconText>리스트</IconText>
-                </MenuList>
-                <MenuList current={isDark ? "true" : "false"} to="/">
+                </MenuListSpan>
+                <MenuListSpan current={isDark ? "true" : "false"}>
                   <IconContainer icon={faEllipsisH}></IconContainer>
                   <IconText>더보기</IconText>
-                </MenuList>
+                </MenuListSpan>
               </MenuNav>
               <MenuButton type="button" onClick={shareTwitter}>
                 공유하기
@@ -1068,7 +1179,7 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                   <FollowButton current={isDark ? "true" : "false"}>팔로우</FollowButton>
                 </FollowLink>
               </FollowContent>
-              <SeeMore>더 보기</SeeMore>
+              <SeeMore onClick={handleMember}>더 보기</SeeMore>
             </FollowContainer>
             <PolicyContainer>
               <PolicyHeader>
@@ -1104,8 +1215,8 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
                   {isSearchTweetAuthor && isSearchTweetAuthor}님이 작성한 트윗 ({searchTweetLength})
                 </PostingTweetTitle>
                 {searchTweet &&
-                  searchTweet.map((tweetObject) => (
-                    <PostingTweetFollower>
+                  searchTweet.map((tweetObject, index) => (
+                    <PostingTweetFollower key={index}>
                       <PostingTweetAuthorImage src={tweetObject.photoURL ? tweetObject.photoURL : userImage}></PostingTweetAuthorImage>
                       <PostingTweetContent>
                         <PostingTweetAuthor>
@@ -1175,6 +1286,34 @@ const Home = ({ userObject, refreshDisplayName, createNotification, isDark, chan
               </PostingTweetFollowerContainer>
             </LoginFormContent>
           </LoginFormContainer>
+        ) : null}
+
+        {/* 멤버 폼 */}
+        {isMember ? (
+          <MemberFormContainer current={isDark ? "true" : "false"}>
+            <LoginFormContent>
+              <CloseButton current={isDark ? "true" : "false"} icon={faTimes} type="button" onClick={handleCloseMember}></CloseButton>
+              <PostingTweetFollowerContainer>
+                <PostingTweetTitle>팔로우 추천 멤버</PostingTweetTitle>
+                {allMembers &&
+                  allMembers.map((tweetObject, index) => (
+                    <PostingTweetFollower key={index}>
+                      <PostingTweetAuthorImage src={tweetObject.photoURL ? tweetObject.photoURL : userImage}></PostingTweetAuthorImage>
+                      <PostingTweetContent>
+                        <PostingTweetAuthor>
+                          <MemberInfo onClick={() => handleFollower(tweetObject.email)}>
+                            <MemberName>{tweetObject.displayName}</MemberName>
+                            <MemberEmail>{tweetObject.email}</MemberEmail>
+                          </MemberInfo>
+                        </PostingTweetAuthor>
+                        <PostingTweetDesc>{tweetObject.content}</PostingTweetDesc>
+                        {tweetObject.fileDownloadUrl && <PostingTweetImage src={tweetObject.fileDownloadUrl} alt={tweetObject.content}></PostingTweetImage>}
+                      </PostingTweetContent>
+                    </PostingTweetFollower>
+                  ))}
+              </PostingTweetFollowerContainer>
+            </LoginFormContent>
+          </MemberFormContainer>
         ) : null}
 
         <MobileMenu current={isDark ? "true" : "false"}>
