@@ -158,6 +158,7 @@ const PostingTweetImage = styled.img`
   width: 490px;
   height: 280px;
   border-radius: 15px;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     width: 100%;
