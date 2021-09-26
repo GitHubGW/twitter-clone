@@ -806,7 +806,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
         </LoginFormContainer>
       ) : null}
 
-      <ModalContainer isOpen={modalIsOpen} onAfterOpen={handleAfterOpenModal} onRequestClose={handleCloseModal} contentLabel="Example Modal">
+      <ModalContainer isOpen={modalIsOpen} onAfterOpen={handleAfterOpenModal} onRequestClose={handleCloseModal} contentLabel="TweetImage Modal">
         <ModalImage src={modalImageSrc && modalImageSrc}></ModalImage>
         <ModalCloseButton icon={faTimes} type="button" onClick={handleCloseModal}></ModalCloseButton>
       </ModalContainer>
