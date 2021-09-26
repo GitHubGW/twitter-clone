@@ -647,11 +647,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
             </PostingTweetAuthor>
             <PostingTweetDesc onClick={isOwner === true ? onEditTweet : handleNothing}>{tweetObject.content}</PostingTweetDesc>
             {tweetObject.fileDownloadUrl && (
-              <PostingTweetImage
-                src={tweetObject.fileDownloadUrl}
-                alt={tweetObject.content}
-                onClick={isOwner ? handleNothing : handleOpenModal}
-              ></PostingTweetImage>
+              <PostingTweetImage src={tweetObject.fileDownloadUrl} alt={tweetObject.content} onClick={handleOpenModal}></PostingTweetImage>
             )}
 
             <IconSVGContainer>
