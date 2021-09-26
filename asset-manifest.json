@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.js": "/twitter-clone/static/js/main.d4e8937c.chunk.js",
-    "main.js.map": "/twitter-clone/static/js/main.d4e8937c.chunk.js.map",
+    "main.js": "/twitter-clone/static/js/main.d0f008a6.chunk.js",
+    "main.js.map": "/twitter-clone/static/js/main.d0f008a6.chunk.js.map",
     "runtime-main.js": "/twitter-clone/static/js/runtime-main.846faefc.js",
     "runtime-main.js.map": "/twitter-clone/static/js/runtime-main.846faefc.js.map",
     "static/css/2.62d7ce97.chunk.css": "/twitter-clone/static/css/2.62d7ce97.chunk.css",
-    "static/js/2.8e2a6481.chunk.js": "/twitter-clone/static/js/2.8e2a6481.chunk.js",
-    "static/js/2.8e2a6481.chunk.js.map": "/twitter-clone/static/js/2.8e2a6481.chunk.js.map",
+    "static/js/2.0490fbbc.chunk.js": "/twitter-clone/static/js/2.0490fbbc.chunk.js",
+    "static/js/2.0490fbbc.chunk.js.map": "/twitter-clone/static/js/2.0490fbbc.chunk.js.map",
     "index.html": "/twitter-clone/index.html",
     "static/css/2.62d7ce97.chunk.css.map": "/twitter-clone/static/css/2.62d7ce97.chunk.css.map",
-    "static/js/2.8e2a6481.chunk.js.LICENSE.txt": "/twitter-clone/static/js/2.8e2a6481.chunk.js.LICENSE.txt",
+    "static/js/2.0490fbbc.chunk.js.LICENSE.txt": "/twitter-clone/static/js/2.0490fbbc.chunk.js.LICENSE.txt",
     "static/media/coding-logo.76a4771d.png": "/twitter-clone/static/media/coding-logo.76a4771d.png",
     "static/media/google-logo.66ae25be.svg": "/twitter-clone/static/media/google-logo.66ae25be.svg",
     "static/media/nasa-logo.6b742981.jpeg": "/twitter-clone/static/media/nasa-logo.6b742981.jpeg",
@@ -19,7 +19,7 @@
   "entrypoints": [
     "static/js/runtime-main.846faefc.js",
     "static/css/2.62d7ce97.chunk.css",
-    "static/js/2.8e2a6481.chunk.js",
-    "static/js/main.d4e8937c.chunk.js"
+    "static/js/2.0490fbbc.chunk.js",
+    "static/js/main.d0f008a6.chunk.js"
   ]
 }
