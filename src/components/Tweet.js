@@ -2,6 +2,7 @@ import { useState } from "react";
 import { firestoreService, storageService } from "firebaseConfiguration";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import Modal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeart2, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { faEdit, faHeart, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
@@ -369,6 +370,34 @@ const PostingTweetFollower = styled.div`
   margin-bottom: 30px;
 `;
 
+const ModalContainer = styled(Modal)`
+  height: 100vh;
+`;
+
+const ModalImage = styled.img`
+  width: 560px;
+  height: 340px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 15px;
+`;
+
+const ModalCloseButton = styled(FontAwesomeIcon)`
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  color: white;
+  border-radius: 50%;
+  font-size: 25px;
+  font-weight: bold;
+  background-color: #a4b0be;
+  margin-left: 20px;
+  margin-top: 20px;
+`;
+
 const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark }) => {
   // userObject는 현재 로그인한 유저, tweetObject는 해당 트윗을 작성한 유저
   // console.log("Tweet.js tweetObject", tweetObject);
@@ -382,6 +411,25 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
   const [searchTweet, setSearchTweets] = useState("");
   const [isFollower, setIsFollower] = useState(false);
   const [isSearchTweetAuthor, setSearchTweetAuthor] = useState("유저");
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalImageSrc, setModalImageSrc] = useState("");
+
+  Modal.setAppElement("#root");
+
+  const handleOpenModal = (event) => {
+    const {
+      target: { src },
+    } = event;
+
+    setModalImageSrc(src);
+    setIsOpen(true);
+  };
+
+  const handleAfterOpenModal = () => {};
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
 
   const getTime = (time) => {
     const now = parseInt(time);
@@ -489,16 +537,6 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
     }
 
     setIsLike(!isLike);
-  };
-
-  const onClickPostingImage = (event) => {
-    const {
-      target: { src },
-    } = event;
-
-    if (src) {
-      // window.open(src);
-    }
   };
 
   const handleNothing = () => {};
@@ -611,7 +649,7 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
               <PostingTweetImage
                 src={tweetObject.fileDownloadUrl}
                 alt={tweetObject.content}
-                onClick={isOwner ? handleNothing : onClickPostingImage}
+                onClick={isOwner ? handleNothing : handleOpenModal}
               ></PostingTweetImage>
             )}
 
@@ -767,6 +805,11 @@ const Tweet = ({ userObject, tweetObject, isOwner, createNotification, isDark })
           </LoginFormContent>
         </LoginFormContainer>
       ) : null}
+
+      <ModalContainer isOpen={modalIsOpen} onAfterOpen={handleAfterOpenModal} onRequestClose={handleCloseModal} contentLabel="Example Modal">
+        <ModalImage src={modalImageSrc && modalImageSrc}></ModalImage>
+        <ModalCloseButton icon={faTimes} type="button" onClick={handleCloseModal}></ModalCloseButton>
+      </ModalContainer>
     </PostingTweetContainer>
   );
 };
