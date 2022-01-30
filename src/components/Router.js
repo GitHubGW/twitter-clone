@@ -1,12 +1,12 @@
 import React from "react";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { HashRouter, Switch, Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import Home from "routes/Home";
 import Authentication from "routes/Authentication";
 
 const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification, isDark, changeTheme }) => {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter>
       {isLoggedIn ? (
         <Switch>
           <Route exact path="/">
@@ -25,7 +25,7 @@ const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification
           <Redirect from="*" to="/" />
         </Switch>
       )}
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
