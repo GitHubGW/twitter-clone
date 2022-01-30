@@ -1,32 +1,19 @@
 import React from "react";
-import { HashRouter, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import Home from "routes/Home";
 import Authentication from "routes/Authentication";
-// import Profile from "routes/Profile";
 
 const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification, isDark, changeTheme }) => {
   return (
-    <HashRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       {isLoggedIn ? (
         <Switch>
           <Route exact path="/">
-            <Home
-              userObject={userObject}
-              refreshDisplayName={refreshDisplayName}
-              createNotification={createNotification}
-              isDark={isDark}
-              changeTheme={changeTheme}
-            />
+            <Home userObject={userObject} refreshDisplayName={refreshDisplayName} createNotification={createNotification} isDark={isDark} changeTheme={changeTheme} />
           </Route>
           <Route exact path="/profile">
-            <Home
-              userObject={userObject}
-              refreshDisplayName={refreshDisplayName}
-              createNotification={createNotification}
-              isDark={isDark}
-              changeTheme={changeTheme}
-            />
+            <Home userObject={userObject} refreshDisplayName={refreshDisplayName} createNotification={createNotification} isDark={isDark} changeTheme={changeTheme} />
           </Route>
           <Redirect from="*" to="/" />
         </Switch>
@@ -38,7 +25,7 @@ const Router = ({ isLoggedIn, userObject, refreshDisplayName, createNotification
           <Redirect from="*" to="/" />
         </Switch>
       )}
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
