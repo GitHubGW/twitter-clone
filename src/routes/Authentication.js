@@ -298,12 +298,10 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
 
   // 이메일, 비밀번호 로그인
   const onSubmit = async (event) => {
-    // console.log("Authentication authService.currentUser", authService.currentUser);
     event.preventDefault();
 
     try {
       await authService.signInWithEmailAndPassword(email, password); // 로그인
-
       createNotification("SuccessLogin");
       setIsLoginForm(!isLoginForm);
     } catch (error) {
@@ -337,7 +335,6 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
         await authService.currentUser?.updateProfile({
           displayName,
         });
-
         createNotification("SuccessRegister");
         setIsRegisterForm(!isRegisterForm);
       }
@@ -358,7 +355,6 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       try {
         const googleProvider = new firebaseApp.auth.GoogleAuthProvider();
         await authService.signInWithPopup(googleProvider);
-
         setIsLoginForm(!isLoginForm);
         createNotification("SuccessGoogleLogin");
       } catch (error) {
@@ -370,7 +366,6 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
       try {
         const githubProvider = new firebaseApp.auth.GithubAuthProvider();
         await authService.signInWithPopup(githubProvider);
-
         setIsLoginForm(!isLoginForm);
         createNotification("SuccessGithubLogin");
       } catch (error) {
@@ -395,7 +390,6 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
 
     try {
       await authService.currentUser.updatePassword(newPassword);
-
       setIsChangePasswordForm(false);
       createNotification("SuccessChangePassword");
     } catch (error) {
@@ -421,7 +415,6 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
 
     try {
       await authService.currentUser.updateEmail(newEmail);
-
       setIsChangeEmailForm(false);
       createNotification("SuccessChangeEmail");
     } catch (error) {
@@ -459,7 +452,6 @@ const Authentication = ({ userObject, createNotification, isDark, changeTheme })
 
     if (currentUser) {
       await authService.signOut();
-
       createNotification("SuccessLogout");
       history.push("/");
       return;

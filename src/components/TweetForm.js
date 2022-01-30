@@ -106,32 +106,6 @@ const TweetFormSubmit = styled.input`
   margin-left: auto;
 `;
 
-// const IconTweetFormContainer = styled(FontAwesomeIcon)`
-//   font-size: 30px;
-//   cursor: pointer;
-//   color: #bebebe;
-//   padding: 7px;
-//   border-radius: 50%;
-
-//   &:hover {
-//     color: var(--twitter-color);
-//     background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#e6f3ff")};
-//   }
-// `;
-
-// const IconTweetSmile = styled(FontAwesomeIcon)`
-//   font-size: 20px;
-//   cursor: pointer;
-//   color: #bebebe;
-//   padding: 7px;
-//   border-radius: 50%;
-
-//   &:hover {
-//     color: var(--twitter-color);
-//     background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#e6f3ff")};
-//   }
-// `;
-
 const PickerContainer = styled(Picker)``;
 
 const TweetForm = ({ userObject, createNotification, isDark }) => {
@@ -214,8 +188,6 @@ const TweetForm = ({ userObject, createNotification, isDark }) => {
     const fileReader = new FileReader();
 
     if (fileReader && uploadFile !== undefined && uploadFile !== null) {
-      // console.log("TweetForm uploadFile", uploadFile);
-
       fileReader.onload = (event) => {
         const {
           target: { result },
@@ -262,14 +234,7 @@ const TweetForm = ({ userObject, createNotification, isDark }) => {
           ref={textInput}
           required
         ></TweetFormTextInput>
-        <TweetFormImageInput
-          type="file"
-          accept="image/*"
-          onChange={onFileChange}
-          ref={fileImageInput}
-          id="fileUploadBtn"
-          style={{ display: "none" }}
-        ></TweetFormImageInput>
+        <TweetFormImageInput type="file" accept="image/*" onChange={onFileChange} ref={fileImageInput} id="fileUploadBtn" style={{ display: "none" }}></TweetFormImageInput>
         {fileDataUrl && (
           <FileDataContainer>
             <FileData src={fileDataUrl} alt="image"></FileData>
@@ -293,10 +258,8 @@ const TweetForm = ({ userObject, createNotification, isDark }) => {
               <IconCircle cx="8.868" cy="8.309" r="1.542"></IconCircle>
             </IconG>
           </IconSVG>
-          {/* <IconTweetFormContainer icon={faImage} current={isDark ? "true" : "false"}></IconTweetFormContainer> */}
         </TweetFormImageLabel>
 
-        {/* <IconTweetSmile icon={faSmile} onClick={onClickEmoji} current={isDark ? "true" : "false"}></IconTweetSmile> */}
         <IconSVG
           onClick={onClickEmoji}
           current={isDark ? "true" : "false"}

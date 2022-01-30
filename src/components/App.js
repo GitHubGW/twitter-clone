@@ -8,7 +8,6 @@ import Loading from "./Loading";
 import { createNotification } from "./Notification";
 
 const App = () => {
-  // console.log("App.js authService.currentUser", authService.currentUser, "App.js userObject", userObject);
   const [initializeFirebase, setInitializeFirebase] = useState(false); // 파이어베이스 초기화 확인
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부 확인
   const [userObject, setUserObject] = useState(null); // 로그인한 사용자 정보
@@ -69,11 +68,7 @@ const App = () => {
       {/* 파이어베이스 초기화 후 실행 */}
       {initializeFirebase ? (
         <>
-          <GlobalStyle
-            bgColor={isDark === true ? true : false}
-            color={isDark === true ? true : false}
-            borderColor={isDark === true ? true : false}
-          ></GlobalStyle>
+          <GlobalStyle bgColor={isDark === true ? true : false} color={isDark === true ? true : false} borderColor={isDark === true ? true : false}></GlobalStyle>
           <Router
             isLoggedIn={true}
             userObject={userObject}

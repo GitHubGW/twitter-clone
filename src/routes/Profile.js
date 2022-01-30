@@ -383,7 +383,6 @@ const Profile = ({ userObject, refreshDisplayName, createNotification, isDark })
               placeholder="이름을 입력해주세요."
               onChange={onChange}
               value={newDisplayName ? newDisplayName : ""}
-              // value={authService.currentUser?.displayName ? authService.currentUser?.displayName : ""}
               minLength={2}
               maxLength={10}
               current={isDark ? "true" : "false"}
@@ -425,9 +424,7 @@ const Profile = ({ userObject, refreshDisplayName, createNotification, isDark })
                         </AuthorInfo>
                       </PostingTweetAuthor>
                       <PostingTweetDesc>{myTweet.content}</PostingTweetDesc>
-                      {myTweet.fileDownloadUrl && (
-                        <PostingTweetImage src={myTweet.fileDownloadUrl} alt={myTweet.content} onClick={onClickPostingImage}></PostingTweetImage>
-                      )}
+                      {myTweet.fileDownloadUrl && <PostingTweetImage src={myTweet.fileDownloadUrl} alt={myTweet.content} onClick={onClickPostingImage}></PostingTweetImage>}
                     </PostingTweetContent>
                   </PostingMyTweet>
                 );

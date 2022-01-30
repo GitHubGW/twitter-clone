@@ -230,19 +230,6 @@ const ContentHeader = styled.div`
   border-bottom: 1px solid ${(props) => (props.current === "true" ? "#1e2125" : "#eee")};
 `;
 
-// const ContentOrderBy = styled.button`
-//   padding: 12px 13px;
-//   background-color: var(--twitter-color);
-//   color: white;
-//   border-radius: 30px;
-//   font-size: 15px;
-//   font-weight: bold;
-
-//   &:hover {
-//     background-color: var(--twitter-dark-color);
-//   }
-// `;
-
 const ContentSearch = styled.div``;
 
 const ContentForm = styled.form`
