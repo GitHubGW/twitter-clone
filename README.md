@@ -93,6 +93,12 @@
   <br /><br />
   <img height="700" src="./previews/9.gif" />
 
+> 9. 기타
+
+- 2021년 9월 노마드코더에서 진행했던 트위터 클론 컨테스트에서 대상에 선정되어 애플워치를 받았습니다.
+  <br /><br />
+  <img src="./previews/twitter_prize.png" />
+
 ## Pages
 
 > Root
